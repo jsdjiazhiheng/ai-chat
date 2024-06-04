@@ -13,7 +13,7 @@
     <description>ai-chat</description>
 
     <properties>
-        <revision>5.1.2</revision>
+        <revision>0.0.1</revision>
         <spring-boot.version>3.2.5</spring-boot.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

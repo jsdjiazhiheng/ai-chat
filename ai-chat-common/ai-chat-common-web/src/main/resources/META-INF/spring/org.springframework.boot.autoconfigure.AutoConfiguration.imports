@@ -1,0 +1,5 @@
+cn.com.chat.common.web.config.CaptchaConfig
+cn.com.chat.common.web.config.FilterConfig
+cn.com.chat.common.web.config.I18nConfig
+cn.com.chat.common.web.config.ResourcesConfig
+cn.com.chat.common.web.config.UndertowConfig

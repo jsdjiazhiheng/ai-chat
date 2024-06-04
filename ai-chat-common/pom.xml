@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ai-chat</artifactId>
+        <groupId>cn.com.chat</groupId>
+        <version>${revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <modules>
+        <module>ai-chat-common-bom</module>
+        <module>ai-chat-common-social</module>
+        <module>ai-chat-common-core</module>
+        <module>ai-chat-common-doc</module>
+        <module>ai-chat-common-excel</module>
+        <module>ai-chat-common-idempotent</module>
+        <module>ai-chat-common-job</module>
+        <module>ai-chat-common-log</module>
+        <module>ai-chat-common-mail</module>
+        <module>ai-chat-common-mybatis</module>
+        <module>ai-chat-common-oss</module>
+        <module>ai-chat-common-ratelimiter</module>
+        <module>ai-chat-common-redis</module>
+        <module>ai-chat-common-satoken</module>
+        <module>ai-chat-common-security</module>
+        <module>ai-chat-common-sms</module>
+        <module>ai-chat-common-web</module>
+        <module>ai-chat-common-translation</module>
+        <module>ai-chat-common-sensitive</module>
+        <module>ai-chat-common-json</module>
+        <module>ai-chat-common-encrypt</module>
+        <module>ai-chat-common-tenant</module>
+        <module>ai-chat-common-websocket</module>
+    </modules>
+
+    <artifactId>ai-chat-common</artifactId>
+    <packaging>pom</packaging>
+
+    <description>
+        common 通用模块
+    </description>
+
+</project>

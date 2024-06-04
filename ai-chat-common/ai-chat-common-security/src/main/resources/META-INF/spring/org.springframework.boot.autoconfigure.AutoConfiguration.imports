@@ -1,0 +1,3 @@
+cn.com.chat.common.security.handler.GlobalExceptionHandler
+cn.com.chat.common.security.handler.AllUrlHandler
+cn.com.chat.common.security.config.SecurityConfig

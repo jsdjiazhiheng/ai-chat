@@ -1,0 +1,3 @@
+cn.com.chat.common.encrypt.config.EncryptorAutoConfiguration
+cn.com.chat.common.encrypt.config.ApiDecryptAutoConfiguration
+

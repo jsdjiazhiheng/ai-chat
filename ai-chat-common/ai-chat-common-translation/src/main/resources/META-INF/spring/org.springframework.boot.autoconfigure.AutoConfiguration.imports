@@ -1,0 +1,6 @@
+cn.com.chat.common.translation.config.TranslationConfig
+cn.com.chat.common.translation.core.impl.DeptNameTranslationImpl
+cn.com.chat.common.translation.core.impl.DictTypeTranslationImpl
+cn.com.chat.common.translation.core.impl.OssUrlTranslationImpl
+cn.com.chat.common.translation.core.impl.UserNameTranslationImpl
+cn.com.chat.common.translation.core.impl.NicknameTranslationImpl

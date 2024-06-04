@@ -52,7 +52,11 @@ public class SseServiceImpl implements ISseService {
     @Override
     public R<Void> textStreamChat(String sessionId) {
         Assert.notBlank(sessionId, "会话ID不能为空");
+
         SseEmitter sseEmitter = sseCache.get(sessionId);
+
+        log.info("消息ID为 ： {}, 消息监听是否为空：{}", sessionId, sseEmitter != null);
+
         if (sseEmitter != null) {
 
             ChatMessageVo messageVo = chatMessageService.queryByMessageId(sessionId);

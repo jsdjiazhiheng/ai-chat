@@ -1,5 +1,7 @@
 package cn.com.chat.chat.chain.generation.text;
 
+import cn.com.chat.chat.chain.enums.model.AliyunModelEnums;
+import cn.com.chat.chat.chain.generation.text.aliyun.AliyunTextChatService;
 import cn.com.chat.chat.chain.generation.text.baidu.BaiduTextChatService;
 import cn.com.chat.chat.chain.generation.text.deepseek.DeepSeekTextChatService;
 import cn.com.chat.chat.chain.generation.text.kimi.KimiTextChatService;
@@ -28,6 +30,7 @@ public class TextChatServiceFactory {
     private final BaiduTextChatService baiduTextChatService;
     private final DeepSeekTextChatService deepSeekTextChatService;
     private final ZhiPuTextChatService zhiPuTextChatService;
+    private final AliyunTextChatService aliyunTextChatService;
 
     public TextChatService getTextChatService(TextChatType type) {
         // TODO 等待模型接入
@@ -41,6 +44,8 @@ public class TextChatServiceFactory {
             return zhiPuTextChatService;
         } else if (type == TextChatType.DEEPSEEK) {
             return deepSeekTextChatService;
+        } else if (type == TextChatType.ALIYUN) {
+            return aliyunTextChatService;
         } else {
             return null;
         }
@@ -57,6 +62,8 @@ public class TextChatServiceFactory {
             return ZhiPuModelEnums.GLM_3_TURBO.getModel();
         } else if (type == TextChatType.DEEPSEEK) {
             return "deepseek-chat";
+        } else if (type == TextChatType.ALIYUN) {
+            return AliyunModelEnums.QWEN_TURBO.getModel();
         } else {
             return null;
         }

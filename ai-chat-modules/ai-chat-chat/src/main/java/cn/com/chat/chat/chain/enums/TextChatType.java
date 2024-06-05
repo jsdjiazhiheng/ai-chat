@@ -14,6 +14,7 @@ public enum TextChatType {
     KIMI,
     ZHIPU,
     DEEPSEEK,
+    ALIYUN,
     ;
     public static TextChatType getByName(String name) {
         for (TextChatType value : TextChatType.values()) {

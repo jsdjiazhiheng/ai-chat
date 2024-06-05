@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO
+ * 消息项
  *
  * @author JiaZH
  * @version 1.0

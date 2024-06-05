@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * TODO
+ * 流式接口传参
  *
  * @author JiaZH
  * @date 2024-05-23

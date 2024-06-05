@@ -21,12 +21,33 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class Usage implements Serializable {
 
+    /**
+     * 输入token
+     */
     @JsonProperty("prompt_tokens")
     private Integer promptTokens;
 
+    /**
+     * 输出token
+     */
     @JsonProperty("completion_tokens")
     private Integer completionTokens;
 
+    /**
+     * 输入token
+     */
+    @JsonProperty("input_tokens")
+    private Integer inputTokens;
+
+    /**
+     * 输出token
+     */
+    @JsonProperty("output_tokens")
+    private Integer outputTokens;
+
+    /**
+     * 总token
+     */
     @JsonProperty("total_tokens")
     private Integer totalTokens;
 

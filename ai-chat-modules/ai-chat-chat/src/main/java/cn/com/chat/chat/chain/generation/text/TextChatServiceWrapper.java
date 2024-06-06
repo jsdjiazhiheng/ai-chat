@@ -1,14 +1,17 @@
 package cn.com.chat.chat.chain.generation.text;
 
+import cn.com.chat.chat.chain.enums.TextChatType;
+import cn.com.chat.chat.chain.plugins.search.WebSearchEngine;
 import cn.com.chat.chat.chain.request.base.text.MessageItem;
 import cn.com.chat.chat.chain.request.base.text.StreamMessage;
 import cn.com.chat.chat.chain.response.base.text.TextResult;
+import cn.com.chat.chat.chain.utils.MessageUtils;
+import cn.com.chat.chat.domain.bo.ChatMessageBo;
+import cn.com.chat.chat.service.IChatMessageService;
+import cn.com.chat.common.core.exception.ServiceException;
 import cn.hutool.core.util.StrUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import cn.com.chat.chat.chain.enums.TextChatType;
-import cn.com.chat.chat.chain.plugins.search.WebSearchEngine;
-import cn.com.chat.common.core.exception.ServiceException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -31,12 +34,13 @@ public class TextChatServiceWrapper implements TextChatService {
 
     private final TextChatServiceFactory textChatServiceFactory;
     private final WebSearchEngine webSearchEngine;
+    private final IChatMessageService chatMessageService;
 
     @Override
     public TextResult blockCompletion(TextChatType textChatType, String system, List<MessageItem> history, String content, Boolean netWork) {
         TextChatService textChatService = textChatServiceFactory.getTextChatService(textChatType);
 
-        if(Objects.isNull(textChatService)) {
+        if (Objects.isNull(textChatService)) {
             throw new ServiceException("不支持的文本模型服务");
         }
 
@@ -90,4 +94,15 @@ public class TextChatServiceWrapper implements TextChatService {
         return content;
     }
 
+    @Override
+    public void saveSuccessMessage(StreamMessage message, String messageId, TextResult result) {
+        ChatMessageBo messageBo = MessageUtils.buildTextChatMessage(message.getChatId(), messageId, message.getMessageId(), result, message.getUserId());
+        chatMessageService.insertByBo(messageBo);
+        chatMessageService.updateStatusByMessageId(message.getMessageId(), 2);
+    }
+
+    @Override
+    public void saveFailMessage(StreamMessage message, String messageId, String errorMessage) {
+        chatMessageService.updateStatusByMessageId(message.getMessageId(), 3);
+    }
 }

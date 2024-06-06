@@ -80,6 +80,7 @@ public class SseServiceImpl implements ISseService {
                 message.setUseNet(useNet);
 
                 textChatService.streamCompletion(type, sseEmitter, system, history, message);
+
             } else {
 
                 ImageChatType type = ImageChatType.getByName(model);

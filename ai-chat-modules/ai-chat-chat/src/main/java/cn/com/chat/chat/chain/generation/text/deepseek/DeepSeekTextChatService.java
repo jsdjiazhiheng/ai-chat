@@ -1,9 +1,5 @@
 package cn.com.chat.chat.chain.generation.text.deepseek;
 
-import cn.com.chat.chat.chain.response.deepseek.text.DeepSeekCompletionResult;
-import cn.hutool.core.lang.UUID;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import cn.com.chat.chat.chain.apis.DeepSeekApis;
 import cn.com.chat.chat.chain.auth.deepseek.DeepSeekAccessTokenService;
 import cn.com.chat.chat.chain.enums.TextChatType;
@@ -12,13 +8,15 @@ import cn.com.chat.chat.chain.request.base.text.MessageItem;
 import cn.com.chat.chat.chain.request.base.text.StreamMessage;
 import cn.com.chat.chat.chain.request.deepseek.text.DeepSeekTextRequest;
 import cn.com.chat.chat.chain.response.base.text.TextResult;
+import cn.com.chat.chat.chain.response.deepseek.text.DeepSeekCompletionResult;
 import cn.com.chat.chat.chain.utils.HttpUtils;
 import cn.com.chat.chat.chain.utils.MessageUtils;
-import cn.com.chat.chat.domain.bo.ChatMessageBo;
 import cn.com.chat.chat.domain.vo.ChatMessageVo;
-import cn.com.chat.chat.service.IChatMessageService;
 import cn.com.chat.common.core.utils.StringUtils;
 import cn.com.chat.common.json.utils.JsonUtils;
+import cn.hutool.core.lang.UUID;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
@@ -30,7 +28,6 @@ import reactor.core.publisher.Flux;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.CountDownLatch;
 
 /**
  * TODO
@@ -44,7 +41,6 @@ import java.util.concurrent.CountDownLatch;
 public class DeepSeekTextChatService implements TextChatService {
 
     private final DeepSeekAccessTokenService accessTokenService;
-    private final IChatMessageService chatMessageService;
 
     @Override
     public TextResult blockCompletion(String model, String system, List<MessageItem> history, String content) {
@@ -76,7 +72,6 @@ public class DeepSeekTextChatService implements TextChatService {
 
     @Override
     public void streamCompletion(String model, SseEmitter sseEmitter, String system, List<MessageItem> history, StreamMessage message) {
-        CountDownLatch countDownLatch = new CountDownLatch(1);
 
         DeepSeekTextRequest request = buildRequest(model, system, history, message.getContent());
         request.setStream(true);
@@ -106,7 +101,9 @@ public class DeepSeekTextChatService implements TextChatService {
                     HttpStatusCode statusCode = error.getStatusCode();
                     String res = error.getResponseBodyAsString();
                     log.error("DeepSeek AI API error: {} {}", statusCode, res);
-                    countDownLatch.countDown();
+
+                    saveFailMessage(message, messageId, res);
+
                     return Flux.error(new RuntimeException(res));
                 })
                 .subscribe(response -> {
@@ -126,8 +123,10 @@ public class DeepSeekTextChatService implements TextChatService {
                                     object.getChoices().get(0).setMessage(MessageItem.buildAssistant(builder.toString()));
                                     result.setContent(builder.toString());
                                     result.setResponse(JsonUtils.toJsonString(object));
-                                    countDownLatch.countDown();
+
                                     sseEmitter.send("[END]");
+
+                                    saveSuccessMessage(message, messageId, result);
                                 } else {
                                     builder.append(content);
                                     sseEmitter.send(messageVo);
@@ -140,14 +139,6 @@ public class DeepSeekTextChatService implements TextChatService {
                 });
         }, error -> log.error("DeepSeek AI API error: {}", error.getMessage()));
 
-        try {
-            countDownLatch.await();
-            ChatMessageBo messageBo = MessageUtils.buildTextChatMessage(message.getChatId(), messageId, message.getMessageId(), result, message.getUserId());
-            chatMessageService.insertByBo(messageBo);
-            chatMessageService.updateStatusByMessageId(message.getMessageId(), 2);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private DeepSeekTextRequest buildRequest(String model, String system, List<MessageItem> history, String content) {

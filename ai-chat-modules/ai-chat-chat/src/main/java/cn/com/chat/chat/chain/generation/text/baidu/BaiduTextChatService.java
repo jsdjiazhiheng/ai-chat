@@ -1,13 +1,9 @@
 package cn.com.chat.chat.chain.generation.text.baidu;
 
-import cn.com.chat.chat.chain.exception.baidu.BaiduTextChatException;
-import cn.hutool.core.lang.UUID;
-import cn.hutool.json.JSONObject;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import cn.com.chat.chat.chain.auth.baidu.BaiduAccessTokenService;
 import cn.com.chat.chat.chain.enums.TextChatType;
 import cn.com.chat.chat.chain.enums.model.BaiduModelEnums;
+import cn.com.chat.chat.chain.exception.baidu.BaiduTextChatException;
 import cn.com.chat.chat.chain.generation.text.TextChatService;
 import cn.com.chat.chat.chain.request.baidu.text.BaiduTextRequest;
 import cn.com.chat.chat.chain.request.base.text.MessageItem;
@@ -16,11 +12,13 @@ import cn.com.chat.chat.chain.response.baidu.text.BaiduCompletionResult;
 import cn.com.chat.chat.chain.response.base.text.TextResult;
 import cn.com.chat.chat.chain.utils.HttpUtils;
 import cn.com.chat.chat.chain.utils.MessageUtils;
-import cn.com.chat.chat.domain.bo.ChatMessageBo;
 import cn.com.chat.chat.domain.vo.ChatMessageVo;
-import cn.com.chat.chat.service.IChatMessageService;
 import cn.com.chat.common.core.utils.StringUtils;
 import cn.com.chat.common.json.utils.JsonUtils;
+import cn.hutool.core.lang.UUID;
+import cn.hutool.json.JSONObject;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
@@ -31,7 +29,6 @@ import reactor.core.publisher.Flux;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.CountDownLatch;
 
 /**
  * TODO
@@ -46,7 +43,6 @@ import java.util.concurrent.CountDownLatch;
 public class BaiduTextChatService implements TextChatService {
 
     private final BaiduAccessTokenService accessTokenService;
-    private final IChatMessageService chatMessageService;
 
     @Override
     public TextResult blockCompletion(String model, String system, List<MessageItem> history, String content) {
@@ -87,7 +83,6 @@ public class BaiduTextChatService implements TextChatService {
 
     @Override
     public void streamCompletion(String model, SseEmitter sseEmitter, String system, List<MessageItem> history, StreamMessage message) {
-        CountDownLatch countDownLatch = new CountDownLatch(1);
 
         String url = BaiduModelEnums.getModelUrl(model);
 
@@ -118,7 +113,9 @@ public class BaiduTextChatService implements TextChatService {
                     HttpStatusCode statusCode = error.getStatusCode();
                     String res = error.getResponseBodyAsString();
                     log.error("Baidu AI API error: {} {}", statusCode, res);
-                    countDownLatch.countDown();
+
+                    saveFailMessage(message, messageId, res);
+
                     return Flux.error(new RuntimeException(res));
                 }).subscribe(response -> {
                     log.info("BaiduTextChatService -> 返回结果 ： {}", response);
@@ -138,8 +135,11 @@ public class BaiduTextChatService implements TextChatService {
                                     object.setResult(builder.toString());
                                     result.setContent(builder.toString());
                                     result.setResponse(JsonUtils.toJsonString(object));
+
                                     sseEmitter.send("[END]");
-                                    countDownLatch.countDown();
+
+                                    saveSuccessMessage(message, messageId, result);
+
                                 } else {
                                     builder.append(content);
                                     sseEmitter.send(messageVo);
@@ -152,16 +152,7 @@ public class BaiduTextChatService implements TextChatService {
                 });
         }, error -> log.error("Baidu AI API error: {}", error.getMessage()), () -> log.info("emitter completed"));
 
-        try {
-            countDownLatch.await();
-            ChatMessageBo messageBo = MessageUtils.buildTextChatMessage(message.getChatId(), messageId, message.getMessageId(), result, message.getUserId());
-            chatMessageService.insertByBo(messageBo);
-            chatMessageService.updateStatusByMessageId(message.getMessageId(), 2);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
     }
-
 
     private BaiduTextRequest buildRequest(String system, List<MessageItem> history, String content) {
 

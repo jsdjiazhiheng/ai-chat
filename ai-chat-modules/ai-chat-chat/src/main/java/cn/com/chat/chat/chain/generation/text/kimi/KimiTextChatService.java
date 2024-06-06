@@ -12,9 +12,7 @@ import cn.com.chat.chat.chain.response.base.text.TextResult;
 import cn.com.chat.chat.chain.response.kimi.text.KimiCompletionResult;
 import cn.com.chat.chat.chain.utils.HttpUtils;
 import cn.com.chat.chat.chain.utils.MessageUtils;
-import cn.com.chat.chat.domain.bo.ChatMessageBo;
 import cn.com.chat.chat.domain.vo.ChatMessageVo;
-import cn.com.chat.chat.service.IChatMessageService;
 import cn.com.chat.common.core.utils.StringUtils;
 import cn.com.chat.common.json.utils.JsonUtils;
 import cn.hutool.core.lang.UUID;
@@ -31,7 +29,6 @@ import reactor.core.publisher.Flux;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.CountDownLatch;
 
 /**
  * TODO
@@ -46,7 +43,6 @@ import java.util.concurrent.CountDownLatch;
 public class KimiTextChatService implements TextChatService {
 
     private final KimiAccessTokenService accessTokenService;
-    private final IChatMessageService chatMessageService;
 
     @Override
     public TextResult blockCompletion(String model, String system, List<MessageItem> history, String content) {
@@ -77,7 +73,6 @@ public class KimiTextChatService implements TextChatService {
 
     @Override
     public void streamCompletion(String model, SseEmitter sseEmitter, String system, List<MessageItem> history, StreamMessage message) {
-        CountDownLatch countDownLatch = new CountDownLatch(1);
 
         KimiTextRequest kimiTextRequest = buildRequest(model, system, history, message.getContent());
         kimiTextRequest.setStream(true);
@@ -107,7 +102,9 @@ public class KimiTextChatService implements TextChatService {
                     HttpStatusCode statusCode = error.getStatusCode();
                     String res = error.getResponseBodyAsString();
                     log.error("Kimi AI API error: {} {}", statusCode, res);
-                    countDownLatch.countDown();
+
+                    saveFailMessage(message, messageId, res);
+
                     return Flux.error(new RuntimeException(res));
                 })
                 .subscribe(response -> {
@@ -128,8 +125,10 @@ public class KimiTextChatService implements TextChatService {
                                     object.getChoices().get(0).setMessage(MessageItem.buildAssistant(builder.toString()));
                                     result.setContent(builder.toString());
                                     result.setResponse(JsonUtils.toJsonString(object));
-                                    countDownLatch.countDown();
+
                                     sseEmitter.send("[END]");
+
+                                    saveSuccessMessage(message, messageId, result);
                                 } else {
                                     builder.append(content);
                                     sseEmitter.send(messageVo);
@@ -141,15 +140,6 @@ public class KimiTextChatService implements TextChatService {
                     }
                 });
         }, error -> log.error("Kimi AI API error: {}", error.getMessage()));
-
-        try {
-            countDownLatch.await();
-            ChatMessageBo messageBo = MessageUtils.buildTextChatMessage(message.getChatId(), messageId, message.getMessageId(), result, message.getUserId());
-            chatMessageService.insertByBo(messageBo);
-            chatMessageService.updateStatusByMessageId(message.getMessageId(), 2);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private KimiTextRequest buildRequest(String model, String system, List<MessageItem> history, String content) {

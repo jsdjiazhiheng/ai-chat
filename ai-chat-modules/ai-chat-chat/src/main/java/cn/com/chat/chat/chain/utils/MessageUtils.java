@@ -13,7 +13,7 @@ import cn.com.chat.common.json.utils.JsonUtils;
 import java.util.Objects;
 
 /**
- * TODO
+ * 消息工具类
  *
  * @author JiaZH
  * @version 1.0
@@ -85,20 +85,6 @@ public class MessageUtils {
             .response(imageResult.getResponse())
             .userId(userId)
             .build();
-    }
-
-    /**
-     * 处理返回内容
-     */
-    public static String handleContent(String content) {
-        if (content.contains("\n") || content.contains("\r")) {
-            content = content.replaceAll("\n", "<br>");
-            content = content.replaceAll("\r", "<br>");
-        }
-        if (content.contains(" ")) {
-            content = content.replaceAll(" ", "&nbsp;");
-        }
-        return content;
     }
 
     public static void handleResult(TextResult result, String content, String finishReason, Usage usage) {

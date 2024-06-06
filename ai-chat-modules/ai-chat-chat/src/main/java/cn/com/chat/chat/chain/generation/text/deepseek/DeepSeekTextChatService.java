@@ -129,7 +129,7 @@ public class DeepSeekTextChatService implements TextChatService {
                                     countDownLatch.countDown();
                                     sseEmitter.send("[END]");
                                 } else {
-                                    builder.append(MessageUtils.handleContent(content));
+                                    builder.append(content);
                                     sseEmitter.send(messageVo);
                                 }
                             } catch (IOException e) {

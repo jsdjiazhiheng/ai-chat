@@ -135,7 +135,7 @@ public class AliyunTextChatService implements TextChatService {
                                     sseEmitter.send("[END]");
                                     countDownLatch.countDown();
                                 } else {
-                                    builder.append(MessageUtils.handleContent(content));
+                                    builder.append(content);
                                     sseEmitter.send(messageVo);
                                 }
                             } catch (IOException e) {

@@ -79,6 +79,7 @@ public class ChatServiceImpl implements IChatService {
         boolean flag = baseMapper.insert(add) > 0;
         if (flag) {
             bo.setId(add.getId());
+            bo.setCreateTime(add.getCreateTime());
         }
         return bo;
     }

@@ -2,7 +2,7 @@ package cn.com.chat.chat.service.impl;
 
 import cn.com.chat.chat.service.IAssistantService;
 import cn.com.chat.chat.service.IChatMessageService;
-import cn.com.chat.chat.service.IMessageService;
+import cn.com.chat.chat.service.IBlockService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import cn.com.chat.chat.chain.enums.ImageChatType;
@@ -32,7 +32,7 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class MessageServiceImpl implements IMessageService {
+public class BlockServiceImpl implements IBlockService {
 
     private final TextChatService textChatService;
     private final ImageChatService imageChatService;

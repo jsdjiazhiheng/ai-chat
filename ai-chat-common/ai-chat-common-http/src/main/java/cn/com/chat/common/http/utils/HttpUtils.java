@@ -242,16 +242,11 @@ public class HttpUtils {
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
                     if (!line.isEmpty()) { // SSE消息不包含空行
-                        if(line.startsWith("data: ")) {
+                        if (line.startsWith("data: ")) {
                             line = line.substring(6);
                         }
                         callback.onResponse(line);
                     }
-                }
-
-                // 检查流是否正常关闭
-                if (responseBody.source().readUtf8().isEmpty()) {
-                    callback.onFailure(new IOException("SSE stream ended unexpectedly"));
                 }
             }
         });

@@ -4,6 +4,7 @@ import cn.com.chat.chat.chain.apis.KimiApis;
 import cn.com.chat.chat.chain.auth.kimi.KimiAccessTokenService;
 import cn.com.chat.chat.chain.enums.TextChatType;
 import cn.com.chat.chat.chain.generation.text.TextChatService;
+import cn.com.chat.chat.chain.message.MessageService;
 import cn.com.chat.chat.chain.request.base.text.MessageItem;
 import cn.com.chat.chat.chain.request.base.text.StreamMessage;
 import cn.com.chat.chat.chain.request.kimi.text.KimiTextRequest;
@@ -42,6 +43,7 @@ import java.util.Objects;
 public class KimiTextChatService implements TextChatService {
 
     private final KimiAccessTokenService accessTokenService;
+    private final MessageService messageService;
 
     @Override
     public TextResult blockCompletion(String model, String system, List<MessageItem> history, String content) {
@@ -97,7 +99,7 @@ public class KimiTextChatService implements TextChatService {
             HttpUtils.asyncPostJson(KimiApis.COMPLETION_TEXT, consumer, header, new OkHttpCallback() {
                 @Override
                 public void onFailure(IOException e) {
-                    saveFailMessage(message, messageId, e.getMessage());
+                    messageService.saveFailMessage(message, messageId, e.getMessage());
                 }
 
                 @Override
@@ -122,7 +124,7 @@ public class KimiTextChatService implements TextChatService {
 
                                     sseEmitter.send("[END]");
 
-                                    saveSuccessMessage(message, messageId, result);
+                                    messageService.saveSuccessMessage(message, messageId, result);
                                 } else {
                                     builder.append(content);
                                     sseEmitter.send(messageVo);

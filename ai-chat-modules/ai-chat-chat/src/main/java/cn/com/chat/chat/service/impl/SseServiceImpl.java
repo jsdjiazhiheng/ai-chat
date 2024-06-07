@@ -77,6 +77,8 @@ public class SseServiceImpl implements ISseService {
                     .messageId(messageVo.getMessageId())
                     .content(messageVo.getContent())
                     .userId(LoginHelper.getUserId())
+                    .tenantId(LoginHelper.getTenantId())
+                    .deptId(LoginHelper.getDeptId())
                     .build();
 
                 boolean useNet = completionService.functionSearch(content);

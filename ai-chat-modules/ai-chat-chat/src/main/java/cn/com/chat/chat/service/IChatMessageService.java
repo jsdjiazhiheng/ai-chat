@@ -61,6 +61,6 @@ public interface IChatMessageService {
 
     ChatMessageVo queryByMessageId(String messageId);
 
-    void updateStatusByMessageId(String messageId, Integer status);
+    void updateStatusByMessageId(String messageId, Long status);
 
 }

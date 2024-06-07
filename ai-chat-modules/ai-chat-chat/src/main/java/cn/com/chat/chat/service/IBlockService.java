@@ -11,7 +11,7 @@ import cn.com.chat.chat.domain.vo.MessageVO;
  * @version 1.0
  * @date 2024-05-02
  */
-public interface IMessageService {
+public interface IBlockService {
 
     MessageVO textChat(TextChatType type, Long chatId, String content);
 

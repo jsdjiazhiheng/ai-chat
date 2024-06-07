@@ -267,7 +267,7 @@ public class ChatMessageServiceImpl implements IChatMessageService {
     }
 
     @Override
-    public void updateStatusByMessageId(String messageId, Integer status) {
+    public void updateStatusByMessageId(String messageId, Long status) {
         baseMapper.update(new LambdaUpdateWrapper<ChatMessage>().eq(ChatMessage::getMessageId, messageId).set(ChatMessage::getStatus, status));
     }
 

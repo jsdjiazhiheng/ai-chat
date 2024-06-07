@@ -4,6 +4,7 @@ import cn.com.chat.chat.chain.apis.DeepSeekApis;
 import cn.com.chat.chat.chain.auth.deepseek.DeepSeekAccessTokenService;
 import cn.com.chat.chat.chain.enums.TextChatType;
 import cn.com.chat.chat.chain.generation.text.TextChatService;
+import cn.com.chat.chat.chain.message.MessageService;
 import cn.com.chat.chat.chain.request.base.text.MessageItem;
 import cn.com.chat.chat.chain.request.base.text.StreamMessage;
 import cn.com.chat.chat.chain.request.deepseek.text.DeepSeekTextRequest;
@@ -40,6 +41,7 @@ import java.util.Objects;
 public class DeepSeekTextChatService implements TextChatService {
 
     private final DeepSeekAccessTokenService accessTokenService;
+    private final MessageService messageService;
 
     @Override
     public TextResult blockCompletion(String model, String system, List<MessageItem> history, String content) {
@@ -96,7 +98,7 @@ public class DeepSeekTextChatService implements TextChatService {
             HttpUtils.asyncPostJson(DeepSeekApis.API, consumer, header, new OkHttpCallback() {
                 @Override
                 public void onFailure(IOException e) {
-                    saveFailMessage(message, messageId, e.getMessage());
+                    messageService.saveFailMessage(message, messageId, e.getMessage());
                 }
 
                 @Override
@@ -120,7 +122,7 @@ public class DeepSeekTextChatService implements TextChatService {
 
                                     sseEmitter.send("[END]");
 
-                                    saveSuccessMessage(message, messageId, result);
+                                    messageService.saveSuccessMessage(message, messageId, result);
                                 } else {
                                     builder.append(content);
                                     sseEmitter.send(messageVo);

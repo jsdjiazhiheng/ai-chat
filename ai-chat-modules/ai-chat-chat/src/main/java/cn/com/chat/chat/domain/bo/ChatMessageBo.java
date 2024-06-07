@@ -1,13 +1,13 @@
 package cn.com.chat.chat.domain.bo;
 
 import cn.com.chat.chat.domain.ChatMessage;
-import lombok.Builder;
-import cn.com.chat.common.mybatis.core.domain.BaseEntity;
 import cn.com.chat.common.core.validate.EditGroup;
+import cn.com.chat.common.mybatis.core.domain.BaseEntity;
 import io.github.linpeilie.annotations.AutoMapper;
+import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import jakarta.validation.constraints.*;
 
 /**
  * 对话消息业务对象 gpt_chat_message
@@ -24,7 +24,7 @@ public class ChatMessageBo extends BaseEntity {
     /**
      * 主键
      */
-    @NotNull(message = "主键不能为空", groups = { EditGroup.class })
+    @NotNull(message = "主键不能为空", groups = {EditGroup.class})
     private Long id;
 
     /**
@@ -96,5 +96,15 @@ public class ChatMessageBo extends BaseEntity {
      * 用户Id
      */
     private Long userId;
+
+    /**
+     * 租户Id
+     */
+    private String tenantId;
+
+    /**
+     * 部门Id
+     */
+    private Long deptId;
 
 }

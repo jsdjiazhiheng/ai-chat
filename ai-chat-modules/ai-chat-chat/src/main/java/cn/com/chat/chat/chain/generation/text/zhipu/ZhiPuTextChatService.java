@@ -4,6 +4,7 @@ import cn.com.chat.chat.chain.apis.ZhiPuApis;
 import cn.com.chat.chat.chain.auth.zhipu.ZhiPuAccessTokenService;
 import cn.com.chat.chat.chain.enums.TextChatType;
 import cn.com.chat.chat.chain.generation.text.TextChatService;
+import cn.com.chat.chat.chain.message.MessageService;
 import cn.com.chat.chat.chain.request.base.text.MessageItem;
 import cn.com.chat.chat.chain.request.base.text.StreamMessage;
 import cn.com.chat.chat.chain.request.zhipu.text.ZhiPuTextRequest;
@@ -40,6 +41,7 @@ import java.util.*;
 public class ZhiPuTextChatService implements TextChatService {
 
     private final ZhiPuAccessTokenService accessTokenService;
+    private final MessageService messageService;
 
     @Override
     public TextResult blockCompletion(String model, String system, List<MessageItem> history, String content) {
@@ -95,7 +97,7 @@ public class ZhiPuTextChatService implements TextChatService {
             HttpUtils.asyncPostJson(ZhiPuApis.CHAT_API, consumer, header, new OkHttpCallback() {
                 @Override
                 public void onFailure(IOException e) {
-                    saveFailMessage(message, messageId, e.getMessage());
+                    messageService.saveFailMessage(message, messageId, e.getMessage());
                 }
 
                 @Override
@@ -119,7 +121,7 @@ public class ZhiPuTextChatService implements TextChatService {
 
                                     sseEmitter.send("[END]");
 
-                                    saveSuccessMessage(message, messageId, result);
+                                    messageService.saveSuccessMessage(message, messageId, result);
 
                                 } else {
                                     builder.append(content);

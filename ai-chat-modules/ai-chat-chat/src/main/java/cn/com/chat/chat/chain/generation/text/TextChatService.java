@@ -34,12 +34,4 @@ public interface TextChatService extends GenerationService {
 
     }
 
-    default void saveSuccessMessage(StreamMessage message, String messageId, TextResult result) {
-
-    }
-
-    default void saveFailMessage(StreamMessage message, String messageId, String errorMessage) {
-
-    }
-
 }

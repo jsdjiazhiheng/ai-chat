@@ -4,6 +4,7 @@ import cn.com.chat.chat.chain.apis.AliyunApis;
 import cn.com.chat.chat.chain.auth.aliyun.AliyunAccessTokenService;
 import cn.com.chat.chat.chain.enums.TextChatType;
 import cn.com.chat.chat.chain.generation.text.TextChatService;
+import cn.com.chat.chat.chain.message.MessageService;
 import cn.com.chat.chat.chain.request.aliyun.text.AliyunTextInput;
 import cn.com.chat.chat.chain.request.aliyun.text.AliyunTextParameter;
 import cn.com.chat.chat.chain.request.aliyun.text.AliyunTextRequest;
@@ -42,7 +43,7 @@ import java.util.Objects;
 public class AliyunTextChatService implements TextChatService {
 
     private final AliyunAccessTokenService accessTokenService;
-
+    private final MessageService messageService;
 
     @Override
     public TextResult blockCompletion(String model, String system, List<MessageItem> history, String content) {
@@ -100,7 +101,7 @@ public class AliyunTextChatService implements TextChatService {
             HttpUtils.asyncPostJson(AliyunApis.QWEN_API, consumer, header, new OkHttpCallback() {
                 @Override
                 public void onFailure(IOException e) {
-                    saveFailMessage(message, messageId, e.getMessage());
+                    messageService.saveFailMessage(message, messageId, e.getMessage());
                 }
 
                 @Override
@@ -124,7 +125,7 @@ public class AliyunTextChatService implements TextChatService {
 
                                     sseEmitter.send("[END]");
 
-                                    saveSuccessMessage(message, messageId, result);
+                                    messageService.saveSuccessMessage(message, messageId, result);
 
                                 } else {
                                     builder.append(content);

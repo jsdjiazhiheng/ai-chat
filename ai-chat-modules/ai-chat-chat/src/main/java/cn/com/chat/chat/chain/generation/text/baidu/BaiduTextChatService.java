@@ -5,6 +5,7 @@ import cn.com.chat.chat.chain.enums.TextChatType;
 import cn.com.chat.chat.chain.enums.model.BaiduModelEnums;
 import cn.com.chat.chat.chain.exception.baidu.BaiduTextChatException;
 import cn.com.chat.chat.chain.generation.text.TextChatService;
+import cn.com.chat.chat.chain.message.MessageService;
 import cn.com.chat.chat.chain.request.baidu.text.BaiduTextRequest;
 import cn.com.chat.chat.chain.request.base.text.MessageItem;
 import cn.com.chat.chat.chain.request.base.text.StreamMessage;
@@ -20,11 +21,18 @@ import cn.hutool.core.lang.UUID;
 import cn.hutool.json.JSONObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import reactor.core.publisher.Flux;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.List;
 import java.util.Objects;
 
@@ -41,6 +49,7 @@ import java.util.Objects;
 public class BaiduTextChatService implements TextChatService {
 
     private final BaiduAccessTokenService accessTokenService;
+    private final MessageService messageService;
 
     @Override
     public TextResult blockCompletion(String model, String system, List<MessageItem> history, String content) {
@@ -104,7 +113,7 @@ public class BaiduTextChatService implements TextChatService {
             HttpUtils.asyncPostJson(accessTokenService.getUrl(url), consumer, new OkHttpCallback() {
                 @Override
                 public void onFailure(IOException e) {
-                    saveFailMessage(message, messageId, e.getMessage());
+                    messageService.saveFailMessage(message, messageId, e.getMessage());
                 }
 
                 @Override
@@ -128,8 +137,9 @@ public class BaiduTextChatService implements TextChatService {
                                     result.setResponse(JsonUtils.toJsonString(object));
 
                                     sseEmitter.send("[END]");
+                                    sseEmitter.complete();
 
-                                    saveSuccessMessage(message, messageId, result);
+                                    messageService.saveSuccessMessage(message, messageId, result);
 
                                 } else {
                                     builder.append(content);

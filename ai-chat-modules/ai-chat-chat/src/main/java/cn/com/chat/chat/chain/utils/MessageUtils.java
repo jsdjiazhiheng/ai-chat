@@ -1,7 +1,6 @@
 package cn.com.chat.chat.chain.utils;
 
 import cn.com.chat.chat.chain.enums.Role;
-import cn.com.chat.chat.chain.request.base.text.MessageItem;
 import cn.com.chat.chat.chain.response.base.Usage;
 import cn.com.chat.chat.chain.response.base.image.ImageResult;
 import cn.com.chat.chat.chain.response.base.text.TextResult;
@@ -37,7 +36,7 @@ public class MessageUtils {
         return messageVo;
     }
 
-    public static ChatMessageBo buildTextChatMessage(Long chatId, String messageId, String parentMessageId, TextResult textResult, Long userId) {
+    public static ChatMessageBo buildTextChatMessage(Long chatId, String messageId, String parentMessageId, TextResult textResult, Long userId, String tenantId, Long deptId) {
         return ChatMessageBo.builder()
             .chatId(chatId)
             .messageId(messageId)
@@ -52,6 +51,8 @@ public class MessageUtils {
             .finishReason(textResult.getFinishReason())
             .response(textResult.getResponse())
             .userId(userId)
+            .tenantId(tenantId)
+            .deptId(deptId)
             .build();
     }
 

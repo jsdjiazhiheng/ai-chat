@@ -25,6 +25,10 @@ public class StreamMessage {
 
     private Long userId;
 
+    private String tenantId;
+
+    private Long deptId;
+
     private Boolean useNet;
 
 }

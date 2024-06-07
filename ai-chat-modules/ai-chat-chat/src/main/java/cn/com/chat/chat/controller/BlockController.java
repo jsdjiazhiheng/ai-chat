@@ -1,19 +1,19 @@
 package cn.com.chat.chat.controller;
 
-import lombok.RequiredArgsConstructor;
 import cn.com.chat.chat.chain.enums.ImageChatType;
 import cn.com.chat.chat.chain.enums.TextChatType;
 import cn.com.chat.chat.domain.vo.ChatMessageVo;
 import cn.com.chat.chat.domain.vo.ChatVo;
 import cn.com.chat.chat.domain.vo.MessageVO;
 import cn.com.chat.chat.enums.ContentTypeEnums;
+import cn.com.chat.chat.service.IBlockService;
 import cn.com.chat.chat.service.IChatMessageService;
 import cn.com.chat.chat.service.IChatService;
-import cn.com.chat.chat.service.IMessageService;
 import cn.com.chat.common.core.domain.R;
 import cn.com.chat.common.mybatis.core.page.PageQuery;
 import cn.com.chat.common.mybatis.core.page.TableDataInfo;
 import cn.com.chat.common.web.core.BaseController;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,10 +29,10 @@ import java.util.List;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/chat")
-public class MessageController extends BaseController {
+@RequestMapping("/block")
+public class BlockController extends BaseController {
 
-    private final IMessageService messageService;
+    private final IBlockService blockService;
     private final IChatService chatService;
     private final IChatMessageService chatMessageService;
 
@@ -66,7 +66,7 @@ public class MessageController extends BaseController {
      */
     @PostMapping("/textChat")
     public R<MessageVO> textChat(TextChatType type, Long chatId, String content) {
-        return R.ok(messageService.textChat(type, chatId, content));
+        return R.ok(blockService.textChat(type, chatId, content));
     }
 
     /**
@@ -74,7 +74,7 @@ public class MessageController extends BaseController {
      */
     @PostMapping("/imageChat")
     public R<MessageVO> imageChat(ImageChatType type, Long chatId, String content) {
-        return R.ok(messageService.imageChat(type, chatId, content));
+        return R.ok(blockService.imageChat(type, chatId, content));
     }
 
 }

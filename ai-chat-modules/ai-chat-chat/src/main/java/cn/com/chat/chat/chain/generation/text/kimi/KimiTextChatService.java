@@ -10,28 +10,27 @@ import cn.com.chat.chat.chain.request.kimi.text.KimiTextRequest;
 import cn.com.chat.chat.chain.response.base.Usage;
 import cn.com.chat.chat.chain.response.base.text.TextResult;
 import cn.com.chat.chat.chain.response.kimi.text.KimiCompletionResult;
-import cn.com.chat.chat.chain.utils.HttpUtils;
 import cn.com.chat.chat.chain.utils.MessageUtils;
 import cn.com.chat.chat.domain.vo.ChatMessageVo;
 import cn.com.chat.common.core.utils.StringUtils;
+import cn.com.chat.common.http.callback.OkHttpCallback;
+import cn.com.chat.common.http.utils.HttpUtils;
 import cn.com.chat.common.json.utils.JsonUtils;
 import cn.hutool.core.lang.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import reactor.core.publisher.Flux;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
- * TODO
+ * Kimi文本服务
  *
  * @author JiaZH
  * @version 1.0
@@ -47,13 +46,13 @@ public class KimiTextChatService implements TextChatService {
     @Override
     public TextResult blockCompletion(String model, String system, List<MessageItem> history, String content) {
 
-        KimiTextRequest kimiTextRequest = buildRequest(model, system, history, content);
+        KimiTextRequest request = buildRequest(model, system, history, content);
 
-        HttpHeaders header = getHeader();
+        Map<String, String> header = getHeader();
 
-        HttpEntity<KimiTextRequest> entity = new HttpEntity<>(kimiTextRequest, header);
+        String response = HttpUtils.doPostJson(KimiApis.COMPLETION_TEXT, request, header);
 
-        KimiCompletionResult object = HttpUtils.getRestTemplate().postForObject(KimiApis.COMPLETION_TEXT, entity, KimiCompletionResult.class);
+        KimiCompletionResult object = JsonUtils.parseObject(response, KimiCompletionResult.class);
 
         String text = Objects.requireNonNull(object).getChoices().get(0).getMessage().getContent();
 
@@ -92,22 +91,17 @@ public class KimiTextChatService implements TextChatService {
         String messageId = UUID.fastUUID().toString();
 
         flux.subscribe(consumer -> {
-            HttpUtils.getWebClient().post()
-                .uri(KimiApis.COMPLETION_TEXT)
-                .header("Authorization", "Bearer " + accessTokenService.getAccessToken())
-                .bodyValue(kimiTextRequest)
-                .retrieve()
-                .bodyToFlux(String.class)
-                .onErrorResume(WebClientResponseException.class, error -> {
-                    HttpStatusCode statusCode = error.getStatusCode();
-                    String res = error.getResponseBodyAsString();
-                    log.error("Kimi AI API error: {} {}", statusCode, res);
 
-                    saveFailMessage(message, messageId, res);
+            Map<String, String> header = getHeader();
 
-                    return Flux.error(new RuntimeException(res));
-                })
-                .subscribe(response -> {
+            HttpUtils.asyncPostJson(KimiApis.COMPLETION_TEXT, consumer, header, new OkHttpCallback() {
+                @Override
+                public void onFailure(IOException e) {
+                    saveFailMessage(message, messageId, e.getMessage());
+                }
+
+                @Override
+                public void onResponse(String response) {
                     log.info("KimiTextChatService -> 返回结果 ： {}", response);
                     if (!"[DONE]".equals(response)) {
                         KimiCompletionResult object = JsonUtils.parseObject(response, KimiCompletionResult.class);
@@ -138,7 +132,8 @@ public class KimiTextChatService implements TextChatService {
                             }
                         }
                     }
-                });
+                }
+            });
         }, error -> log.error("Kimi AI API error: {}", error.getMessage()));
     }
 
@@ -156,9 +151,9 @@ public class KimiTextChatService implements TextChatService {
         return kimiTextRequest;
     }
 
-    private HttpHeaders getHeader() {
-        HttpHeaders header = new HttpHeaders();
-        header.add("Authorization", "Bearer " + accessTokenService.getAccessToken());
+    private Map<String, String> getHeader() {
+        Map<String, String> header = new HashMap<>();
+        header.put("Authorization", "Bearer " + accessTokenService.getAccessToken());
         return header;
     }
 

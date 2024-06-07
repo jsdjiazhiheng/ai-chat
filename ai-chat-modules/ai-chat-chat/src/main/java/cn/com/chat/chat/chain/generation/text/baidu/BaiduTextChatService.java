@@ -10,19 +10,17 @@ import cn.com.chat.chat.chain.request.base.text.MessageItem;
 import cn.com.chat.chat.chain.request.base.text.StreamMessage;
 import cn.com.chat.chat.chain.response.baidu.text.BaiduCompletionResult;
 import cn.com.chat.chat.chain.response.base.text.TextResult;
-import cn.com.chat.chat.chain.utils.HttpUtils;
 import cn.com.chat.chat.chain.utils.MessageUtils;
 import cn.com.chat.chat.domain.vo.ChatMessageVo;
 import cn.com.chat.common.core.utils.StringUtils;
+import cn.com.chat.common.http.callback.OkHttpCallback;
+import cn.com.chat.common.http.utils.HttpUtils;
 import cn.com.chat.common.json.utils.JsonUtils;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.json.JSONObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import reactor.core.publisher.Flux;
 
@@ -50,13 +48,11 @@ public class BaiduTextChatService implements TextChatService {
 
         BaiduTextRequest request = buildRequest(system, history, content);
 
-        HttpEntity<BaiduTextRequest> entity = new HttpEntity<>(request);
-
-        String response = HttpUtils.getRestTemplate().postForObject(accessTokenService.getUrl(url), entity, String.class);
+        String response = HttpUtils.doPostJson(accessTokenService.getUrl(url), request);
 
         log.info("BaiduTextChatService -> 请求结果 ： {}", response);
 
-        if(StringUtils.contains(response, "error_code")) {
+        if (StringUtils.contains(response, "error_code")) {
             JSONObject object = JsonUtils.parseObject(response, JSONObject.class);
             Integer errorCode = object.getInt("error_code");
             String errorMsg = object.getStr("error_msg");
@@ -104,20 +100,15 @@ public class BaiduTextChatService implements TextChatService {
         String messageId = UUID.fastUUID().toString();
 
         flux.subscribe(consumer -> {
-            HttpUtils.getWebClient().post()
-                .uri(accessTokenService.getUrl(url))
-                .bodyValue(request)
-                .retrieve()
-                .bodyToFlux(String.class)
-                .onErrorResume(WebClientResponseException.class, error -> {
-                    HttpStatusCode statusCode = error.getStatusCode();
-                    String res = error.getResponseBodyAsString();
-                    log.error("Baidu AI API error: {} {}", statusCode, res);
 
-                    saveFailMessage(message, messageId, res);
+            HttpUtils.asyncPostJson(accessTokenService.getUrl(url), consumer, new OkHttpCallback() {
+                @Override
+                public void onFailure(IOException e) {
+                    saveFailMessage(message, messageId, e.getMessage());
+                }
 
-                    return Flux.error(new RuntimeException(res));
-                }).subscribe(response -> {
+                @Override
+                public void onResponse(String response) {
                     log.info("BaiduTextChatService -> 返回结果 ： {}", response);
                     if (!"[DONE]".equals(response)) {
                         BaiduCompletionResult object = JsonUtils.parseObject(response, BaiduCompletionResult.class);
@@ -149,7 +140,8 @@ public class BaiduTextChatService implements TextChatService {
                             }
                         }
                     }
-                });
+                }
+            });
         }, error -> log.error("Baidu AI API error: {}", error.getMessage()), () -> log.info("emitter completed"));
 
     }

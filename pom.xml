@@ -42,6 +42,8 @@
         <!-- 离线IP地址定位库 -->
         <ip2region.version>2.7.0</ip2region.version>
 
+        <okhttp.version>4.12.0</okhttp.version>
+
         <!-- OSS 配置 -->
         <aws-java-sdk-s3.version>1.12.600</aws-java-sdk-s3.version>
         <!-- SMS 配置 -->
@@ -305,6 +307,14 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp-bom</artifactId>
+                <version>${okhttp.version}</version>
+                <type>pom</type>
+                <scope>runtime</scope>
             </dependency>
 
             <dependency>

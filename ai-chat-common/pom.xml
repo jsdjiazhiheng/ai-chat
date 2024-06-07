@@ -33,6 +33,7 @@
         <module>ai-chat-common-encrypt</module>
         <module>ai-chat-common-tenant</module>
         <module>ai-chat-common-websocket</module>
+        <module>ai-chat-common-http</module>
     </modules>
 
     <artifactId>ai-chat-common</artifactId>

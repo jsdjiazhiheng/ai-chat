@@ -1,9 +1,5 @@
 package cn.com.chat.chat.chain.generation.image.zhipu;
 
-import cn.com.chat.chat.chain.response.zhipu.image.ZhiPuImageData;
-import cn.com.chat.chat.chain.response.zhipu.image.ZhiPuImageResult;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import cn.com.chat.chat.chain.apis.ZhiPuApis;
 import cn.com.chat.chat.chain.auth.zhipu.ZhiPuAccessTokenService;
 import cn.com.chat.chat.chain.enums.TextChatType;
@@ -11,14 +7,20 @@ import cn.com.chat.chat.chain.enums.model.ZhiPuModelEnums;
 import cn.com.chat.chat.chain.generation.image.ImageChatService;
 import cn.com.chat.chat.chain.request.zhipu.image.ZhiPuImageRequest;
 import cn.com.chat.chat.chain.response.base.image.ImageResult;
-import cn.com.chat.chat.chain.utils.HttpUtils;
+import cn.com.chat.chat.chain.response.zhipu.image.ZhiPuImageData;
+import cn.com.chat.chat.chain.response.zhipu.image.ZhiPuImageResult;
 import cn.com.chat.chat.chain.utils.ImageUtils;
+import cn.com.chat.common.http.utils.HttpUtils;
 import cn.com.chat.common.json.utils.JsonUtils;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -33,7 +35,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class ZhiPuImageChatService implements ImageChatService {
 
-    private ZhiPuAccessTokenService accessTokenService;
+    private final ZhiPuAccessTokenService accessTokenService;
 
     @Override
     public ImageResult blockGenImage(String prompt) {
@@ -44,11 +46,11 @@ public class ZhiPuImageChatService implements ImageChatService {
 
         log.info("ZhiPuImageChatService -> 请求参数 ： {}", JsonUtils.toJsonString(request));
 
-        HttpHeaders header = getHeader();
+        Map<String, String> header = getHeader();
 
-        HttpEntity<ZhiPuImageRequest> entity = new HttpEntity<>(request, header);
+        String response = HttpUtils.doPostJson(ZhiPuApis.IMAGE_API, request, header);
 
-        ZhiPuImageResult object = HttpUtils.getRestTemplate().postForObject(ZhiPuApis.IMAGE_API, entity, ZhiPuImageResult.class);
+        ZhiPuImageResult object = JsonUtils.parseObject(response, ZhiPuImageResult.class);
 
         List<ZhiPuImageData> list = Objects.requireNonNull(object)
             .getData()
@@ -73,9 +75,9 @@ public class ZhiPuImageChatService implements ImageChatService {
         return result;
     }
 
-    private HttpHeaders getHeader() {
-        HttpHeaders header = new HttpHeaders();
-        header.add("Authorization", "Bearer " + accessTokenService.getAccessToken());
+    private Map<String, String> getHeader() {
+        Map<String, String> header = new HashMap<>();
+        header.put("Authorization", "Bearer " + accessTokenService.getAccessToken());
         return header;
     }
 

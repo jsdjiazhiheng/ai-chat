@@ -1,7 +1,5 @@
 package cn.com.chat.chat.chain.generation.image.baidu;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import cn.com.chat.chat.chain.auth.baidu.BaiduAccessTokenService;
 import cn.com.chat.chat.chain.enums.TextChatType;
 import cn.com.chat.chat.chain.enums.model.BaiduModelEnums;
@@ -10,9 +8,11 @@ import cn.com.chat.chat.chain.request.baidu.image.BaiduImageRequest;
 import cn.com.chat.chat.chain.response.baidu.image.BaiduImageData;
 import cn.com.chat.chat.chain.response.baidu.image.BaiduImageResult;
 import cn.com.chat.chat.chain.response.base.image.ImageResult;
-import cn.com.chat.chat.chain.utils.HttpUtils;
 import cn.com.chat.chat.chain.utils.ImageUtils;
+import cn.com.chat.common.http.utils.HttpUtils;
 import cn.com.chat.common.json.utils.JsonUtils;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +46,9 @@ public class BaiduImageChatService implements ImageChatService {
 
         HttpEntity<BaiduImageRequest> entity = new HttpEntity<>(request);
 
-        BaiduImageResult baiduImageResult = HttpUtils.getRestTemplate().postForObject(accessTokenService.getUrl(url), entity, BaiduImageResult.class);
+        String response = HttpUtils.doPostJson(accessTokenService.getUrl(url), entity);
+
+        BaiduImageResult baiduImageResult = JsonUtils.parseObject(response, BaiduImageResult.class);
 
         List<BaiduImageData> list = Objects.requireNonNull(baiduImageResult)
             .getData()

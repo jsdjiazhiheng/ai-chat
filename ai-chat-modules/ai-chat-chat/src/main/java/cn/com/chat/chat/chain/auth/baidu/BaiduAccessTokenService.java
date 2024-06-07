@@ -1,13 +1,14 @@
 package cn.com.chat.chat.chain.auth.baidu;
 
-import cn.com.chat.chat.chain.response.baidu.BaiduAccessTokenResponse;
-import lombok.AllArgsConstructor;
 import cn.com.chat.chat.chain.apis.BaiduApis;
 import cn.com.chat.chat.chain.auth.AccessTokenService;
-import cn.com.chat.chat.chain.utils.HttpUtils;
+import cn.com.chat.chat.chain.response.baidu.BaiduAccessTokenResponse;
 import cn.com.chat.chat.config.BaiduConfig;
 import cn.com.chat.common.core.utils.StringUtils;
+import cn.com.chat.common.http.utils.HttpUtils;
+import cn.com.chat.common.json.utils.JsonUtils;
 import cn.com.chat.common.redis.utils.RedisUtils;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -55,9 +56,11 @@ public class BaiduAccessTokenService implements AccessTokenService {
             "&client_id=" + config.getClientId() +
             "&client_secret=" + config.getClientSecret();
 
-        BaiduAccessTokenResponse response = HttpUtils.getRestTemplate().postForObject(url, null, BaiduAccessTokenResponse.class);
+        String response = HttpUtils.doPostJson(url, null, null);
 
-        return Objects.requireNonNull(response).getAccessToken();
+        BaiduAccessTokenResponse tokenResponse = JsonUtils.parseObject(response, BaiduAccessTokenResponse.class);
+
+        return Objects.requireNonNull(tokenResponse).getAccessToken();
     }
 
 }

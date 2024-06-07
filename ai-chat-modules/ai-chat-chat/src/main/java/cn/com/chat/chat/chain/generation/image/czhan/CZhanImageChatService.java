@@ -1,8 +1,5 @@
 package cn.com.chat.chat.chain.generation.image.czhan;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import cn.com.chat.chat.chain.apis.CZhanApis;
 import cn.com.chat.chat.chain.auth.czhan.CZhanAccessTokenService;
 import cn.com.chat.chat.chain.enums.ImageChatType;
@@ -14,14 +11,17 @@ import cn.com.chat.chat.chain.response.czhan.CZhanResult;
 import cn.com.chat.chat.chain.response.czhan.image.CZhanImageData;
 import cn.com.chat.chat.chain.response.czhan.image.CZhanImageResult;
 import cn.com.chat.chat.chain.response.czhan.image.CZhanImageTask;
-import cn.com.chat.chat.chain.utils.HttpUtils;
 import cn.com.chat.chat.chain.utils.ImageUtils;
+import cn.com.chat.common.http.utils.HttpUtils;
 import cn.com.chat.common.json.utils.JsonUtils;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
+import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -48,14 +48,11 @@ public class CZhanImageChatService implements ImageChatService {
 
         log.info("CZhanImageChatService -> 请求参数 ： {}", JsonUtils.toJsonString(request));
 
-        HttpHeaders header = getHeader();
+        Map<String, String> header = getHeader();
 
-        HttpEntity<CZhanImageRequest> entity = new HttpEntity<>(request, header);
+        String response = HttpUtils.doPostJson(CZhanApis.DRAW_API, request, header);
 
-        String response = HttpUtils.getRestTemplate().postForObject(CZhanApis.DRAW_API, entity, String.class);
-
-        CZhanResult<CZhanImageTask> taskCZhanResult = JsonUtils.parseObject(response, new TypeReference<>() {
-        });
+        CZhanResult<CZhanImageTask> taskCZhanResult = JsonUtils.parseObject(response, new TypeReference<>() {});
 
         CZhanImageTask task = Objects.requireNonNull(taskCZhanResult).getData();
         String paintingSign = task.getPaintingSign();
@@ -91,19 +88,16 @@ public class CZhanImageChatService implements ImageChatService {
             .taskId(paintingSign)
             .build();
 
-        HttpHeaders header = getHeader();
+        Map<String, String> header = getHeader();
 
-        HttpEntity<CZhanImageTaskRequest> entity = new HttpEntity<>(request, header);
+        String response = HttpUtils.doPostJson(CZhanApis.DRAW_TASK_API, request, header);
 
-        String response = HttpUtils.getRestTemplate().postForObject(CZhanApis.DRAW_TASK_API, entity, String.class);
-
-        return JsonUtils.parseObject(response, new TypeReference<>() {
-        });
+        return JsonUtils.parseObject(response, new TypeReference<>() {});
     }
 
-    private HttpHeaders getHeader() {
-        HttpHeaders header = new HttpHeaders();
-        header.add("Auth-Token", accessTokenService.getAccessToken());
+    private Map<String, String> getHeader() {
+        Map<String, String> header = new HashMap<>();
+        header.put("Auth-Token", accessTokenService.getAccessToken());
         return header;
     }
 

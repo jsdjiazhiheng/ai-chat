@@ -3,6 +3,7 @@ package cn.com.chat.chat.chain.plugins.search;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
+import cn.com.chat.common.http.utils.HttpUtils;
 import cn.hutool.core.util.StrUtil;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
@@ -11,7 +12,6 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.javascript.DefaultJavaScriptErrorListener;
 import lombok.extern.slf4j.Slf4j;
-import cn.com.chat.chat.chain.utils.HttpUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -70,7 +70,7 @@ public class WebSearchUtils {
     public static List<String> searchList(String url, String resultId, String resultClass) {
         List<String> list = new ArrayList<>();
 
-        String html = HttpUtils.getRestTemplate().getForObject(url, String.class);
+        String html = HttpUtils.doGet(url);
 
         if (StrUtil.isBlank(html)) {
             return list;

@@ -171,6 +171,13 @@
                 <artifactId>ai-chat-common-websocket</artifactId>
                 <version>${revision}</version>
             </dependency>
+
+            <!-- http模块 -->
+            <dependency>
+                <groupId>cn.com.chat</groupId>
+                <artifactId>ai-chat-common-http</artifactId>
+                <version>${revision}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

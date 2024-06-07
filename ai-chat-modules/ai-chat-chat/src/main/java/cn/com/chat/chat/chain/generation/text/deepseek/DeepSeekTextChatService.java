@@ -9,24 +9,23 @@ import cn.com.chat.chat.chain.request.base.text.StreamMessage;
 import cn.com.chat.chat.chain.request.deepseek.text.DeepSeekTextRequest;
 import cn.com.chat.chat.chain.response.base.text.TextResult;
 import cn.com.chat.chat.chain.response.deepseek.text.DeepSeekCompletionResult;
-import cn.com.chat.chat.chain.utils.HttpUtils;
 import cn.com.chat.chat.chain.utils.MessageUtils;
 import cn.com.chat.chat.domain.vo.ChatMessageVo;
 import cn.com.chat.common.core.utils.StringUtils;
+import cn.com.chat.common.http.callback.OkHttpCallback;
+import cn.com.chat.common.http.utils.HttpUtils;
 import cn.com.chat.common.json.utils.JsonUtils;
 import cn.hutool.core.lang.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import reactor.core.publisher.Flux;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -47,11 +46,11 @@ public class DeepSeekTextChatService implements TextChatService {
 
         DeepSeekTextRequest request = buildRequest(model, system, history, content);
 
-        HttpHeaders header = getHeader();
+        Map<String, String> header = getHeader();
 
-        HttpEntity<DeepSeekTextRequest> entity = new HttpEntity<>(request, header);
+        String response = HttpUtils.doPostJson(DeepSeekApis.API, request, header);
 
-        DeepSeekCompletionResult object = HttpUtils.getRestTemplate().postForObject(DeepSeekApis.API, entity, DeepSeekCompletionResult.class);
+        DeepSeekCompletionResult object = JsonUtils.parseObject(response, DeepSeekCompletionResult.class);
 
         String text = Objects.requireNonNull(object).getChoices().get(0).getMessage().getContent();
 
@@ -91,22 +90,17 @@ public class DeepSeekTextChatService implements TextChatService {
         String messageId = UUID.fastUUID().toString();
 
         flux.subscribe(consumer -> {
-            HttpUtils.getWebClient().post()
-                .uri(DeepSeekApis.API)
-                .header("Authorization", "Bearer " + accessTokenService.getAccessToken())
-                .bodyValue(request)
-                .retrieve()
-                .bodyToFlux(String.class)
-                .onErrorResume(WebClientResponseException.class, error -> {
-                    HttpStatusCode statusCode = error.getStatusCode();
-                    String res = error.getResponseBodyAsString();
-                    log.error("DeepSeek AI API error: {} {}", statusCode, res);
 
-                    saveFailMessage(message, messageId, res);
+            Map<String, String> header = getHeader();
 
-                    return Flux.error(new RuntimeException(res));
-                })
-                .subscribe(response -> {
+            HttpUtils.asyncPostJson(DeepSeekApis.API, consumer, header, new OkHttpCallback() {
+                @Override
+                public void onFailure(IOException e) {
+                    saveFailMessage(message, messageId, e.getMessage());
+                }
+
+                @Override
+                public void onResponse(String response) {
                     log.info("DeepSeekTextChatService -> 返回结果 ： {}", response);
                     if (!"[DONE]".equals(response)) {
                         DeepSeekCompletionResult object = JsonUtils.parseObject(response, DeepSeekCompletionResult.class);
@@ -136,7 +130,8 @@ public class DeepSeekTextChatService implements TextChatService {
                             }
                         }
                     }
-                });
+                }
+            });
         }, error -> log.error("DeepSeek AI API error: {}", error.getMessage()));
 
     }
@@ -155,9 +150,9 @@ public class DeepSeekTextChatService implements TextChatService {
         return deepSeekTextRequest;
     }
 
-    private HttpHeaders getHeader() {
-        HttpHeaders header = new HttpHeaders();
-        header.add("Authorization", "Bearer " + accessTokenService.getAccessToken());
+    private Map<String, String> getHeader() {
+        Map<String, String> header = new HashMap<>();
+        header.put("Authorization", "Bearer " + accessTokenService.getAccessToken());
         return header;
     }
 

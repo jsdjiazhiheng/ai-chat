@@ -1,7 +1,7 @@
-package cn.com.chat.chat.chain.message.impl;
+package cn.com.chat.chat.chain.service.impl;
 
 import cn.com.chat.chat.chain.enums.MessageStatus;
-import cn.com.chat.chat.chain.message.MessageService;
+import cn.com.chat.chat.chain.service.MessageService;
 import cn.com.chat.chat.chain.request.base.text.StreamMessage;
 import cn.com.chat.chat.chain.response.base.text.TextResult;
 import cn.com.chat.chat.chain.utils.MessageUtils;

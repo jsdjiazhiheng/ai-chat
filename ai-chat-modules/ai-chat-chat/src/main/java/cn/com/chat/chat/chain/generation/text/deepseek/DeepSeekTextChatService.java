@@ -4,12 +4,12 @@ import cn.com.chat.chat.chain.apis.DeepSeekApis;
 import cn.com.chat.chat.chain.auth.deepseek.DeepSeekAccessTokenService;
 import cn.com.chat.chat.chain.enums.TextChatType;
 import cn.com.chat.chat.chain.generation.text.TextChatService;
-import cn.com.chat.chat.chain.message.MessageService;
 import cn.com.chat.chat.chain.request.base.text.MessageItem;
 import cn.com.chat.chat.chain.request.base.text.StreamMessage;
 import cn.com.chat.chat.chain.request.deepseek.text.DeepSeekTextRequest;
 import cn.com.chat.chat.chain.response.base.text.TextResult;
 import cn.com.chat.chat.chain.response.deepseek.text.DeepSeekCompletionResult;
+import cn.com.chat.chat.chain.service.MessageService;
 import cn.com.chat.chat.chain.utils.MessageUtils;
 import cn.com.chat.chat.domain.vo.ChatMessageVo;
 import cn.com.chat.common.core.utils.StringUtils;
@@ -24,7 +24,6 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import reactor.core.publisher.Flux;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -153,9 +152,7 @@ public class DeepSeekTextChatService implements TextChatService {
     }
 
     private Map<String, String> getHeader() {
-        Map<String, String> header = new HashMap<>();
-        header.put("Authorization", "Bearer " + accessTokenService.getAccessToken());
-        return header;
+        return Map.of("Authorization", "Bearer " + accessTokenService.getAccessToken());
     }
 
 }

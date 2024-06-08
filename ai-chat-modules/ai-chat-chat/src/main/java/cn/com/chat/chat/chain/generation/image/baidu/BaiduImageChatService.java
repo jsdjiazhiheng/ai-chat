@@ -1,7 +1,7 @@
 package cn.com.chat.chat.chain.generation.image.baidu;
 
 import cn.com.chat.chat.chain.auth.baidu.BaiduAccessTokenService;
-import cn.com.chat.chat.chain.enums.TextChatType;
+import cn.com.chat.chat.chain.enums.ImageChatType;
 import cn.com.chat.chat.chain.enums.model.BaiduModelEnums;
 import cn.com.chat.chat.chain.generation.image.ImageChatService;
 import cn.com.chat.chat.chain.request.baidu.image.BaiduImageRequest;
@@ -48,12 +48,14 @@ public class BaiduImageChatService implements ImageChatService {
 
         String response = HttpUtils.doPostJson(accessTokenService.getUrl(url), entity);
 
+        log.info("OpenAiImageChatService -> 请求结果 ： {}", response);
+
         BaiduImageResult baiduImageResult = JsonUtils.parseObject(response, BaiduImageResult.class);
 
         List<BaiduImageData> list = Objects.requireNonNull(baiduImageResult)
             .getData()
             .stream()
-            .peek(s -> s.setB64Image(ImageUtils.base64ToUrl(TextChatType.BAIDU.name(), s.getB64Image())))
+            .peek(s -> s.setB64Image(ImageUtils.base64ToUrl(ImageChatType.BAIDU.name(), s.getB64Image())))
             .toList();
 
         baiduImageResult.setData(list);
@@ -61,8 +63,8 @@ public class BaiduImageChatService implements ImageChatService {
         List<String> imageList = list.stream().map(BaiduImageData::getB64Image).toList();
 
         ImageResult imageResult = ImageResult.builder()
-            .model(TextChatType.BAIDU.name())
-            .version(BaiduModelEnums.STABLE_DIFFUSION_XL.getName())
+            .model(ImageChatType.BAIDU.name())
+            .version(BaiduModelEnums.STABLE_DIFFUSION_XL.getModel())
             .data(imageList)
             .totalTokens(Long.valueOf(baiduImageResult.getUsage().getTotalTokens()))
             .response(JsonUtils.toJsonString(baiduImageResult))

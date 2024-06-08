@@ -19,7 +19,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -51,6 +50,8 @@ public class CZhanImageChatService implements ImageChatService {
         Map<String, String> header = getHeader();
 
         String response = HttpUtils.doPostJson(CZhanApis.DRAW_API, request, header);
+
+        log.info("OpenAiImageChatService -> 请求结果 ： {}", response);
 
         CZhanResult<CZhanImageTask> taskCZhanResult = JsonUtils.parseObject(response, new TypeReference<>() {});
 
@@ -92,13 +93,13 @@ public class CZhanImageChatService implements ImageChatService {
 
         String response = HttpUtils.doPostJson(CZhanApis.DRAW_TASK_API, request, header);
 
+        log.info("OpenAiImageChatService -> 请求结果 ： {}", response);
+
         return JsonUtils.parseObject(response, new TypeReference<>() {});
     }
 
     private Map<String, String> getHeader() {
-        Map<String, String> header = new HashMap<>();
-        header.put("Auth-Token", accessTokenService.getAccessToken());
-        return header;
+        return Map.of("Auth-Token", accessTokenService.getAccessToken());
     }
 
 }

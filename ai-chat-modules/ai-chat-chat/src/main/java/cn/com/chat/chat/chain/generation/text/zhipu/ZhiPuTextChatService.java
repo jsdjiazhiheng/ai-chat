@@ -4,7 +4,6 @@ import cn.com.chat.chat.chain.apis.ZhiPuApis;
 import cn.com.chat.chat.chain.auth.zhipu.ZhiPuAccessTokenService;
 import cn.com.chat.chat.chain.enums.TextChatType;
 import cn.com.chat.chat.chain.generation.text.TextChatService;
-import cn.com.chat.chat.chain.message.MessageService;
 import cn.com.chat.chat.chain.request.base.text.MessageItem;
 import cn.com.chat.chat.chain.request.base.text.StreamMessage;
 import cn.com.chat.chat.chain.request.zhipu.text.ZhiPuTextRequest;
@@ -12,6 +11,7 @@ import cn.com.chat.chat.chain.request.zhipu.text.ZhiPuTextTools;
 import cn.com.chat.chat.chain.request.zhipu.text.ZhiPuTextWebSearch;
 import cn.com.chat.chat.chain.response.base.text.TextResult;
 import cn.com.chat.chat.chain.response.zhipu.text.ZhiPuCompletionResult;
+import cn.com.chat.chat.chain.service.MessageService;
 import cn.com.chat.chat.chain.utils.MessageUtils;
 import cn.com.chat.chat.domain.vo.ChatMessageVo;
 import cn.com.chat.common.core.utils.StringUtils;
@@ -166,9 +166,7 @@ public class ZhiPuTextChatService implements TextChatService {
     }
 
     private Map<String, String> getHeader() {
-        Map<String, String> header = new HashMap<>();
-        header.put("Authorization", "Bearer " + accessTokenService.getAccessToken());
-        return header;
+        return Map.of("Authorization", "Bearer " + accessTokenService.getAccessToken());
     }
 
 }

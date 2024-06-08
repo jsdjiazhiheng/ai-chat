@@ -1,4 +1,4 @@
-package cn.com.chat.chat.chain.message;
+package cn.com.chat.chat.chain.service;
 
 import cn.com.chat.chat.chain.request.base.text.StreamMessage;
 import cn.com.chat.chat.chain.response.base.text.TextResult;

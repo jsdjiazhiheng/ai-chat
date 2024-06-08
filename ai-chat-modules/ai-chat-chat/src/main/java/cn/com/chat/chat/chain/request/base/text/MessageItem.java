@@ -3,6 +3,7 @@ package cn.com.chat.chat.chain.request.base.text;
 import cn.com.chat.chat.chain.enums.Role;
 import cn.com.chat.chat.chain.response.base.text.TextToolCall;
 import cn.hutool.core.collection.CollUtil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
@@ -36,6 +37,9 @@ public class MessageItem implements Serializable {
     @JsonProperty("tool_calls")
     private List<TextToolCall> toolCalls;
 
+    @JsonIgnore
+    private static final String CONTENT_TIPS = "\n\n注意：回答问题时，须严格根据我给你的系统上下文内容原文进行回答，请不要自己发挥,回答时保持原来文本的段落层级，直接回答问题，无需重复问题的内容";
+
     public static MessageItem buildSystem(String content) {
         return builder().role(Role.SYSTEM.getName()).content(content).build();
     }
@@ -59,7 +63,7 @@ public class MessageItem implements Serializable {
             messageItems.addAll(history);
         }
 
-        messageItems.add(MessageItem.buildUser(content));
+        messageItems.add(MessageItem.buildUser(CollUtil.isEmpty(history) ? "" : content + CONTENT_TIPS));
 
         return messageItems;
     }

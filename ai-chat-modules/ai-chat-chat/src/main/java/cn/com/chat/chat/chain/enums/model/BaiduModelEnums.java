@@ -39,19 +39,19 @@ public enum BaiduModelEnums {
 
     ;
 
-    private final String name;
+    private final String model;
     private final String url;
 
     private static final Map<String, String> modelMap = new HashMap<>();
 
     static {
         for (BaiduModelEnums value : values()) {
-            modelMap.put(value.getName(), value.getUrl());
+            modelMap.put(value.getModel(), value.getUrl());
         }
     }
 
-    public static String getModelUrl(String name) {
-        return modelMap.get(name);
+    public static String getModelUrl(String model) {
+        return modelMap.get(model);
     }
 
 }

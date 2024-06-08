@@ -24,4 +24,6 @@ public interface AliyunApis {
 
     String WANX_SKETCH_TO_IMAGE_LITE_API = "https://dashscope.aliyuncs.com/api/v1/services/aigc/image2image/image-synthesis";
 
+    String WANX_TASK_API = "https://dashscope.aliyuncs.com/api/v1/tasks/";
+
 }

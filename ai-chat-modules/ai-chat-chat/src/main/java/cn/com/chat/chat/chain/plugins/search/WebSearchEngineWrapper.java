@@ -1,6 +1,6 @@
 package cn.com.chat.chat.chain.plugins.search;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import java.util.List;
 @Slf4j
 @Service
 @Primary
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class WebSearchEngineWrapper implements WebSearchEngine {
 
     private final WebSearchEngineFactory webSearchEngineFactory;

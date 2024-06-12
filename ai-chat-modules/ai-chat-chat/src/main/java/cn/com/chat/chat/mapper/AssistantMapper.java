@@ -1,9 +1,9 @@
 package cn.com.chat.chat.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
 import cn.com.chat.chat.domain.Assistant;
 import cn.com.chat.chat.domain.vo.AssistantVo;
 import cn.com.chat.common.mybatis.core.mapper.BaseMapperPlus;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * AI助手Mapper接口

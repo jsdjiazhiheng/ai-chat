@@ -1,8 +1,8 @@
 package cn.com.chat.chat.chain.generation.image;
 
-import cn.com.chat.chat.chain.response.base.image.ImageResult;
 import cn.com.chat.chat.chain.enums.ImageChatType;
 import cn.com.chat.chat.chain.generation.GenerationService;
+import cn.com.chat.chat.chain.response.base.image.ImageResult;
 
 /**
  * 图像聊天服务接口

@@ -1,8 +1,8 @@
 package cn.com.chat.chat.chain.auth.zhipu;
 
-import lombok.AllArgsConstructor;
 import cn.com.chat.chat.chain.auth.AccessTokenService;
 import cn.com.chat.chat.config.ZhiPuConfig;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @date 2024-05-25
  */
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ZhiPuAccessTokenService implements AccessTokenService {
 
     private final ZhiPuConfig config;

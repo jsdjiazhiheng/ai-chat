@@ -1,12 +1,12 @@
 package cn.com.chat.chat.chain.request.kimi.text;
 
+import cn.com.chat.chat.chain.request.base.text.TextRequest;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import cn.com.chat.chat.chain.request.base.text.TextRequest;
 
 /**
  * Kimi文本对话请求参数

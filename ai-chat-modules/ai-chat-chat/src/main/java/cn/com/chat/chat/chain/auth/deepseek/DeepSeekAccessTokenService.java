@@ -1,8 +1,8 @@
 package cn.com.chat.chat.chain.auth.deepseek;
 
-import lombok.AllArgsConstructor;
 import cn.com.chat.chat.chain.auth.AccessTokenService;
 import cn.com.chat.chat.config.DeepSeekConfig;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @date 2024-05-25
  */
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DeepSeekAccessTokenService implements AccessTokenService {
 
     private final DeepSeekConfig config;

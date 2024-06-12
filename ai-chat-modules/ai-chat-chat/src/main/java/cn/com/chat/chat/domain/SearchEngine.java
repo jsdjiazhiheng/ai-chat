@@ -1,7 +1,10 @@
 package cn.com.chat.chat.domain;
 
 import cn.com.chat.common.tenant.core.TenantEntity;
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.Version;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

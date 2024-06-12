@@ -3,7 +3,6 @@ package cn.com.chat.chat.chain.request.zhipu.text;
 import cn.hutool.json.JSONObject;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 

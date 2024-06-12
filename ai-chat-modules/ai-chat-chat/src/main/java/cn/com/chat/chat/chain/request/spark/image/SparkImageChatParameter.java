@@ -1,11 +1,7 @@
 package cn.com.chat.chat.chain.request.spark.image;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -16,7 +12,7 @@ import java.io.Serializable;
  * @date 2024-06-11
  */
 @Data
-@SuperBuilder
+@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor(force = true)
@@ -25,8 +21,10 @@ public class SparkImageChatParameter implements Serializable {
 
     private String domain;
 
-    private Integer width;
+    @Builder.Default
+    private Integer width = 512;
 
-    private Integer height;
+    @Builder.Default
+    private Integer height = 512;
 
 }

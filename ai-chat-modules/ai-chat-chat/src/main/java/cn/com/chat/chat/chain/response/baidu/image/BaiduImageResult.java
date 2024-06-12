@@ -1,10 +1,10 @@
 package cn.com.chat.chat.chain.response.baidu.image;
 
+import cn.com.chat.chat.chain.response.base.Usage;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import cn.com.chat.chat.chain.response.base.Usage;
 
 import java.io.Serializable;
 import java.util.List;

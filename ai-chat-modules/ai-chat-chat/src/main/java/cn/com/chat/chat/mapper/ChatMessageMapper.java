@@ -1,9 +1,9 @@
 package cn.com.chat.chat.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
 import cn.com.chat.chat.domain.ChatMessage;
 import cn.com.chat.chat.domain.vo.ChatMessageVo;
 import cn.com.chat.common.mybatis.core.mapper.BaseMapperPlus;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 对话消息Mapper接口

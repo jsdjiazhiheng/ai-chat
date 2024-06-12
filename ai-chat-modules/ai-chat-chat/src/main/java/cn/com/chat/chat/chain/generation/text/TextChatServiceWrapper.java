@@ -7,7 +7,7 @@ import cn.com.chat.chat.chain.request.base.text.StreamMessage;
 import cn.com.chat.chat.chain.response.base.text.TextResult;
 import cn.com.chat.common.core.exception.ServiceException;
 import cn.hutool.core.util.StrUtil;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ import java.util.Objects;
 @Slf4j
 @Service
 @Primary
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TextChatServiceWrapper implements TextChatService {
 
     private final TextChatServiceFactory textChatServiceFactory;

@@ -1,13 +1,11 @@
 package cn.com.chat.chat.chain.response.aliyun.text;
 
 import cn.com.chat.chat.chain.response.base.Usage;
-import cn.com.chat.chat.chain.response.base.text.TextChoice;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * TODO

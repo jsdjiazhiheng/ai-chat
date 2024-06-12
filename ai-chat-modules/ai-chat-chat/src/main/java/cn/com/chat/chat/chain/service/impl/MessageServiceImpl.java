@@ -1,13 +1,13 @@
 package cn.com.chat.chat.chain.service.impl;
 
 import cn.com.chat.chat.chain.enums.MessageStatus;
-import cn.com.chat.chat.chain.service.MessageService;
 import cn.com.chat.chat.chain.request.base.text.StreamMessage;
 import cn.com.chat.chat.chain.response.base.text.TextResult;
+import cn.com.chat.chat.chain.service.MessageService;
 import cn.com.chat.chat.chain.utils.MessageUtils;
 import cn.com.chat.chat.domain.bo.ChatMessageBo;
 import cn.com.chat.chat.service.IChatMessageService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @date 2024-06-07
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MessageServiceImpl implements MessageService {
 
     private final IChatMessageService chatMessageService;

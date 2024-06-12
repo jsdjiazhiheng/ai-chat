@@ -9,9 +9,9 @@ import cn.com.chat.chat.chain.generation.image.ImageChatService;
 import cn.com.chat.chat.chain.request.aliyun.image.AliyunImageInput;
 import cn.com.chat.chat.chain.request.aliyun.image.AliyunImageParameters;
 import cn.com.chat.chat.chain.request.aliyun.image.AliyunImageRequest;
-import cn.com.chat.chat.chain.response.base.image.ImageData;
 import cn.com.chat.chat.chain.response.aliyun.image.AliyunImageResult;
 import cn.com.chat.chat.chain.response.aliyun.image.AliyunImageTask;
+import cn.com.chat.chat.chain.response.base.image.ImageData;
 import cn.com.chat.chat.chain.response.base.image.ImageResult;
 import cn.com.chat.chat.chain.utils.ImageUtils;
 import cn.com.chat.common.http.utils.HttpUtils;
@@ -87,7 +87,7 @@ public class AliyunImageChatService implements ImageChatService {
             .response(JsonUtils.toJsonString(imageResult))
             .build();
 
-        log.info("ZhiPuImageChatService -> 返回结果 ： {}", result);
+        log.info("AliyunImageChatService -> 返回结果 ： {}", result);
 
         return result;
     }

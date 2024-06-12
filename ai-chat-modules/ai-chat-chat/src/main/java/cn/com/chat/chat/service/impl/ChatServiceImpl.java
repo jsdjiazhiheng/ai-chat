@@ -1,25 +1,25 @@
 package cn.com.chat.chat.service.impl;
 
+import cn.com.chat.chat.domain.Chat;
+import cn.com.chat.chat.domain.bo.ChatBo;
+import cn.com.chat.chat.domain.vo.ChatVo;
 import cn.com.chat.chat.enums.ContentTypeEnums;
+import cn.com.chat.chat.mapper.ChatMapper;
 import cn.com.chat.chat.service.IChatService;
 import cn.com.chat.common.core.utils.MapstructUtils;
 import cn.com.chat.common.core.utils.StringUtils;
-import cn.com.chat.common.mybatis.core.page.TableDataInfo;
 import cn.com.chat.common.mybatis.core.page.PageQuery;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cn.com.chat.common.mybatis.core.page.TableDataInfo;
+import cn.com.chat.common.satoken.utils.LoginHelper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
-import cn.com.chat.common.satoken.utils.LoginHelper;
 import org.springframework.stereotype.Service;
-import cn.com.chat.chat.domain.bo.ChatBo;
-import cn.com.chat.chat.domain.vo.ChatVo;
-import cn.com.chat.chat.domain.Chat;
-import cn.com.chat.chat.mapper.ChatMapper;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Collection;
 
 /**
  * 对话Service业务层处理

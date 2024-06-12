@@ -8,7 +8,7 @@ import cn.com.chat.common.core.utils.StringUtils;
 import cn.com.chat.common.http.utils.HttpUtils;
 import cn.com.chat.common.json.utils.JsonUtils;
 import cn.com.chat.common.redis.utils.RedisUtils;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -22,7 +22,7 @@ import java.util.Objects;
  * @date 2024-05-25
  */
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BaiduAccessTokenService implements AccessTokenService {
 
     private final BaiduConfig config;

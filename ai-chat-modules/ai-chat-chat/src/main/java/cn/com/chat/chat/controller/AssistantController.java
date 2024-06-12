@@ -1,26 +1,27 @@
 package cn.com.chat.chat.controller;
 
-import java.util.List;
-
-import lombok.RequiredArgsConstructor;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.*;
-import cn.dev33.satoken.annotation.SaCheckPermission;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.validation.annotation.Validated;
-import cn.com.chat.common.idempotent.annotation.RepeatSubmit;
-import cn.com.chat.common.log.annotation.Log;
-import cn.com.chat.common.web.core.BaseController;
-import cn.com.chat.common.mybatis.core.page.PageQuery;
+import cn.com.chat.chat.domain.bo.AssistantBo;
+import cn.com.chat.chat.domain.vo.AssistantVo;
+import cn.com.chat.chat.service.IAssistantService;
 import cn.com.chat.common.core.domain.R;
 import cn.com.chat.common.core.validate.AddGroup;
 import cn.com.chat.common.core.validate.EditGroup;
-import cn.com.chat.common.log.enums.BusinessType;
 import cn.com.chat.common.excel.utils.ExcelUtil;
-import cn.com.chat.chat.domain.vo.AssistantVo;
-import cn.com.chat.chat.domain.bo.AssistantBo;
-import cn.com.chat.chat.service.IAssistantService;
+import cn.com.chat.common.idempotent.annotation.RepeatSubmit;
+import cn.com.chat.common.log.annotation.Log;
+import cn.com.chat.common.log.enums.BusinessType;
+import cn.com.chat.common.mybatis.core.page.PageQuery;
 import cn.com.chat.common.mybatis.core.page.TableDataInfo;
+import cn.com.chat.common.web.core.BaseController;
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * AI助手

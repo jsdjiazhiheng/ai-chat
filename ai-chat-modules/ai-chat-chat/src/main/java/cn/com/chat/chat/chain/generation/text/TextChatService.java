@@ -1,10 +1,10 @@
 package cn.com.chat.chat.chain.generation.text;
 
+import cn.com.chat.chat.chain.enums.TextChatType;
+import cn.com.chat.chat.chain.generation.GenerationService;
 import cn.com.chat.chat.chain.request.base.text.MessageItem;
 import cn.com.chat.chat.chain.request.base.text.StreamMessage;
 import cn.com.chat.chat.chain.response.base.text.TextResult;
-import cn.com.chat.chat.chain.enums.TextChatType;
-import cn.com.chat.chat.chain.generation.GenerationService;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.List;

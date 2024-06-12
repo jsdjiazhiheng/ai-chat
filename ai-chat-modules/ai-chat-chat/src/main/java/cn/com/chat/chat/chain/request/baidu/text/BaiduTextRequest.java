@@ -1,10 +1,10 @@
 package cn.com.chat.chat.chain.request.baidu.text;
 
+import cn.com.chat.chat.chain.request.base.text.TextRequest;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import cn.com.chat.chat.chain.request.base.text.TextRequest;
 
 /**
  * 百度文本对话请求参数

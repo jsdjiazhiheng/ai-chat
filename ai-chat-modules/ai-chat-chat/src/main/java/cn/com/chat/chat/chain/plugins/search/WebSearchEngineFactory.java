@@ -3,10 +3,10 @@ package cn.com.chat.chat.chain.plugins.search;
 import cn.com.chat.chat.chain.plugins.search.engine.BaiduWebSearchEngine;
 import cn.com.chat.chat.chain.plugins.search.engine.BingWebSearchEngine;
 import cn.com.chat.chat.chain.plugins.search.engine.ToutiaoWebSearchEngine;
+import cn.com.chat.chat.service.ISearchEngineService;
 import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import cn.com.chat.chat.service.ISearchEngineService;
 import org.springframework.stereotype.Component;
 
 /**

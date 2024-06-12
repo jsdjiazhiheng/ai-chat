@@ -1,11 +1,11 @@
 package cn.com.chat.chat.chain.generation.image;
 
-import cn.com.chat.chat.chain.response.base.image.ImageResult;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import cn.com.chat.chat.chain.enums.ImageChatType;
 import cn.com.chat.chat.chain.function.service.ICompletionService;
+import cn.com.chat.chat.chain.response.base.image.ImageResult;
 import cn.com.chat.common.core.exception.ServiceException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ import java.util.Objects;
 @Slf4j
 @Service
 @Primary
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ImageChatServiceWrapper implements ImageChatService {
 
     private final ImageChatServiceFactory imageChatServiceFactory;

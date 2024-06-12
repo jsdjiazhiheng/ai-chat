@@ -1,13 +1,13 @@
 package cn.com.chat.chat.chain.response.deepseek.text;
 
+import cn.com.chat.chat.chain.response.base.Usage;
+import cn.com.chat.chat.chain.response.base.text.TextChoice;
+import cn.com.chat.chat.chain.response.base.text.TextCompletionResult;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import cn.com.chat.chat.chain.response.base.text.TextChoice;
-import cn.com.chat.chat.chain.response.base.text.TextCompletionResult;
-import cn.com.chat.chat.chain.response.base.Usage;
 
 import java.util.List;
 

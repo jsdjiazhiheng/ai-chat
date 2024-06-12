@@ -2,6 +2,7 @@ package cn.com.chat.chat.chain.request.base.text;
 
 import cn.com.chat.chat.chain.enums.Role;
 import cn.com.chat.chat.chain.response.base.text.TextToolCall;
+import cn.com.chat.common.core.utils.StringUtils;
 import cn.hutool.core.collection.CollUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -10,7 +11,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import cn.com.chat.common.core.utils.StringUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -3,7 +3,7 @@ package cn.com.chat.chat.chain.service;
 import cn.com.chat.chat.config.OpenAiConfig;
 import cn.com.chat.common.http.builder.OkHttpClientBuilder;
 import cn.com.chat.common.http.utils.HttpUtils;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import okhttp3.OkHttpClient;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
  * @date 2024-06-08
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class HttpService {
 
     private final OpenAiConfig config;

@@ -2,13 +2,13 @@ package cn.com.chat.chat.agent.core;
 
 import cn.com.chat.chat.agent.core.function.AiFunctionType;
 import cn.com.chat.chat.agent.core.function.FunctionType;
-import cn.com.chat.chat.agent.prompt.function.functionObj.FunctionTypeFuncObj;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import cn.com.chat.chat.agent.core.function.ToolFunctionType;
 import cn.com.chat.chat.agent.prompt.function.FunctionTypePrompt;
+import cn.com.chat.chat.agent.prompt.function.functionObj.FunctionTypeFuncObj;
 import cn.com.chat.chat.chain.function.service.ICompletionService;
 import cn.com.chat.common.json.utils.JsonUtils;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -20,9 +20,9 @@ import java.util.function.Function;
  * @author JiaZH
  * @date 2024-05-11
  */
-@Component
-@AllArgsConstructor
 @Slf4j
+@Component
+@RequiredArgsConstructor
 public class FunctionFactory {
 
     private final ICompletionService completionService;

@@ -2,11 +2,7 @@ package cn.com.chat.chat.chain.request.spark;
 
 import cn.com.chat.chat.chain.request.base.text.MessageItem;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.List;
@@ -18,7 +14,7 @@ import java.util.List;
  * @date 2024-06-11
  */
 @Data
-@SuperBuilder
+@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor(force = true)

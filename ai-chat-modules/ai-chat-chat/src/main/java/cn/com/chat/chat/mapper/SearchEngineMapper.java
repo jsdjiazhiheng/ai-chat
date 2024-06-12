@@ -1,9 +1,9 @@
 package cn.com.chat.chat.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
 import cn.com.chat.chat.domain.SearchEngine;
 import cn.com.chat.chat.domain.vo.SearchEngineVo;
 import cn.com.chat.common.mybatis.core.mapper.BaseMapperPlus;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 搜索引擎Mapper接口

@@ -1,9 +1,9 @@
 package cn.com.chat.chat.service;
 
-import cn.com.chat.chat.domain.vo.AssistantVo;
 import cn.com.chat.chat.domain.bo.AssistantBo;
-import cn.com.chat.common.mybatis.core.page.TableDataInfo;
+import cn.com.chat.chat.domain.vo.AssistantVo;
 import cn.com.chat.common.mybatis.core.page.PageQuery;
+import cn.com.chat.common.mybatis.core.page.TableDataInfo;
 
 import java.util.Collection;
 import java.util.List;

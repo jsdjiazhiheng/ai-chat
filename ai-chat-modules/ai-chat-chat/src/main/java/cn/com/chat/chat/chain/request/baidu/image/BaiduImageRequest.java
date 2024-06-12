@@ -1,12 +1,12 @@
 package cn.com.chat.chat.chain.request.baidu.image;
 
+import cn.com.chat.chat.chain.request.base.image.ImageRequest;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import cn.com.chat.chat.chain.request.base.image.ImageRequest;
 
 /**
  * 百度图像请求参数

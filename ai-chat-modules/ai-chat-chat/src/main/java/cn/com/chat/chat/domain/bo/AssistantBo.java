@@ -1,13 +1,13 @@
 package cn.com.chat.chat.domain.bo;
 
 import cn.com.chat.chat.domain.Assistant;
-import cn.com.chat.common.mybatis.core.domain.BaseEntity;
 import cn.com.chat.common.core.validate.AddGroup;
 import cn.com.chat.common.core.validate.EditGroup;
+import cn.com.chat.common.mybatis.core.domain.BaseEntity;
 import io.github.linpeilie.annotations.AutoMapper;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import jakarta.validation.constraints.*;
 
 /**
  * AI助手业务对象 gpt_assistant

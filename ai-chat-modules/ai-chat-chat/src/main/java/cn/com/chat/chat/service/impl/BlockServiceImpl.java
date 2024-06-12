@@ -1,10 +1,5 @@
 package cn.com.chat.chat.service.impl;
 
-import cn.com.chat.chat.service.IAssistantService;
-import cn.com.chat.chat.service.IChatMessageService;
-import cn.com.chat.chat.service.IBlockService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import cn.com.chat.chat.chain.enums.ImageChatType;
 import cn.com.chat.chat.chain.enums.TextChatType;
 import cn.com.chat.chat.chain.function.service.ICompletionService;
@@ -18,6 +13,11 @@ import cn.com.chat.chat.domain.bo.ChatMessageBo;
 import cn.com.chat.chat.domain.vo.ChatMessageVo;
 import cn.com.chat.chat.domain.vo.MessageVO;
 import cn.com.chat.chat.enums.ContentTypeEnums;
+import cn.com.chat.chat.service.IAssistantService;
+import cn.com.chat.chat.service.IBlockService;
+import cn.com.chat.chat.service.IChatMessageService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

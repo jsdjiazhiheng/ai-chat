@@ -1,6 +1,5 @@
 package cn.com.chat.chat.chain.request.aliyun.text;
 
-import cn.com.chat.chat.chain.request.base.text.TextRequest;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;

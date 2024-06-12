@@ -1,10 +1,10 @@
 package cn.com.chat.chat.chain.plugins.search.engine;
 
+import cn.com.chat.chat.chain.plugins.search.WebSearchEngine;
+import cn.com.chat.chat.chain.plugins.search.WebSearchUtils;
 import cn.hutool.core.util.StrUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import cn.com.chat.chat.chain.plugins.search.WebSearchEngine;
-import cn.com.chat.chat.chain.plugins.search.WebSearchUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

@@ -1,10 +1,13 @@
 package cn.com.chat.chat.chain.request.zhipu.text;
 
+import cn.com.chat.chat.chain.request.base.text.TextRequest;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import cn.com.chat.chat.chain.request.base.text.TextRequest;
 
 import java.util.List;
 

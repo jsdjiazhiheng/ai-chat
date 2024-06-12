@@ -1,12 +1,12 @@
 package cn.com.chat.chat.chain.response.base.text;
 
+import cn.com.chat.chat.chain.request.base.text.MessageItem;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import cn.com.chat.chat.chain.request.base.text.MessageItem;
 
 import java.io.Serializable;
 

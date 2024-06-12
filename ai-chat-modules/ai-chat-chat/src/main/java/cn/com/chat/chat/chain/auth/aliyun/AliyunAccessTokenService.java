@@ -2,7 +2,7 @@ package cn.com.chat.chat.chain.auth.aliyun;
 
 import cn.com.chat.chat.chain.auth.AccessTokenService;
 import cn.com.chat.chat.config.AliyunConfig;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @date 2024-06-04
  */
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AliyunAccessTokenService implements AccessTokenService {
 
     @Autowired

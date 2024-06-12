@@ -1,24 +1,24 @@
 package cn.com.chat.chat.service.impl;
 
-import cn.com.chat.chat.service.ISearchEngineService;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import cn.com.chat.common.core.utils.MapstructUtils;
-import cn.com.chat.common.core.utils.StringUtils;
-import cn.com.chat.common.mybatis.core.page.TableDataInfo;
-import cn.com.chat.common.mybatis.core.page.PageQuery;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import cn.com.chat.chat.domain.SearchEngine;
 import cn.com.chat.chat.domain.bo.SearchEngineBo;
 import cn.com.chat.chat.domain.vo.SearchEngineVo;
-import cn.com.chat.chat.domain.SearchEngine;
 import cn.com.chat.chat.mapper.SearchEngineMapper;
+import cn.com.chat.chat.service.ISearchEngineService;
+import cn.com.chat.common.core.utils.MapstructUtils;
+import cn.com.chat.common.core.utils.StringUtils;
+import cn.com.chat.common.mybatis.core.page.PageQuery;
+import cn.com.chat.common.mybatis.core.page.TableDataInfo;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Collection;
 import java.util.Objects;
 
 /**

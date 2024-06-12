@@ -1,12 +1,12 @@
 package cn.com.chat.chat.domain.vo;
 
 import cn.com.chat.chat.domain.ChatMessage;
+import cn.com.chat.common.excel.annotation.ExcelDictFormat;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
-import cn.com.chat.common.excel.annotation.ExcelDictFormat;
 
 import java.io.Serial;
 import java.io.Serializable;

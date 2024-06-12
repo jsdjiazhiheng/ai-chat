@@ -10,8 +10,12 @@ import cn.com.chat.chat.chain.exception.TextChatException;
  */
 public class BaiduTextChatException extends TextChatException {
 
-    public BaiduTextChatException(String code, Object... args) {
-        super(code, args);
+    public BaiduTextChatException(String message) {
+        super(message);
+    }
+
+    public BaiduTextChatException(int code, String message) {
+        super(code, message);
     }
 
 }

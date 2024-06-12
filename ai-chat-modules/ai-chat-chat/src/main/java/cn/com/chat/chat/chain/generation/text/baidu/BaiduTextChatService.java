@@ -56,9 +56,8 @@ public class BaiduTextChatService implements TextChatService {
 
         if (StringUtils.contains(response, "error_code")) {
             JSONObject object = JsonUtils.parseObject(response, JSONObject.class);
-            Integer errorCode = object.getInt("error_code");
-            String errorMsg = object.getStr("error_msg");
-            throw new BaiduTextChatException("", "");
+            String errorMsg = Objects.requireNonNull(object).getStr("error_msg");
+            throw new BaiduTextChatException(errorMsg);
         }
 
         BaiduCompletionResult completionResult = JsonUtils.parseObject(response, BaiduCompletionResult.class);

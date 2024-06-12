@@ -2,7 +2,7 @@ package cn.com.chat.chat.chain.auth.baidu;
 
 import cn.com.chat.chat.chain.apis.BaiduApis;
 import cn.com.chat.chat.chain.auth.AccessTokenService;
-import cn.com.chat.chat.chain.response.baidu.BaiduAccessTokenResponse;
+import cn.com.chat.chat.chain.auth.baidu.entity.BaiduAccessTokenResponse;
 import cn.com.chat.chat.config.BaiduConfig;
 import cn.com.chat.common.core.utils.StringUtils;
 import cn.com.chat.common.http.utils.HttpUtils;

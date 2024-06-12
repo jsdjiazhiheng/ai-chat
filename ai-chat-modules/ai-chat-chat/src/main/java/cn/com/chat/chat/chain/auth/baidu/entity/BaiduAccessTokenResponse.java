@@ -1,4 +1,4 @@
-package cn.com.chat.chat.chain.response.baidu;
+package cn.com.chat.chat.chain.auth.baidu.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

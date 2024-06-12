@@ -1,15 +1,14 @@
 package cn.com.chat.chat.chain.function.service.impl;
 
-import cn.com.chat.chat.chain.response.base.text.TextResult;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import cn.com.chat.chat.chain.enums.TextChatType;
 import cn.com.chat.chat.chain.function.service.ICompletionService;
 import cn.com.chat.chat.chain.generation.function.FunctionChatService;
 import cn.com.chat.chat.chain.generation.text.TextChatService;
+import cn.com.chat.chat.chain.response.base.text.TextResult;
+import cn.com.chat.chat.config.AiConfig;
 import cn.com.chat.common.core.utils.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -25,11 +24,10 @@ public class CompletionServiceImpl implements ICompletionService {
 
     private final TextChatService textChatService;
     private final FunctionChatService functionChatService;
-    @Value("ai.completion.model")
-    private String model;
+    private final AiConfig config;
 
     private TextChatType getTextChatType() {
-        return TextChatType.getByName(model);
+        return TextChatType.getByName(config.getModel());
     }
 
     @Override
@@ -52,29 +50,33 @@ public class CompletionServiceImpl implements ICompletionService {
     public String functionDrawPrompt(String content) {
         String system =
             """
-            - Role: 高级图像生成顾问
-            - Background: 用户希望将不连贯的文本转换成图像，同时需要纠正任何常识性错误。
-            - Profile: 你是一位经验丰富的图像生成顾问，能够理解并纠正文本中的常识性错误，同时生成高质量的图像提示词。
-            - Skills: 高级文本分析、错误纠正、创意图像生成。
-            - Goals: 将用户输入的不连贯文本转换成清晰、准确的图像生成提示词，并纠正任何常识性错误。
-            - Constrains: 确保转换后的提示词不仅能够清晰表达原文意图，而且符合常识和逻辑。
-            - OutputFormat: 优化后的图像生成提示词文本。
-            - Workflow:
-              1. 分析用户输入的文本，识别并理解内容。
-              2. 检查文本中的常识性错误，并进行纠正。
-              3. 提取关键信息并转化为图像生成的提示词。
-              4. 返回优化后的图像提示词文本。
-            - Examples:
-              用户输入文本："星空下的城堡，漂浮在空中的鱼，古老的传说，神秘的宝藏"
-              纠正后的文本："星空下的城堡，古老的传说，神秘的宝藏"
-              生成的图像提示词："一个星空下的城堡，城堡周围环绕着古老的传说和神秘的宝藏。"
-            """;
+                - Role: 高级图像生成顾问
+                - Background: 用户希望将不连贯的文本转换成图像，同时需要纠正任何常识性错误。
+                - Profile: 你是一位经验丰富的图像生成顾问，能够理解并纠正文本中的常识性错误，同时生成高质量的图像提示词。
+                - Skills: 高级文本分析、错误纠正、创意图像生成。
+                - Goals: 将用户输入的不连贯文本转换成清晰、准确的图像生成提示词，并纠正任何常识性错误。
+                - Constrains: 确保转换后的提示词不仅能够清晰表达原文意图，而且符合常识和逻辑。
+                - OutputFormat: 优化后的图像生成提示词文本。
+                - Workflow:
+                  1. 分析用户输入的文本，识别并理解内容。
+                  2. 检查文本中的常识性错误，并进行纠正。
+                  3. 提取关键信息并转化为图像生成的提示词。
+                  4. 返回优化后的图像提示词文本。
+                - Examples:
+                  用户输入文本："星空下的城堡，漂浮在空中的鱼，古老的传说，神秘的宝藏"
+                  纠正后的文本："星空下的城堡，古老的传说，神秘的宝藏"
+                  生成的图像提示词："一个星空下的城堡，城堡周围环绕着古老的传说和神秘的宝藏。"
+                """;
         String fullContent = "将以下内容按照顺序理解输入词语意思，并保证正确性，不能出现常识性错误，并生成最终结果的文生图提示词，强制回答最终的文生图提示词结果，不能重复问题的内容，不能出现除提示词外的其它内容：\n\n" + content;
         TextResult result = textChatService.blockCompletion(getTextChatType(), system, null, fullContent, Boolean.FALSE);
         String resultContent = result.getContent();
         log.info("理解图片输入词，最终结果为：{}", resultContent);
-        if(resultContent.contains("：")) {
+        if (resultContent.contains("：")) {
             resultContent = StringUtils.substringAfterLast(resultContent, "：");
+        }
+        String[] symbols = {"“", "”", "\n"};
+        for (String symbol : symbols) {
+            resultContent = StringUtils.replace(resultContent, symbol, "");
         }
         return resultContent;
     }

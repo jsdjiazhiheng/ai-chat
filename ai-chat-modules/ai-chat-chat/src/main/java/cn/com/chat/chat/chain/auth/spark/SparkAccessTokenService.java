@@ -3,7 +3,7 @@ package cn.com.chat.chat.chain.auth.spark;
 import cn.com.chat.chat.chain.auth.AccessTokenService;
 import cn.com.chat.chat.config.SparkConfig;
 import cn.com.chat.common.core.utils.StringUtils;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.HttpUrl;
 import org.springframework.stereotype.Component;
@@ -23,7 +23,7 @@ import java.util.*;
  */
 @Slf4j
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SparkAccessTokenService implements AccessTokenService {
 
     private final SparkConfig config;
@@ -37,18 +37,18 @@ public class SparkAccessTokenService implements AccessTokenService {
         return config.getAppid();
     }
 
-    public String getAuthUrl(String hostUrl) {
+    public String getAuthUrl(String hostUrl, boolean isWs) {
         try {
             URL url = new URL(hostUrl);
             // 时间
             SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
             format.setTimeZone(TimeZone.getTimeZone("GMT"));
             String date = format.format(new Date());
+            String METHOD = isWs ? "GET" : "POST";
             // 拼接
             String preStr = "host: " + url.getHost() + "\n" +
                 "date: " + date + "\n" +
-                "GET " + url.getPath() + " HTTP/1.1";
-            // System.err.println(preStr);
+                METHOD + " " + url.getPath() + " HTTP/1.1";
             // SHA256加密
             Mac mac = Mac.getInstance("hmacsha256");
             SecretKeySpec spec = new SecretKeySpec(config.getApiSecret().getBytes(StandardCharsets.UTF_8), "hmacsha256");
@@ -66,7 +66,11 @@ public class SparkAccessTokenService implements AccessTokenService {
                 addQueryParameter("host", url.getHost()).
                 build();
 
-            return httpToWsUrl(httpUrl.toString());
+            if (isWs) {
+                return httpToWsUrl(httpUrl.toString());
+            }
+
+            return httpUrl.toString();
         } catch (Exception e) {
             log.error("SparkAccessTokenService -> 获取授权Url失败", e);
         }

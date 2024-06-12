@@ -53,7 +53,7 @@ public class SparkTextChatService implements TextChatService {
         String url = Objects.requireNonNull(enums).getUrl();
         String domain = enums.getDomain();
 
-        String authUrl = accessTokenService.getAuthUrl(url);
+        String authUrl = accessTokenService.getAuthUrl(url, true);
 
         SparkTextRequest sparkTextRequest = buildRequest(domain, system, history, content);
 
@@ -91,7 +91,7 @@ public class SparkTextChatService implements TextChatService {
         String url = Objects.requireNonNull(enums).getUrl();
         String domain = enums.getDomain();
 
-        String authUrl = accessTokenService.getAuthUrl(url);
+        String authUrl = accessTokenService.getAuthUrl(url, true);
 
         SparkTextRequest sparkTextRequest = buildRequest(domain, system, history, message.getContent());
 

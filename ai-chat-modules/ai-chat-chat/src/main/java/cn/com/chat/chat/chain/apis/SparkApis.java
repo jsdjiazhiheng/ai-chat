@@ -16,4 +16,6 @@ public interface SparkApis {
 
     String SPARK_LITE_URL = "https://spark-api.xf-yun.com/v1.1/chat";
 
+    String SPARK_TTI_URL = "https://spark-api.cn-huabei-1.xf-yun.com/v2.1/tti";
+
 }

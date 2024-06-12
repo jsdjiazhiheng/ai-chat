@@ -16,6 +16,7 @@ public enum ImageChatType {
     CZHAN_AI,
     YIJIAN,
     NOLIBOX,
+    SPARK,
     ;
 
     public static ImageChatType getByName(String name) {

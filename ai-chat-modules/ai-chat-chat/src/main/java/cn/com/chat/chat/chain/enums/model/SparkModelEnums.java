@@ -18,6 +18,8 @@ public enum SparkModelEnums {
     SPARK_PRO("Spark Pro", "generalv3", SparkApis.SPARK_PRO_URL),
     SPARK_V2("Spark V2.0", "generalv2", SparkApis.SPARK_V2_URL),
     SPARK_LITE("Spark Lite", "general", SparkApis.SPARK_LITE_URL),
+
+    SPARK_TTI("Spark TTI", "general", SparkApis.SPARK_TTI_URL),
     ;
 
     private final String model;

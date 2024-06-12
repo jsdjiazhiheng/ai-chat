@@ -9,7 +9,7 @@ import cn.com.chat.chat.chain.generation.image.ImageChatService;
 import cn.com.chat.chat.chain.request.aliyun.image.AliyunImageInput;
 import cn.com.chat.chat.chain.request.aliyun.image.AliyunImageParameters;
 import cn.com.chat.chat.chain.request.aliyun.image.AliyunImageRequest;
-import cn.com.chat.chat.chain.request.base.image.ImageData;
+import cn.com.chat.chat.chain.response.base.image.ImageData;
 import cn.com.chat.chat.chain.response.aliyun.image.AliyunImageResult;
 import cn.com.chat.chat.chain.response.aliyun.image.AliyunImageTask;
 import cn.com.chat.chat.chain.response.base.image.ImageResult;

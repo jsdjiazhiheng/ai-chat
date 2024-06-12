@@ -5,7 +5,7 @@ import cn.com.chat.chat.chain.auth.zhipu.ZhiPuAccessTokenService;
 import cn.com.chat.chat.chain.enums.ImageChatType;
 import cn.com.chat.chat.chain.enums.model.ZhiPuModelEnums;
 import cn.com.chat.chat.chain.generation.image.ImageChatService;
-import cn.com.chat.chat.chain.request.base.image.ImageData;
+import cn.com.chat.chat.chain.response.base.image.ImageData;
 import cn.com.chat.chat.chain.request.zhipu.image.ZhiPuImageRequest;
 import cn.com.chat.chat.chain.response.base.image.ImageResult;
 import cn.com.chat.chat.chain.response.zhipu.image.ZhiPuImageResult;

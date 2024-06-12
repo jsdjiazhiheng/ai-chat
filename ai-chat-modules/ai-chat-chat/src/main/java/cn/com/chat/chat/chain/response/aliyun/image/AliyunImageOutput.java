@@ -1,6 +1,6 @@
 package cn.com.chat.chat.chain.response.aliyun.image;
 
-import cn.com.chat.chat.chain.request.base.image.ImageData;
+import cn.com.chat.chat.chain.response.base.image.ImageData;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;

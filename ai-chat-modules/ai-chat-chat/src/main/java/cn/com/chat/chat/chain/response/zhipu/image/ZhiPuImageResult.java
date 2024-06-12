@@ -1,6 +1,6 @@
 package cn.com.chat.chat.chain.response.zhipu.image;
 
-import cn.com.chat.chat.chain.request.base.image.ImageData;
+import cn.com.chat.chat.chain.response.base.image.ImageData;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package cn.com.chat.chat.chain.request.base.image;
+package cn.com.chat.chat.chain.response.base.image;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;

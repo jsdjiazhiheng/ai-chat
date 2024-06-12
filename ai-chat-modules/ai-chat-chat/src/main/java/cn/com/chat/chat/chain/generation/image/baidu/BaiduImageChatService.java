@@ -3,6 +3,7 @@ package cn.com.chat.chat.chain.generation.image.baidu;
 import cn.com.chat.chat.chain.auth.baidu.BaiduAccessTokenService;
 import cn.com.chat.chat.chain.enums.ImageChatType;
 import cn.com.chat.chat.chain.enums.model.BaiduModelEnums;
+import cn.com.chat.chat.chain.exception.ImageChatException;
 import cn.com.chat.chat.chain.generation.image.ImageChatService;
 import cn.com.chat.chat.chain.request.baidu.image.BaiduImageRequest;
 import cn.com.chat.chat.chain.response.baidu.image.BaiduImageData;
@@ -11,6 +12,7 @@ import cn.com.chat.chat.chain.response.base.image.ImageResult;
 import cn.com.chat.chat.chain.utils.ImageUtils;
 import cn.com.chat.common.http.utils.HttpUtils;
 import cn.com.chat.common.json.utils.JsonUtils;
+import cn.hutool.json.JSONObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -49,6 +51,12 @@ public class BaiduImageChatService implements ImageChatService {
         String response = HttpUtils.doPostJson(accessTokenService.getUrl(url), entity);
 
         log.info("OpenAiImageChatService -> 请求结果 ： {}", response);
+
+        if (response.contains("error_code")) {
+            JSONObject object = JsonUtils.parseObject(response, JSONObject.class);
+            String errorMsg = Objects.requireNonNull(object).getStr("error_msg");
+            throw new ImageChatException(errorMsg);
+        }
 
         BaiduImageResult baiduImageResult = JsonUtils.parseObject(response, BaiduImageResult.class);
 

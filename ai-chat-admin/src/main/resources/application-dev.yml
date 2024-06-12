@@ -260,3 +260,9 @@ ai:
     token:
   deepseek:
     token:
+  spark:
+    appid:
+    api-key:
+    api-secret:
+  completion:
+    model:

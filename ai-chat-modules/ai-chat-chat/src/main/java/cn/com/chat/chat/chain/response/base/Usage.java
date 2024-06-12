@@ -22,6 +22,12 @@ import java.io.Serializable;
 public class Usage implements Serializable {
 
     /**
+     * 提问token
+     */
+    @JsonProperty("question_tokens")
+    private Integer questionTokens;
+
+    /**
      * 输入token
      */
     @JsonProperty("prompt_tokens")

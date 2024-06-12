@@ -63,7 +63,7 @@ public class MessageItem implements Serializable {
             messageItems.addAll(history);
         }
 
-        messageItems.add(MessageItem.buildUser(CollUtil.isEmpty(history) ? "" : content + CONTENT_TIPS));
+        messageItems.add(MessageItem.buildUser(CollUtil.isEmpty(history) ? content : content + CONTENT_TIPS));
 
         return messageItems;
     }

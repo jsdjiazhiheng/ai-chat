@@ -97,8 +97,9 @@ public class HttpUtils {
 
     /**
      * 异步post请求
-     * @param url 请求地址
-     * @param json 请求参数
+     *
+     * @param url      请求地址
+     * @param json     请求参数
      * @param callback 回调
      */
     public static void asyncPostJson(String url, Object json, OkHttpCallback callback) {
@@ -201,9 +202,10 @@ public class HttpUtils {
 
     /**
      * 异步post请求
-     * @param url 请求地址
-     * @param json 请求参数
-     * @param headers 请求头
+     *
+     * @param url      请求地址
+     * @param json     请求参数
+     * @param headers  请求头
      * @param callback 回调
      */
     public static void asyncPostJson(String url, Object json, Map<String, String> headers, OkHttpCallback callback) {
@@ -274,28 +276,18 @@ public class HttpUtils {
         return null;
     }
 
-    private static void printLog(String url, Map<String, String> params, Map<String, String> headers) {
-        log.info("-------------------------------------------->");
-        log.info("请求地址:{}", url);
-        if (params != null && !params.isEmpty()) {
-            log.info("请求参数:{}", params);
-        }
-        if (headers != null && !headers.isEmpty()) {
-            log.info("请求头:{}", headers);
-        }
-        log.info("<--------------------------------------------");
-    }
-
     private static void printLog(String url, Object params, Map<String, String> headers) {
-        log.info("-------------------------------------------->");
-        log.info("请求地址:{}", url);
+        StringBuilder builder = new StringBuilder();
+        builder.append("-------------------------------------------->").append("\n");
+        builder.append("请求地址：").append(url).append("\n");
         if (params != null) {
-            log.info("请求参数:{}", params);
+            builder.append("请求参数：").append(JsonUtils.toJsonString(params)).append("\n");
         }
         if (headers != null && !headers.isEmpty()) {
-            log.info("请求头:{}", headers);
+            builder.append("请求头：").append(JsonUtils.toJsonString(headers)).append("\n");
         }
-        log.info("<--------------------------------------------");
+        builder.append("<--------------------------------------------");
+        log.info(builder.toString());
     }
 
     public static void setCustomClient(OkHttpClient customClient) {

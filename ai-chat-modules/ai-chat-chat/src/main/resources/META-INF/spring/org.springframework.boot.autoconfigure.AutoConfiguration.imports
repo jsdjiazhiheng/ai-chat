@@ -5,3 +5,4 @@ cn.com.chat.chat.config.CZhanConfig
 cn.com.chat.chat.config.DeepSeekConfig
 cn.com.chat.chat.config.AliyunConfig
 cn.com.chat.chat.config.OpenAiConfig
+cn.com.chat.chat.config.SparkConfig

@@ -13,6 +13,7 @@ import cn.com.chat.chat.chain.response.aliyun.image.AliyunImageResult;
 import cn.com.chat.chat.chain.response.aliyun.image.AliyunImageTask;
 import cn.com.chat.chat.chain.response.base.image.ImageData;
 import cn.com.chat.chat.chain.response.base.image.ImageResult;
+import cn.com.chat.chat.chain.utils.ChatLogUtils;
 import cn.com.chat.chat.chain.utils.ImageUtils;
 import cn.com.chat.common.http.utils.HttpUtils;
 import cn.com.chat.common.json.utils.JsonUtils;
@@ -53,11 +54,11 @@ public class AliyunImageChatService implements ImageChatService {
             .parameters(parameters)
             .build();
 
-        log.info("AliyunImageChatService -> 请求参数 ： {}", JsonUtils.toJsonString(request));
+        ChatLogUtils.printRequestLog(this.getClass(), request);
 
         String response = HttpUtils.doPostJson(AliyunApis.WANX_V1_API, request, getHeader());
 
-        log.info("AliyunImageChatService -> 请求结果 ： {}", response);
+        ChatLogUtils.printResponseLog(this.getClass(), response);
 
         AliyunImageTask task = JsonUtils.parseObject(response, AliyunImageTask.class);
 
@@ -87,7 +88,7 @@ public class AliyunImageChatService implements ImageChatService {
             .response(JsonUtils.toJsonString(imageResult))
             .build();
 
-        log.info("AliyunImageChatService -> 返回结果 ： {}", result);
+        ChatLogUtils.printResultLog(this.getClass(), result);
 
         return result;
     }
@@ -96,7 +97,7 @@ public class AliyunImageChatService implements ImageChatService {
 
         String response = HttpUtils.doGet(AliyunApis.WANX_TASK_API + taskId, null, getHeader());
 
-        log.info("AliyunImageChatService -> 请求结果 ： {}", response);
+        ChatLogUtils.printResponseLog(this.getClass(), response);
 
         AliyunImageResult imageResult = JsonUtils.parseObject(response, AliyunImageResult.class);
 

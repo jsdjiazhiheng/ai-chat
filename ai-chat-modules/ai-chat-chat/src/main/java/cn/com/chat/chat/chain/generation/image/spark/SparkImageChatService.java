@@ -14,6 +14,7 @@ import cn.com.chat.chat.chain.request.spark.image.SparkImageRequest;
 import cn.com.chat.chat.chain.request.spark.image.SparkImageRequestParameter;
 import cn.com.chat.chat.chain.response.base.image.ImageResult;
 import cn.com.chat.chat.chain.response.spark.image.SparkImageResponse;
+import cn.com.chat.chat.chain.utils.ChatLogUtils;
 import cn.com.chat.chat.chain.utils.ImageUtils;
 import cn.com.chat.common.http.utils.HttpUtils;
 import cn.com.chat.common.json.utils.JsonUtils;
@@ -59,11 +60,11 @@ public class SparkImageChatService implements ImageChatService {
 
         SparkImageRequest request = SparkImageRequest.builder().header(header).parameter(parameter).payload(payload).build();
 
-        log.info("SparkImageChatService -> 请求参数 ： {}", JsonUtils.toJsonString(request));
+        ChatLogUtils.printRequestLog(this.getClass(), request);
 
         String response = HttpUtils.doPostJson(authUrl, request);
 
-        log.info("SparkImageChatService -> 请求结果 ： {}", response);
+        ChatLogUtils.printResponseLog(this.getClass(), response);
 
         SparkImageResponse object = JsonUtils.parseObject(response, SparkImageResponse.class);
 
@@ -91,7 +92,7 @@ public class SparkImageChatService implements ImageChatService {
             .response(JsonUtils.toJsonString(object))
             .build();
 
-        log.info("SparkImageChatService -> 返回结果 ： {}", result);
+        ChatLogUtils.printResultLog(this.getClass(), result);
 
         return result;
     }

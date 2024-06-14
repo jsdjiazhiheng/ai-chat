@@ -11,6 +11,7 @@ import cn.com.chat.chat.chain.response.czhan.CZhanResult;
 import cn.com.chat.chat.chain.response.czhan.image.CZhanImageData;
 import cn.com.chat.chat.chain.response.czhan.image.CZhanImageResult;
 import cn.com.chat.chat.chain.response.czhan.image.CZhanImageTask;
+import cn.com.chat.chat.chain.utils.ChatLogUtils;
 import cn.com.chat.chat.chain.utils.ImageUtils;
 import cn.com.chat.common.http.utils.HttpUtils;
 import cn.com.chat.common.json.utils.JsonUtils;
@@ -45,13 +46,13 @@ public class CZhanImageChatService implements ImageChatService {
             .prompt(prompt)
             .build();
 
-        log.info("CZhanImageChatService -> 请求参数 ： {}", JsonUtils.toJsonString(request));
+        ChatLogUtils.printRequestLog(this.getClass(), request);
 
         Map<String, String> header = getHeader();
 
         String response = HttpUtils.doPostJson(CZhanApis.DRAW_API, request, header);
 
-        log.info("OpenAiImageChatService -> 请求结果 ： {}", response);
+        ChatLogUtils.printResponseLog(this.getClass(), response);
 
         CZhanResult<CZhanImageTask> taskCZhanResult = JsonUtils.parseObject(response, new TypeReference<>() {});
 
@@ -79,7 +80,7 @@ public class CZhanImageChatService implements ImageChatService {
             .response(JsonUtils.toJsonString(resultData))
             .build();
 
-        log.info("CZhanImageChatService -> 返回结果 ： {}", result);
+        ChatLogUtils.printResultLog(this.getClass(), result);
 
         return result;
     }
@@ -93,7 +94,7 @@ public class CZhanImageChatService implements ImageChatService {
 
         String response = HttpUtils.doPostJson(CZhanApis.DRAW_TASK_API, request, header);
 
-        log.info("OpenAiImageChatService -> 请求结果 ： {}", response);
+        ChatLogUtils.printResponseLog(this.getClass(), response);
 
         return JsonUtils.parseObject(response, new TypeReference<>() {});
     }

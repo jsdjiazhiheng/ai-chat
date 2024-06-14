@@ -10,6 +10,7 @@ import cn.com.chat.chat.chain.response.base.image.ImageData;
 import cn.com.chat.chat.chain.response.base.image.ImageResult;
 import cn.com.chat.chat.chain.response.openai.image.OpenAiImageResult;
 import cn.com.chat.chat.chain.service.HttpService;
+import cn.com.chat.chat.chain.utils.ChatLogUtils;
 import cn.com.chat.chat.chain.utils.ImageUtils;
 import cn.com.chat.common.http.utils.HttpUtils;
 import cn.com.chat.common.json.utils.JsonUtils;
@@ -44,7 +45,7 @@ public class OpenAiImageChatService implements ImageChatService {
             .prompt(prompt)
             .build();
 
-        log.info("OpenAiImageChatService -> 请求参数 ： {}", JsonUtils.toJsonString(request));
+        ChatLogUtils.printRequestLog(this.getClass(), request);
 
         String response;
 
@@ -53,7 +54,7 @@ public class OpenAiImageChatService implements ImageChatService {
 
             response = HttpUtils.doPostJson(OpenAiApis.IMAGE_API, request, getHeader());
 
-            log.info("OpenAiImageChatService -> 请求结果 ： {}", response);
+            ChatLogUtils.printResponseLog(this.getClass(), response);
 
         } finally {
             httpService.clearProxyHttpUtils();
@@ -79,7 +80,7 @@ public class OpenAiImageChatService implements ImageChatService {
             .response(JsonUtils.toJsonString(object))
             .build();
 
-        log.info("OpenAiImageChatService -> 返回结果 ： {}", result);
+        ChatLogUtils.printResultLog(this.getClass(), result);
 
         return result;
     }

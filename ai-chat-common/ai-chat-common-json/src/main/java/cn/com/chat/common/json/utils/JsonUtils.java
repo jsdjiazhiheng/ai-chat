@@ -1,5 +1,7 @@
 package cn.com.chat.common.json.utils;
 
+import cn.com.chat.common.core.utils.SpringUtils;
+import cn.com.chat.common.core.utils.StringUtils;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -8,8 +10,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
-import cn.com.chat.common.core.utils.SpringUtils;
-import cn.com.chat.common.core.utils.StringUtils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -41,6 +41,17 @@ public class JsonUtils {
         }
         try {
             return OBJECT_MAPPER.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String toFormatJsonString(Object object) {
+        if (ObjectUtil.isNull(object)) {
+            return null;
+        }
+        try {
+            return OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(object);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

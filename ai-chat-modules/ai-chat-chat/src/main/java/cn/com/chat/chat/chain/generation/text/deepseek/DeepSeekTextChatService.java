@@ -10,6 +10,7 @@ import cn.com.chat.chat.chain.request.deepseek.text.DeepSeekTextRequest;
 import cn.com.chat.chat.chain.response.base.text.TextResult;
 import cn.com.chat.chat.chain.response.deepseek.text.DeepSeekCompletionResult;
 import cn.com.chat.chat.chain.service.MessageService;
+import cn.com.chat.chat.chain.utils.ChatLogUtils;
 import cn.com.chat.chat.chain.utils.MessageUtils;
 import cn.com.chat.chat.domain.vo.ChatMessageVo;
 import cn.com.chat.common.core.utils.StringUtils;
@@ -51,6 +52,8 @@ public class DeepSeekTextChatService implements TextChatService {
 
         String response = HttpUtils.doPostJson(DeepSeekApis.API, request, header);
 
+        ChatLogUtils.printResponseLog(this.getClass(), response);
+
         DeepSeekCompletionResult object = JsonUtils.parseObject(response, DeepSeekCompletionResult.class);
 
         String text = Objects.requireNonNull(object).getChoices().get(0).getMessage().getContent();
@@ -64,7 +67,7 @@ public class DeepSeekTextChatService implements TextChatService {
             .response(JsonUtils.toJsonString(object))
             .build();
 
-        log.info("DeepSeekTextChatService -> 返回结果 ： {}", result);
+        ChatLogUtils.printResultLog(this.getClass(), result);
 
         return result;
     }
@@ -102,7 +105,7 @@ public class DeepSeekTextChatService implements TextChatService {
 
                 @Override
                 public void onResponse(String response) {
-                    log.info("DeepSeekTextChatService -> 返回结果 ： {}", response);
+                    ChatLogUtils.printResponseLog(this.getClass(), response);
                     if (!"[DONE]".equals(response)) {
                         DeepSeekCompletionResult object = JsonUtils.parseObject(response, DeepSeekCompletionResult.class);
                         if (object != null) {
@@ -141,14 +144,14 @@ public class DeepSeekTextChatService implements TextChatService {
 
         List<MessageItem> messageItems = MessageItem.buildMessageList(system, history, content);
 
-        DeepSeekTextRequest deepSeekTextRequest = DeepSeekTextRequest.builder()
+        DeepSeekTextRequest request = DeepSeekTextRequest.builder()
             .model(model)
             .messages(messageItems)
             .build();
 
-        log.info("DeepSeekTextChatService -> 请求参数 ： {}", JsonUtils.toJsonString(deepSeekTextRequest));
+        ChatLogUtils.printRequestLog(this.getClass(), request);
 
-        return deepSeekTextRequest;
+        return request;
     }
 
     private Map<String, String> getHeader() {

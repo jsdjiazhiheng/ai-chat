@@ -7,6 +7,7 @@ import cn.com.chat.chat.chain.response.base.text.TextResult;
 import cn.com.chat.chat.chain.response.spark.text.SparkTextResponse;
 import cn.com.chat.chat.chain.response.spark.text.SparkTextResponsePayload;
 import cn.com.chat.chat.chain.service.MessageService;
+import cn.com.chat.chat.chain.utils.ChatLogUtils;
 import cn.com.chat.chat.chain.utils.MessageUtils;
 import cn.com.chat.chat.domain.vo.ChatMessageVo;
 import cn.com.chat.common.json.utils.JsonUtils;
@@ -56,7 +57,7 @@ public class SparkSseChatListener extends WebSocketListener {
 
     @Override
     public void onMessage(@NotNull WebSocket webSocket, @NotNull String text) {
-        log.info("SparkTextChatService -> 返回结果 ： {}", text);
+        ChatLogUtils.printResponseLog(this.getClass(), text);
         SparkTextResponse response = JsonUtils.parseObject(text, SparkTextResponse.class);
         if (response != null) {
             Integer status = response.getHeader().getStatus();

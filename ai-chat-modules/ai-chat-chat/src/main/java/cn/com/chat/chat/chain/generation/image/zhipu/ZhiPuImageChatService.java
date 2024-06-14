@@ -9,6 +9,7 @@ import cn.com.chat.chat.chain.request.zhipu.image.ZhiPuImageRequest;
 import cn.com.chat.chat.chain.response.base.image.ImageData;
 import cn.com.chat.chat.chain.response.base.image.ImageResult;
 import cn.com.chat.chat.chain.response.zhipu.image.ZhiPuImageResult;
+import cn.com.chat.chat.chain.utils.ChatLogUtils;
 import cn.com.chat.chat.chain.utils.ImageUtils;
 import cn.com.chat.common.http.utils.HttpUtils;
 import cn.com.chat.common.json.utils.JsonUtils;
@@ -41,13 +42,13 @@ public class ZhiPuImageChatService implements ImageChatService {
             .prompt(prompt)
             .build();
 
-        log.info("ZhiPuImageChatService -> 请求参数 ： {}", JsonUtils.toJsonString(request));
+        ChatLogUtils.printRequestLog(this.getClass(), request);
 
         Map<String, String> header = getHeader();
 
         String response = HttpUtils.doPostJson(ZhiPuApis.IMAGE_API, request, header);
 
-        log.info("OpenAiImageChatService -> 请求结果 ： {}", response);
+        ChatLogUtils.printResponseLog(this.getClass(), response);
 
         ZhiPuImageResult object = JsonUtils.parseObject(response, ZhiPuImageResult.class);
 
@@ -69,7 +70,7 @@ public class ZhiPuImageChatService implements ImageChatService {
             .response(JsonUtils.toJsonString(object))
             .build();
 
-        log.info("ZhiPuImageChatService -> 返回结果 ： {}", result);
+        ChatLogUtils.printResultLog(this.getClass(), result);
 
         return result;
     }

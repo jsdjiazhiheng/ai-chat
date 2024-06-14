@@ -12,6 +12,7 @@ import cn.com.chat.chat.chain.request.zhipu.text.ZhiPuTextWebSearch;
 import cn.com.chat.chat.chain.response.base.text.TextResult;
 import cn.com.chat.chat.chain.response.zhipu.text.ZhiPuCompletionResult;
 import cn.com.chat.chat.chain.service.MessageService;
+import cn.com.chat.chat.chain.utils.ChatLogUtils;
 import cn.com.chat.chat.chain.utils.MessageUtils;
 import cn.com.chat.chat.domain.vo.ChatMessageVo;
 import cn.com.chat.common.core.utils.StringUtils;
@@ -55,6 +56,8 @@ public class ZhiPuTextChatService implements TextChatService {
 
         String response = HttpUtils.doPostJson(ZhiPuApis.CHAT_API, request, header);
 
+        ChatLogUtils.printResponseLog(this.getClass(), response);
+
         ZhiPuCompletionResult object = JsonUtils.parseObject(response, ZhiPuCompletionResult.class);
 
         String text = Objects.requireNonNull(object).getChoices().get(0).getMessage().getContent();
@@ -68,7 +71,7 @@ public class ZhiPuTextChatService implements TextChatService {
             .response(JsonUtils.toJsonString(object))
             .build();
 
-        log.info("ZhiPuTextChatService -> 返回结果 ： {}", result);
+        ChatLogUtils.printResultLog(this.getClass(), result);
 
         return result;
     }
@@ -105,7 +108,7 @@ public class ZhiPuTextChatService implements TextChatService {
 
                 @Override
                 public void onResponse(String response) {
-                    log.info("ZhiPuTextChatService -> 返回结果 ： {}", response);
+                    ChatLogUtils.printResponseLog(this.getClass(), response);
                     if (!"[DONE]".equals(response)) {
                         ZhiPuCompletionResult object = JsonUtils.parseObject(response, ZhiPuCompletionResult.class);
                         if (object != null) {
@@ -163,7 +166,7 @@ public class ZhiPuTextChatService implements TextChatService {
             .tools(toolsList)
             .build();
 
-        log.info("ZhiPuTextChatService -> 请求参数 ： {}", JsonUtils.toJsonString(request));
+        ChatLogUtils.printRequestLog(this.getClass(), request);
 
         return request;
     }

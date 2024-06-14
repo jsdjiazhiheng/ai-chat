@@ -3,6 +3,7 @@ package cn.com.chat.chat.chain.generation.text.spark.listener;
 import cn.com.chat.chat.chain.request.spark.text.SparkTextRequest;
 import cn.com.chat.chat.chain.response.spark.text.SparkTextResponse;
 import cn.com.chat.chat.chain.response.spark.text.SparkTextResponsePayload;
+import cn.com.chat.chat.chain.utils.ChatLogUtils;
 import cn.com.chat.common.json.utils.JsonUtils;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +43,7 @@ public class SparkSyncChatListener extends WebSocketListener {
 
     @Override
     public void onMessage(@NotNull WebSocket webSocket, @NotNull String text) {
-        log.info("SparkTextChatService -> 返回结果 ： {}", text);
+        ChatLogUtils.printResponseLog(this.getClass(), text);
         SparkTextResponse response = JsonUtils.parseObject(text, SparkTextResponse.class);
         if (response != null) {
             Integer status = response.getHeader().getStatus();

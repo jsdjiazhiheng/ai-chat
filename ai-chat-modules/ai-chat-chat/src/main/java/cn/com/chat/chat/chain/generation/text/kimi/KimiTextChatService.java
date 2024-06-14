@@ -11,6 +11,7 @@ import cn.com.chat.chat.chain.response.base.Usage;
 import cn.com.chat.chat.chain.response.base.text.TextResult;
 import cn.com.chat.chat.chain.response.kimi.text.KimiCompletionResult;
 import cn.com.chat.chat.chain.service.MessageService;
+import cn.com.chat.chat.chain.utils.ChatLogUtils;
 import cn.com.chat.chat.chain.utils.MessageUtils;
 import cn.com.chat.chat.domain.vo.ChatMessageVo;
 import cn.com.chat.common.core.utils.StringUtils;
@@ -53,6 +54,8 @@ public class KimiTextChatService implements TextChatService {
 
         String response = HttpUtils.doPostJson(KimiApis.COMPLETION_TEXT, request, header);
 
+        ChatLogUtils.printResponseLog(this.getClass(), response);
+
         KimiCompletionResult object = JsonUtils.parseObject(response, KimiCompletionResult.class);
 
         String text = Objects.requireNonNull(object).getChoices().get(0).getMessage().getContent();
@@ -66,7 +69,7 @@ public class KimiTextChatService implements TextChatService {
             .response(JsonUtils.toJsonString(object))
             .build();
 
-        log.info("KimiTextChatService -> 返回结果 ： {}", result);
+        ChatLogUtils.printResultLog(this.getClass(), result);
 
         return result;
     }
@@ -103,7 +106,7 @@ public class KimiTextChatService implements TextChatService {
 
                 @Override
                 public void onResponse(String response) {
-                    log.info("KimiTextChatService -> 返回结果 ： {}", response);
+                    ChatLogUtils.printResponseLog(this.getClass(), response);
                     if (!"[DONE]".equals(response)) {
                         KimiCompletionResult object = JsonUtils.parseObject(response, KimiCompletionResult.class);
                         if (object != null) {
@@ -142,14 +145,14 @@ public class KimiTextChatService implements TextChatService {
 
         List<MessageItem> messageItems = MessageItem.buildMessageList(system, history, content);
 
-        KimiTextRequest kimiTextRequest = KimiTextRequest.builder()
+        KimiTextRequest request = KimiTextRequest.builder()
             .model(model)
             .messages(messageItems)
             .build();
 
-        log.info("KimiTextChatService -> 请求参数 ： {}", JsonUtils.toJsonString(kimiTextRequest));
+        ChatLogUtils.printRequestLog(this.getClass(), request);
 
-        return kimiTextRequest;
+        return request;
     }
 
     private Map<String, String> getHeader() {

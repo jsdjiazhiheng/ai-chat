@@ -17,6 +17,7 @@ import cn.com.chat.chat.chain.request.spark.text.SparkTextRequestParameter;
 import cn.com.chat.chat.chain.response.base.text.TextResult;
 import cn.com.chat.chat.chain.response.spark.text.SparkTextResponse;
 import cn.com.chat.chat.chain.service.MessageService;
+import cn.com.chat.chat.chain.utils.ChatLogUtils;
 import cn.com.chat.common.json.utils.JsonUtils;
 import cn.hutool.core.lang.UUID;
 import lombok.RequiredArgsConstructor;
@@ -79,7 +80,7 @@ public class SparkTextChatService implements TextChatService {
             .response(JsonUtils.toJsonString(response))
             .build();
 
-        log.info("SparkTextChatService -> 返回结果 ： {}", result);
+        ChatLogUtils.printResultLog(this.getClass(), result);
 
         return result;
     }
@@ -130,7 +131,7 @@ public class SparkTextChatService implements TextChatService {
             .payload(SparkRequestPayload.builder().message(message).build())
             .build();
 
-        log.info("SparkTextChatService -> 请求参数 ： {}", JsonUtils.toJsonString(request));
+        ChatLogUtils.printRequestLog(this.getClass(), request);
 
         return request;
     }

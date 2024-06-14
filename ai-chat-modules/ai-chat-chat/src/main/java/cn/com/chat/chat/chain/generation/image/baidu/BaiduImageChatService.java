@@ -9,6 +9,7 @@ import cn.com.chat.chat.chain.request.baidu.image.BaiduImageRequest;
 import cn.com.chat.chat.chain.response.baidu.image.BaiduImageData;
 import cn.com.chat.chat.chain.response.baidu.image.BaiduImageResult;
 import cn.com.chat.chat.chain.response.base.image.ImageResult;
+import cn.com.chat.chat.chain.utils.ChatLogUtils;
 import cn.com.chat.chat.chain.utils.ImageUtils;
 import cn.com.chat.common.http.utils.HttpUtils;
 import cn.com.chat.common.json.utils.JsonUtils;
@@ -44,13 +45,13 @@ public class BaiduImageChatService implements ImageChatService {
             .prompt(prompt)
             .build();
 
-        log.info("BaiduImageChatService -> 请求参数 ： {}", JsonUtils.toJsonString(request));
+        ChatLogUtils.printRequestLog(this.getClass(), request);
 
         HttpEntity<BaiduImageRequest> entity = new HttpEntity<>(request);
 
         String response = HttpUtils.doPostJson(accessTokenService.getUrl(url), entity);
 
-        log.info("OpenAiImageChatService -> 请求结果 ： {}", response);
+        ChatLogUtils.printResponseLog(this.getClass(), response);
 
         if (response.contains("error_code")) {
             JSONObject object = JsonUtils.parseObject(response, JSONObject.class);
@@ -70,7 +71,7 @@ public class BaiduImageChatService implements ImageChatService {
 
         List<String> imageList = list.stream().map(BaiduImageData::getB64Image).toList();
 
-        ImageResult imageResult = ImageResult.builder()
+        ImageResult result = ImageResult.builder()
             .model(ImageChatType.BAIDU.name())
             .version(BaiduModelEnums.STABLE_DIFFUSION_XL.getModel())
             .data(imageList)
@@ -78,9 +79,9 @@ public class BaiduImageChatService implements ImageChatService {
             .response(JsonUtils.toJsonString(baiduImageResult))
             .build();
 
-        log.info("BaiduImageChatService -> 返回结果 ： {}", imageResult);
+        ChatLogUtils.printResultLog(this.getClass(), result);
 
-        return imageResult;
+        return result;
     }
 
 }

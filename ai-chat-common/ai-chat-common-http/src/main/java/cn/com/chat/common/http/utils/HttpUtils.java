@@ -280,11 +280,11 @@ public class HttpUtils {
         StringBuilder builder = new StringBuilder();
         builder.append("-------------------------------------------->").append("\n");
         builder.append("请求地址：").append(url).append("\n");
-        if (params != null) {
-            builder.append("请求参数：").append(JsonUtils.toJsonString(params)).append("\n");
-        }
         if (headers != null && !headers.isEmpty()) {
-            builder.append("请求头：").append(JsonUtils.toJsonString(headers)).append("\n");
+            builder.append("请求头：").append("\n").append(JsonUtils.toFormatJsonString(headers)).append("\n");
+        }
+        if (params != null) {
+            builder.append("请求参数：").append("\n").append(JsonUtils.toFormatJsonString(params)).append("\n");
         }
         builder.append("<--------------------------------------------");
         log.info(builder.toString());

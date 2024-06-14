@@ -12,6 +12,7 @@ import cn.com.chat.chat.chain.request.base.text.StreamMessage;
 import cn.com.chat.chat.chain.response.aliyun.text.AliyunCompletionResult;
 import cn.com.chat.chat.chain.response.base.text.TextResult;
 import cn.com.chat.chat.chain.service.MessageService;
+import cn.com.chat.chat.chain.utils.ChatLogUtils;
 import cn.com.chat.chat.chain.utils.MessageUtils;
 import cn.com.chat.chat.domain.vo.ChatMessageVo;
 import cn.com.chat.common.core.utils.StringUtils;
@@ -54,7 +55,7 @@ public class AliyunTextChatService implements TextChatService {
 
         String response = HttpUtils.doPostJson(AliyunApis.QWEN_API, request, header);
 
-        log.info("AliyunTextChatService -> 请求结果 ： {}", response);
+        ChatLogUtils.printResponseLog(this.getClass(), response);
 
         AliyunCompletionResult completionResult = JsonUtils.parseObject(response, AliyunCompletionResult.class);
 
@@ -69,7 +70,7 @@ public class AliyunTextChatService implements TextChatService {
             .response(JsonUtils.toJsonString(completionResult))
             .build();
 
-        log.info("AliyunTextChatService -> 返回结果 ： {}", result);
+        ChatLogUtils.printResultLog(this.getClass(), result);
 
         return result;
 
@@ -106,7 +107,7 @@ public class AliyunTextChatService implements TextChatService {
 
                 @Override
                 public void onResponse(String response) {
-                    log.info("AliyunTextChatService -> 返回结果 ： {}", response);
+                    ChatLogUtils.printResponseLog(this.getClass(), response);
                     if (!"[DONE]".equals(response)) {
                         AliyunCompletionResult object = JsonUtils.parseObject(response, AliyunCompletionResult.class);
                         if (object != null) {
@@ -151,7 +152,7 @@ public class AliyunTextChatService implements TextChatService {
             .parameter(AliyunTextParameter.builder().resultFormat("message").build())
             .build();
 
-        log.info("AliyunTextChatService -> 请求参数 ： {}", JsonUtils.toJsonString(request));
+        ChatLogUtils.printRequestLog(this.getClass(), request);
 
         return request;
     }

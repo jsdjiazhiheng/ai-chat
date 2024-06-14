@@ -264,5 +264,7 @@ ai:
     appid:
     api-key:
     api-secret:
+  nolipix:
+    token:
   completion:
     model:

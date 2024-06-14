@@ -4,6 +4,7 @@ import cn.com.chat.chat.chain.enums.ImageChatType;
 import cn.com.chat.chat.chain.generation.image.aliyun.AliyunImageChatService;
 import cn.com.chat.chat.chain.generation.image.baidu.BaiduImageChatService;
 import cn.com.chat.chat.chain.generation.image.czhan.CZhanImageChatService;
+import cn.com.chat.chat.chain.generation.image.nolipix.NoLiPixImageChatService;
 import cn.com.chat.chat.chain.generation.image.openai.OpenAiImageChatService;
 import cn.com.chat.chat.chain.generation.image.spark.SparkImageChatService;
 import cn.com.chat.chat.chain.generation.image.zhipu.ZhiPuImageChatService;
@@ -29,6 +30,7 @@ public class ImageChatServiceFactory {
     private final AliyunImageChatService aliyunImageChatService;
     private final OpenAiImageChatService openAiImageChatService;
     private final SparkImageChatService sparkImageChatService;
+    private final NoLiPixImageChatService noLiPixImageChatService;
 
     public ImageChatService getImageChatService(ImageChatType type) {
         //TODO 等待模型接入
@@ -46,6 +48,8 @@ public class ImageChatServiceFactory {
             return openAiImageChatService;
         } else if (type == ImageChatType.SPARK) {
             return sparkImageChatService;
+        } else if (type == ImageChatType.NOLIBOX) {
+            return noLiPixImageChatService;
         }
         return null;
     }

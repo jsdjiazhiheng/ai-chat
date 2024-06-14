@@ -31,11 +31,6 @@ public class BufferingClientHttpResponseWrapper implements ClientHttpResponse {
         return this.response.getStatusCode();
     }
 
-    @Override
-    public int getRawStatusCode() throws IOException {
-        return this.response.getRawStatusCode();
-    }
-
     @NonNull
     @Override
     public String getStatusText() throws IOException {

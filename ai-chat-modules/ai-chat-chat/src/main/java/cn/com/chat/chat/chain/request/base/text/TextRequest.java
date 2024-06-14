@@ -2,7 +2,11 @@ package cn.com.chat.chat.chain.request.base.text;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
@@ -25,7 +29,7 @@ public class TextRequest implements Serializable {
     /**
      * 包含迄今为止对话的消息列表
      */
-    @NonNull
+    @NotNull
     protected List<MessageItem> messages;
 
     /**

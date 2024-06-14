@@ -2,6 +2,7 @@ package cn.com.chat.chat.chain.request.czhan.image;
 
 import cn.com.chat.chat.chain.request.base.image.ImageRequest;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -24,7 +25,7 @@ public class CZhanImageRequest extends ImageRequest {
      */
     private String negativePrompt;
 
-    @NonNull
+    @NotNull
     @Builder.Default
     private Integer modelStyleId = 919;
 

@@ -1,10 +1,10 @@
 package cn.com.chat.chat.chain.request.base.image;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
@@ -26,7 +26,7 @@ public class ImageRequest implements Serializable {
     /**
      * 描述词条
      */
-    @NonNull
+    @NotNull
     private String prompt;
 
 }

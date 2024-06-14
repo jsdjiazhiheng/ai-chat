@@ -40,7 +40,7 @@ public class BlockController extends BaseController {
      * 创建聊天对话
      */
     @PostMapping("/createChat")
-    public R<ChatVo> chat(String title, ContentTypeEnums contentType) {
+    public R<ChatVo> chat(@RequestParam String title, @RequestParam ContentTypeEnums contentType) {
         return R.ok(chatService.createChat(title, contentType));
     }
 
@@ -48,7 +48,7 @@ public class BlockController extends BaseController {
      * 获取聊天对话列表
      */
     @GetMapping("/getChatList")
-    public R<List<ChatVo>> getChatList(ContentTypeEnums contentType) {
+    public R<List<ChatVo>> getChatList(@RequestParam ContentTypeEnums contentType) {
         return R.ok(chatService.getChatList(contentType));
     }
 
@@ -65,7 +65,7 @@ public class BlockController extends BaseController {
      * 发送文本消息
      */
     @PostMapping("/textChat")
-    public R<MessageVO> textChat(TextChatType type, Long chatId, String content) {
+    public R<MessageVO> textChat(@RequestParam TextChatType type, Long chatId, String content) {
         return R.ok(blockService.textChat(type, chatId, content));
     }
 
@@ -73,7 +73,7 @@ public class BlockController extends BaseController {
      * 发送图片消息
      */
     @PostMapping("/imageChat")
-    public R<MessageVO> imageChat(ImageChatType type, Long chatId, String content) {
+    public R<MessageVO> imageChat(@RequestParam ImageChatType type, Long chatId, String content) {
         return R.ok(blockService.imageChat(type, chatId, content));
     }
 

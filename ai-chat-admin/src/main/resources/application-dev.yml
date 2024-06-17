@@ -264,6 +264,8 @@ ai:
     appid:
     api-key:
     api-secret:
+  aliyun:
+    token:
   nolipix:
     token:
   completion:

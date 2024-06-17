@@ -244,10 +244,10 @@ public class HttpUtils {
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
                     if (!line.isEmpty()) { // SSE消息不包含空行
-                        if (line.startsWith("data: ")) {
-                            line = line.substring(6);
+                        if (line.startsWith("data:")) {
+                            line = line.substring(5).trim();
+                            callback.onResponse(line);
                         }
-                        callback.onResponse(line);
                     }
                 }
             }

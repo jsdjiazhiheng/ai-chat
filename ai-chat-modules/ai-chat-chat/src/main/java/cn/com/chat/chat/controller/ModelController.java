@@ -41,8 +41,8 @@ public class ModelController extends BaseController {
      * 获取模型列表
      */
     @GetMapping("/getModelList")
-    public R<List<ModelVo>> getModelList() {
-        return R.ok(modelService.getModelList());
+    public R<List<ModelVo>> getModelList(String type) {
+        return R.ok(modelService.getModelList(type));
     }
 
     /**

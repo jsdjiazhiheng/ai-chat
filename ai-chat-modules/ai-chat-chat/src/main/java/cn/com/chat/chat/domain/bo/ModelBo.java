@@ -28,6 +28,12 @@ public class ModelBo extends BaseEntity {
     private Long id;
 
     /**
+     * 模型类型
+     */
+    @NotNull(message = "模型类型不能为空", groups = {AddGroup.class, EditGroup.class})
+    private Integer type;
+
+    /**
      * 名称
      */
     @NotBlank(message = "名称不能为空", groups = {AddGroup.class, EditGroup.class})

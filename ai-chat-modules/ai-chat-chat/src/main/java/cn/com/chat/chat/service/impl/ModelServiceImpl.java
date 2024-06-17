@@ -42,14 +42,14 @@ public class ModelServiceImpl implements IModelService {
     @Override
     public ModelVo queryById(Long id) {
         ModelVo modelVo = baseMapper.selectVoById(id);
-        setVoValue(modelVo);
+        //setVoValue(modelVo);
         return modelVo;
     }
 
     private void setVoValue(ModelVo modelVo) {
         if (modelVo != null && Objects.nonNull(modelVo.getIcon())) {
             String fileName = ossService.selectFileNameByIds(modelVo.getIcon());
-            if(StrUtil.isNotBlank(fileName)) {
+            if (StrUtil.isNotBlank(fileName)) {
                 modelVo.setUrl(ImageUtils.getImageUrl(fileName));
             }
         }
@@ -62,7 +62,7 @@ public class ModelServiceImpl implements IModelService {
     public TableDataInfo<ModelVo> queryPageList(ModelBo bo, PageQuery pageQuery) {
         LambdaQueryWrapper<Model> lqw = buildQueryWrapper(bo);
         Page<ModelVo> result = baseMapper.selectVoPage(pageQuery.build(), lqw);
-        result.getRecords().forEach(this::setVoValue);
+        //result.getRecords().forEach(this::setVoValue);
         return TableDataInfo.build(result);
     }
 
@@ -73,7 +73,7 @@ public class ModelServiceImpl implements IModelService {
     public List<ModelVo> queryList(ModelBo bo) {
         LambdaQueryWrapper<Model> lqw = buildQueryWrapper(bo);
         List<ModelVo> list = baseMapper.selectVoList(lqw);
-        list.forEach(this::setVoValue);
+        //list.forEach(this::setVoValue);
         return list;
     }
 
@@ -83,6 +83,7 @@ public class ModelServiceImpl implements IModelService {
         lqw.like(StringUtils.isNotBlank(bo.getName()), Model::getName, bo.getName());
         lqw.eq(bo.getDeptId() != null, Model::getDeptId, bo.getDeptId());
         lqw.eq(bo.getUserId() != null, Model::getUserId, bo.getUserId());
+        lqw.eq(bo.getType() != null, Model::getType, bo.getType());
         return lqw;
     }
 
@@ -131,12 +132,17 @@ public class ModelServiceImpl implements IModelService {
     }
 
     @Override
-    public List<ModelVo> getModelList() {
+    public List<ModelVo> getModelList(String type) {
         ModelBo bo = new ModelBo();
+        if ("text".equalsIgnoreCase(type)) {
+            bo.setType(1);
+        } else if ("image".equalsIgnoreCase(type)) {
+            bo.setType(2);
+        }
         LambdaQueryWrapper<Model> lqw = buildQueryWrapper(bo);
         lqw.orderByAsc(Model::getId);
         List<ModelVo> list = baseMapper.selectVoList(lqw);
-        list.forEach(this::setVoValue);
+        //list.forEach(this::setVoValue);
         return list;
     }
 

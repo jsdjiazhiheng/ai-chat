@@ -46,6 +46,6 @@ public interface IModelService {
      */
     Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid);
 
-    List<ModelVo> getModelList();
+    List<ModelVo> getModelList(String type);
 
 }

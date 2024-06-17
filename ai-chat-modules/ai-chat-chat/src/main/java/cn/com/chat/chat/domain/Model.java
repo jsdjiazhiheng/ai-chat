@@ -31,6 +31,11 @@ public class Model extends TenantEntity {
     private Long id;
 
     /**
+     * 模型类型
+     */
+    private Integer type;
+
+    /**
      * 名称
      */
     private String name;

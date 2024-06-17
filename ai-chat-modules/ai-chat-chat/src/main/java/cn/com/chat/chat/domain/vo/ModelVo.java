@@ -31,6 +31,11 @@ public class ModelVo implements Serializable {
     private Long id;
 
     /**
+     * 模型类型
+     */
+    private Integer type;
+
+    /**
      * 名称
      */
     @ExcelProperty(value = "名称")

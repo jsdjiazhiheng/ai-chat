@@ -58,7 +58,7 @@ public class TextChatServiceFactory {
         if (type == TextChatType.OPENAI) {
             return OpenAiModelEnums.GPT_3_5_TURBO.getModel();
         } else if (type == TextChatType.BAIDU) {
-            return BaiduModelEnums.ERNIE_3_5_8K.getModel();
+            return BaiduModelEnums.ERNIE_4_0_8K.getModel();
         } else if (type == TextChatType.KIMI) {
             return KimiModelEnums.MOONSHOT_V1_8K.getModel();
         } else if (type == TextChatType.ZHIPU) {

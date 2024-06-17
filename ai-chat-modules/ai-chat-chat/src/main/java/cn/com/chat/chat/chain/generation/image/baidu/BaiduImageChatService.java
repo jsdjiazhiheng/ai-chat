@@ -47,9 +47,7 @@ public class BaiduImageChatService implements ImageChatService {
 
         ChatLogUtils.printRequestLog(this.getClass(), request);
 
-        HttpEntity<BaiduImageRequest> entity = new HttpEntity<>(request);
-
-        String response = HttpUtils.doPostJson(accessTokenService.getUrl(url), entity);
+        String response = HttpUtils.doPostJson(accessTokenService.getUrl(url), request);
 
         ChatLogUtils.printResponseLog(this.getClass(), response);
 

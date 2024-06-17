@@ -78,6 +78,9 @@ public class NoLiPixImageChatService implements ImageChatService {
         } else if (StringUtils.equals(status, "exception")) {
             throw new ImageChatException(500, object.getData().getReason());
         } else if (StringUtils.equals(status, "finished")) {
+            if(!object.getData().getSafe()) {
+                throw new ImageChatException(500, "图片存在违规内容");
+            }
             List<String> imgUrls = object.getData().getImgUrls();
             List<String> list = imgUrls.stream().map(s -> ImageUtils.urlToUrl(ImageChatType.NOLIBOX.name(), s)).toList();
             object.getData().setImgUrls(list);

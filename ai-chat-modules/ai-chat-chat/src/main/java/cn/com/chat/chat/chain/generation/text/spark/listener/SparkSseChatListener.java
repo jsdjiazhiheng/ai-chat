@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.io.IOException;
 import java.util.Objects;
 
 /**
@@ -60,40 +61,52 @@ public class SparkSseChatListener extends WebSocketListener {
         ChatLogUtils.printResponseLog(this.getClass(), text);
         SparkTextResponse response = JsonUtils.parseObject(text, SparkTextResponse.class);
         if (response != null) {
-            Integer status = response.getHeader().getStatus();
-            SparkTextResponsePayload payload = response.getPayload();
-            String content = payload.getChoices().getText().get(0).getContent();
+            Integer code = response.getHeader().getCode();
 
-            Usage usage = Objects.nonNull(payload.getUsage()) ? payload.getUsage().getText() : null;
+            if (code == 0) {
+                Integer status = response.getHeader().getStatus();
+                SparkTextResponsePayload payload = response.getPayload();
+                String content = payload.getChoices().getText().get(0).getContent();
 
-            MessageUtils.handleResult(result, content, "", usage);
+                Usage usage = Objects.nonNull(payload.getUsage()) ? payload.getUsage().getText() : null;
 
-            ChatMessageVo messageVo = MessageUtils.buildTextMessage(message.getChatId(), messageId, message.getMessageId(), result);
+                MessageUtils.handleResult(result, content, "", usage);
 
-            builder.append(content);
+                ChatMessageVo messageVo = MessageUtils.buildTextMessage(message.getChatId(), messageId, message.getMessageId(), result);
 
-            try {
-                if (status != null && status == 2) {
-                    sseEmitter.send(messageVo);
-                    sseEmitter.send("[END]");
-                    webSocket.close(1000, "结束");
+                builder.append(content);
 
-                    response.getPayload().getChoices().getText().get(0).setContent(builder.toString());
-                    result.setContent(builder.toString());
-                    result.setResponse(JsonUtils.toJsonString(response));
+                try {
+                    if (status != null && status == 2) {
+                        sseEmitter.send(messageVo);
+                        sseEmitter.send("[END]");
+                        webSocket.close(1000, "结束");
 
-                    messageService.saveSuccessMessage(message, messageId, result);
-                } else {
-                    sseEmitter.send(messageVo);
+                        response.getPayload().getChoices().getText().get(0).setContent(builder.toString());
+                        result.setContent(builder.toString());
+                        result.setResponse(JsonUtils.toJsonString(response));
+
+                        messageService.saveSuccessMessage(message, messageId, result);
+                    } else {
+                        sseEmitter.send(messageVo);
+                    }
+                } catch (Exception e) {
+                    log.error("sse发送异常", e);
                 }
-            } catch (Exception e) {
-                log.error("sse发送异常", e);
+            } else {
+                try {
+                    sseEmitter.send("[ERROR]");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                webSocket.close(1000, "结束");
             }
         }
     }
 
     @Override
     public void onFailure(@NotNull WebSocket webSocket, @NotNull Throwable t, @Nullable Response response) {
+        log.error("发生了错误：", t);
         super.onFailure(webSocket, t, response);
         messageService.saveFailMessage(message, messageId, t.getMessage());
     }

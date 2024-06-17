@@ -38,6 +38,7 @@ public class SparkSyncChatListener extends WebSocketListener {
     @Override
     public void onFailure(@NotNull WebSocket webSocket, @NotNull Throwable t, @Nullable Response response) {
         downLatch.countDown();
+        log.error("发生了错误：", t);
         super.onFailure(webSocket, t, response);
     }
 
@@ -46,18 +47,23 @@ public class SparkSyncChatListener extends WebSocketListener {
         ChatLogUtils.printResponseLog(this.getClass(), text);
         SparkTextResponse response = JsonUtils.parseObject(text, SparkTextResponse.class);
         if (response != null) {
-            Integer status = response.getHeader().getStatus();
-            SparkTextResponsePayload payload = response.getPayload();
-            String content = payload.getChoices().getText().get(0).getContent();
-            builder.append(content);
+            Integer code = response.getHeader().getCode();
 
-            if (status != null && status == 2) {
-                response.getPayload().getChoices().getText().get(0).setContent(builder.toString());
-                this.response = response;
-                downLatch.countDown();
+            if (code == 0) {
+                Integer status = response.getHeader().getStatus();
+                SparkTextResponsePayload payload = response.getPayload();
+                String content = payload.getChoices().getText().get(0).getContent();
+                builder.append(content);
+
+                if (status != null && status == 2) {
+                    response.getPayload().getChoices().getText().get(0).setContent(builder.toString());
+                    this.response = response;
+                    downLatch.countDown();
+                    webSocket.close(1000, "结束");
+                }
+            } else {
                 webSocket.close(1000, "结束");
             }
-
         }
     }
 

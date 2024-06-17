@@ -80,6 +80,8 @@ public class AliyunTextChatService implements TextChatService {
     public void streamCompletion(String model, SseEmitter sseEmitter, String system, List<MessageItem> history, StreamMessage message) {
 
         AliyunTextRequest request = buildRequest(model, system, history, message.getContent());
+        request.getParameter().setStream(true);
+        request.getParameter().setIncrementalOutput(true);
 
         Flux<AliyunTextRequest> flux = Flux.create(emitter -> {
             emitter.next(request);
@@ -107,20 +109,21 @@ public class AliyunTextChatService implements TextChatService {
 
                 @Override
                 public void onResponse(String response) {
+                    log.info("返回结果：{}", response);
                     ChatLogUtils.printResponseLog(this.getClass(), response);
                     if (!"[DONE]".equals(response)) {
                         AliyunCompletionResult object = JsonUtils.parseObject(response, AliyunCompletionResult.class);
                         if (object != null) {
-                            String content = object.getOutput().getChoices().get(0).getMessage().getContent();
-                            String finishReason = object.getOutput().getChoices().get(0).getFinishReason();
+                            String content = object.getOutput().getText();
+                            String finishReason = object.getOutput().getFinishReason();
                             try {
 
-                                MessageUtils.handleResult(result, content, finishReason, object.getUsage());
+                                MessageUtils.handleResult(result, StringUtils.remove(content, builder.toString()), finishReason, object.getUsage());
 
                                 ChatMessageVo messageVo = MessageUtils.buildTextMessage(message.getChatId(), messageId, message.getMessageId(), result);
 
-                                if (StringUtils.isNotEmpty(finishReason)) {
-                                    object.getOutput().getChoices().get(0).getMessage().setContent(builder.toString());
+                                if (StringUtils.isNotEmpty(finishReason) && !StringUtils.equals(finishReason, "null")) {
+                                    object.getOutput().setText(builder.toString());
                                     result.setContent(builder.toString());
                                     result.setResponse(JsonUtils.toJsonString(object));
 
@@ -147,9 +150,9 @@ public class AliyunTextChatService implements TextChatService {
         AliyunTextRequest request = AliyunTextRequest.builder()
             .model(model)
             .input(AliyunTextInput.builder()
-                .messages(MessageItem.buildMessageList(system, history, content))
+                .messages(MessageItem.buildMessageList(system, null, content))
                 .build())
-            .parameter(AliyunTextParameter.builder().resultFormat("message").build())
+            .parameter(AliyunTextParameter.builder().resultFormat("text").build())
             .build();
 
         ChatLogUtils.printRequestLog(this.getClass(), request);

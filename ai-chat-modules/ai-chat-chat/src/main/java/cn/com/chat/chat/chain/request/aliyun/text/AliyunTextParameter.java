@@ -86,6 +86,11 @@ public class AliyunTextParameter implements Serializable {
     private Boolean enableSearch;
 
     /**
+     * 用于控制是否使用流式输出
+     */
+    private Boolean stream;
+
+    /**
      * 控制在流式输出模式下是否开启增量输出
      * 默认False 会包含已输出的内容
      */

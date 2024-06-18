@@ -111,8 +111,8 @@ public class BaiduTextChatService implements TextChatService {
 
                 @Override
                 public void onResponse(String response) {
-                    ChatLogUtils.printResponseLog(this.getClass(), response);
                     if (!"[DONE]".equals(response)) {
+                        ChatLogUtils.printResponseLog(this.getClass(), response);
                         BaiduCompletionResult object = JsonUtils.parseObject(response, BaiduCompletionResult.class);
                         if (object != null) {
                             Boolean isEnd = object.getIsEnd();
@@ -129,8 +129,10 @@ public class BaiduTextChatService implements TextChatService {
                                     result.setContent(builder.toString());
                                     result.setResponse(JsonUtils.toJsonString(object));
 
+                                    if(StringUtils.isNotBlank(content)) {
+                                        sseEmitter.send(messageVo);
+                                    }
                                     sseEmitter.send("[END]");
-                                    sseEmitter.complete();
 
                                     messageService.saveSuccessMessage(message, messageId, result);
 

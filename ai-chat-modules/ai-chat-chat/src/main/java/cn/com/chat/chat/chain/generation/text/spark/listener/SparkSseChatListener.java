@@ -10,6 +10,7 @@ import cn.com.chat.chat.chain.service.MessageService;
 import cn.com.chat.chat.chain.utils.ChatLogUtils;
 import cn.com.chat.chat.chain.utils.MessageUtils;
 import cn.com.chat.chat.domain.vo.ChatMessageVo;
+import cn.com.chat.common.core.utils.StringUtils;
 import cn.com.chat.common.json.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Response;
@@ -78,7 +79,9 @@ public class SparkSseChatListener extends WebSocketListener {
 
                 try {
                     if (status != null && status == 2) {
-                        sseEmitter.send(messageVo);
+                        if(StringUtils.isNotBlank(content)) {
+                            sseEmitter.send(messageVo);
+                        }
                         sseEmitter.send("[END]");
                         webSocket.close(1000, "结束");
 

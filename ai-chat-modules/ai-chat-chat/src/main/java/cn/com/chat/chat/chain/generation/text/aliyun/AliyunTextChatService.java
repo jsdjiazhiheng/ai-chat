@@ -59,14 +59,14 @@ public class AliyunTextChatService implements TextChatService {
 
         AliyunCompletionResult completionResult = JsonUtils.parseObject(response, AliyunCompletionResult.class);
 
-        String text = Objects.requireNonNull(completionResult).getOutput().getChoices().get(0).getMessage().getContent();
+        String text = Objects.requireNonNull(completionResult).getOutput().getText();
 
         TextResult result = TextResult.builder()
             .model(TextChatType.ALIYUN.name())
             .version(model)
             .content(text)
             .totalTokens(completionResult.getUsage().getTotalTokens().longValue())
-            .finishReason(completionResult.getOutput().getChoices().get(0).getFinishReason())
+            .finishReason(completionResult.getOutput().getFinishReason())
             .response(JsonUtils.toJsonString(completionResult))
             .build();
 
@@ -80,6 +80,7 @@ public class AliyunTextChatService implements TextChatService {
     public void streamCompletion(String model, SseEmitter sseEmitter, String system, List<MessageItem> history, StreamMessage message) {
 
         AliyunTextRequest request = buildRequest(model, system, history, message.getContent());
+        //流式增量输出模式-暂时无效，下方手动处理输出内容
         request.getParameter().setStream(true);
         request.getParameter().setIncrementalOutput(true);
 
@@ -109,16 +110,17 @@ public class AliyunTextChatService implements TextChatService {
 
                 @Override
                 public void onResponse(String response) {
-                    log.info("返回结果：{}", response);
-                    ChatLogUtils.printResponseLog(this.getClass(), response);
                     if (!"[DONE]".equals(response)) {
+                        ChatLogUtils.printResponseLog(this.getClass(), response);
                         AliyunCompletionResult object = JsonUtils.parseObject(response, AliyunCompletionResult.class);
                         if (object != null) {
                             String content = object.getOutput().getText();
                             String finishReason = object.getOutput().getFinishReason();
                             try {
 
-                                MessageUtils.handleResult(result, StringUtils.remove(content, builder.toString()), finishReason, object.getUsage());
+                                content = StringUtils.remove(content, builder.toString());
+
+                                MessageUtils.handleResult(result, content, finishReason, object.getUsage());
 
                                 ChatMessageVo messageVo = MessageUtils.buildTextMessage(message.getChatId(), messageId, message.getMessageId(), result);
 
@@ -127,6 +129,9 @@ public class AliyunTextChatService implements TextChatService {
                                     result.setContent(builder.toString());
                                     result.setResponse(JsonUtils.toJsonString(object));
 
+                                    if(StringUtils.isNotBlank(content)) {
+                                        sseEmitter.send(messageVo);
+                                    }
                                     sseEmitter.send("[END]");
 
                                     messageService.saveSuccessMessage(message, messageId, result);

@@ -106,8 +106,8 @@ public class KimiTextChatService implements TextChatService {
 
                 @Override
                 public void onResponse(String response) {
-                    ChatLogUtils.printResponseLog(this.getClass(), response);
                     if (!"[DONE]".equals(response)) {
+                        ChatLogUtils.printResponseLog(this.getClass(), response);
                         KimiCompletionResult object = JsonUtils.parseObject(response, KimiCompletionResult.class);
                         if (object != null) {
                             String finishReason = object.getChoices().get(0).getFinishReason();
@@ -124,6 +124,9 @@ public class KimiTextChatService implements TextChatService {
                                     result.setContent(builder.toString());
                                     result.setResponse(JsonUtils.toJsonString(object));
 
+                                    if(StringUtils.isNotBlank(content)) {
+                                        sseEmitter.send(messageVo);
+                                    }
                                     sseEmitter.send("[END]");
 
                                     messageService.saveSuccessMessage(message, messageId, result);

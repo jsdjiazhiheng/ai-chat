@@ -121,8 +121,8 @@ public class OpenAiTextChatService implements TextChatService {
 
                     @Override
                     public void onResponse(String response) {
-                        ChatLogUtils.printResponseLog(this.getClass(), response);
                         if (!"[DONE]".equals(response)) {
+                            ChatLogUtils.printResponseLog(this.getClass(), response);
                             OpenAiCompletionResult object = JsonUtils.parseObject(response, OpenAiCompletionResult.class);
                             if (object != null) {
                                 String content = object.getChoices().get(0).getMessage().getContent();
@@ -138,6 +138,9 @@ public class OpenAiTextChatService implements TextChatService {
                                         result.setContent(builder.toString());
                                         result.setResponse(JsonUtils.toJsonString(object));
 
+                                        if(StringUtils.isNotBlank(content)) {
+                                            sseEmitter.send(messageVo);
+                                        }
                                         sseEmitter.send("[END]");
 
                                         httpService.clearProxyHttpUtils();

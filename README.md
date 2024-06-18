@@ -7,6 +7,13 @@ ai-chat是一个开源的聊天系统后端，支持多种AI模型，旨在提�
 - 管理端页面：[https://gitee.com/jsdhxkj/ai-chat-webadmin.git](https://gitee.com/jsdhxkj/ai-chat-webadmin.git)
 - 客户端页面：[https://gitee.com/jsdhxkj/ai-chat-web.git](https://gitee.com/jsdhxkj/ai-chat-web.git)
 
+## 界面截图
+
+![](docs/文本.png)
+![](docs/文本模型.png)
+![](docs/画图.png)
+![](docs/画图模型.png)
+
 ## 功能特点
 - **多模型支持**: 支持多种AI文字和图片模型，方便扩展和定制。
 - **消息处理**: 支持文本、图片等多种格式的消息。

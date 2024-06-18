@@ -41,9 +41,9 @@ public class TextChatServiceWrapper implements TextChatService {
         }
 
         String model = textChatServiceFactory.getTextChatType(textChatType);
-        if (netWork) {
+        /*if (netWork) {
             content = searchContent(content);
-        }
+        }*/
         return textChatService.blockCompletion(model, system, history, content);
     }
 
@@ -52,9 +52,9 @@ public class TextChatServiceWrapper implements TextChatService {
         TextChatService textChatService = textChatServiceFactory.getTextChatService(textChatType);
         String model = textChatServiceFactory.getTextChatType(textChatType);
 
-        if (message.getUseNet()) {
+        /*if (message.getUseNet()) {
             message.setContent(searchContent(message.getContent()));
-        }
+        }*/
 
         textChatService.streamCompletion(model, sseEmitter, system, history, message);
     }

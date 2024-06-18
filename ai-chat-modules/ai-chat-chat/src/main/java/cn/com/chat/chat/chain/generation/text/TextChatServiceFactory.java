@@ -8,6 +8,7 @@ import cn.com.chat.chat.chain.generation.text.deepseek.DeepSeekTextChatService;
 import cn.com.chat.chat.chain.generation.text.kimi.KimiTextChatService;
 import cn.com.chat.chat.chain.generation.text.openai.OpenAiTextChatService;
 import cn.com.chat.chat.chain.generation.text.spark.SparkTextChatService;
+import cn.com.chat.chat.chain.generation.text.volcengine.VolcengineTextChatService;
 import cn.com.chat.chat.chain.generation.text.zhipu.ZhiPuTextChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,7 @@ public class TextChatServiceFactory {
     private final AliyunTextChatService aliyunTextChatService;
     private final OpenAiTextChatService openAiTextChatService;
     private final SparkTextChatService sparkTextChatService;
+    private final VolcengineTextChatService volcengineTextChatService;
 
     public TextChatService getTextChatService(TextChatType type) {
         // TODO 等待模型接入
@@ -49,6 +51,8 @@ public class TextChatServiceFactory {
             return aliyunTextChatService;
         } else if (type == TextChatType.SPARK) {
             return sparkTextChatService;
+        } else if (type == TextChatType.VOLCENGINE) {
+            return volcengineTextChatService;
         } else {
             return null;
         }
@@ -69,6 +73,8 @@ public class TextChatServiceFactory {
             return AliyunModelEnums.QWEN_TURBO.getModel();
         } else if (type == TextChatType.SPARK) {
             return SparkModelEnums.SPARK_MAX.getModel();
+        } else if (type == TextChatType.VOLCENGINE) {
+            return VolcengineModelEnums.DOUBAO_PRO_128K.getModel();
         } else {
             return null;
         }

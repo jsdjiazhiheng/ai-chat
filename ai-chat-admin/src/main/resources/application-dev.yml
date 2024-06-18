@@ -268,5 +268,8 @@ ai:
     token:
   nolipix:
     token:
+  volcengine:
+    token:
+    point:
   completion:
     model:

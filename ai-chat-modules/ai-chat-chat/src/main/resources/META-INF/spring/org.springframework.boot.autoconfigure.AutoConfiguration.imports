@@ -7,3 +7,4 @@ cn.com.chat.chat.config.AliyunConfig
 cn.com.chat.chat.config.OpenAiConfig
 cn.com.chat.chat.config.SparkConfig
 cn.com.chat.chat.config.NoLiPixConfig
+cn.com.chat.chat.config.VolcengineConfig

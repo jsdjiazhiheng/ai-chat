@@ -15,7 +15,8 @@ public enum TextChatType {
     ZHIPU,
     DEEPSEEK,
     ALIYUN,
-    SPARK
+    SPARK,
+    VOLCENGINE,
     ;
     public static TextChatType getByName(String name) {
         for (TextChatType value : TextChatType.values()) {

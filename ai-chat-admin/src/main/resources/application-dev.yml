@@ -271,5 +271,7 @@ ai:
   volcengine:
     token:
     point:
+    image-access-key-id:
+    image-secret-access-key:
   completion:
     model:

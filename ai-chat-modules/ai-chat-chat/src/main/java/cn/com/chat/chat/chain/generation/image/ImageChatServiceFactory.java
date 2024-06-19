@@ -7,6 +7,7 @@ import cn.com.chat.chat.chain.generation.image.czhan.CZhanImageChatService;
 import cn.com.chat.chat.chain.generation.image.nolipix.NoLiPixImageChatService;
 import cn.com.chat.chat.chain.generation.image.openai.OpenAiImageChatService;
 import cn.com.chat.chat.chain.generation.image.spark.SparkImageChatService;
+import cn.com.chat.chat.chain.generation.image.volcengine.VolcengineImageChatService;
 import cn.com.chat.chat.chain.generation.image.zhipu.ZhiPuImageChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,7 @@ public class ImageChatServiceFactory {
     private final OpenAiImageChatService openAiImageChatService;
     private final SparkImageChatService sparkImageChatService;
     private final NoLiPixImageChatService noLiPixImageChatService;
+    private final VolcengineImageChatService volcengineImageChatService;
 
     public ImageChatService getImageChatService(ImageChatType type) {
         //TODO 等待模型接入
@@ -50,6 +52,8 @@ public class ImageChatServiceFactory {
             return sparkImageChatService;
         } else if (type == ImageChatType.NOLIBOX) {
             return noLiPixImageChatService;
+        } else if (type == ImageChatType.VOLCENGINE) {
+            return volcengineImageChatService;
         }
         return null;
     }

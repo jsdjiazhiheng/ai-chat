@@ -50,6 +50,7 @@
         <sms4j.version>2.2.0</sms4j.version>
         <!-- 限制框架中的fastjson版本 -->
         <fastjson.version>1.2.83</fastjson.version>
+        <volc-sdk.version>1.0.166</volc-sdk.version>
 
         <!-- 插件版本 -->
         <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
@@ -315,6 +316,12 @@
                 <version>${okhttp.version}</version>
                 <type>pom</type>
                 <scope>runtime</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.volcengine</groupId>
+                <artifactId>volc-sdk-java</artifactId>
+                <version>${volc-sdk.version}</version>
             </dependency>
 
             <dependency>

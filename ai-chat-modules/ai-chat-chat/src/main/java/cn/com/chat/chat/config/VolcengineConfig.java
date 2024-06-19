@@ -20,4 +20,14 @@ public class VolcengineConfig {
      */
     private String point;
 
+    /**
+     * 画图key
+     */
+    private String imageAccessKeyId;
+
+    /**
+     * 画图密钥
+     */
+    private String imageSecretAccessKey;
+
 }

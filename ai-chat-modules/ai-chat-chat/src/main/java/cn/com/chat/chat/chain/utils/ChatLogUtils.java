@@ -17,9 +17,8 @@ public class ChatLogUtils {
         printLog(classz, "请求参数", JsonUtils.toFormatJsonString(response));
     }
 
-    public static void printResponseLog(Class<?> classz, String response) {
-        Object object = JsonUtils.parseObject(response, Object.class);
-        printLog(classz, "请求结果", JsonUtils.toFormatJsonString(object));
+    public static void printResponseLog(Class<?> classz, Object response) {
+        printLog(classz, "请求结果", JsonUtils.toFormatJsonString(response));
     }
 
     public static void printResultLog(Class<?> classz, Object response) {

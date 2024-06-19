@@ -26,4 +26,12 @@ public class VolcengineAccessTokenService implements AccessTokenService {
         return config.getPoint();
     }
 
+    public String getImageAccessKeyId() {
+        return config.getImageAccessKeyId();
+    }
+
+    public String getImageSecretAccessKey() {
+        return config.getImageSecretAccessKey();
+    }
+
 }

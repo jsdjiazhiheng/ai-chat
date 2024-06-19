@@ -89,6 +89,10 @@
             <artifactId>ai-chat-common-http</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.volcengine</groupId>
+            <artifactId>volc-sdk-java</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.jsoup</groupId>

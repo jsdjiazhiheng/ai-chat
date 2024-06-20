@@ -1,7 +1,7 @@
 # ai-chat 后端
 
 ## 简介
-ai-chat是一个开源的聊天系统后端，支持多种AI模型，旨在提供智能化的聊天服务。它不仅支持文本聊天，还支持图片处理，为用户提供丰富的交互体验。
+ai-chat是一个开源的聊天系统后端，支持多种AI模型，旨在提供智能化的聊天服务。它不仅支持文本聊天，还支持图片处理，为用户提供丰富的交互体验。提供多种模型文心一言、KIMI、智谱清言、DeepSeek、OPENAI、通义千问、星火、腾讯混元助手（待接入）、火山引擎（豆包）、百度SD、通义万象、触站AI、画宇宙等。
 
 - 后台服务：[https://gitee.com/jsdhxkj/ai-chat.git](https://gitee.com/jsdhxkj/ai-chat.git)
 - 管理端页面：[https://gitee.com/jsdhxkj/ai-chat-webadmin.git](https://gitee.com/jsdhxkj/ai-chat-webadmin.git)

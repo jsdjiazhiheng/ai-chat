@@ -16,8 +16,8 @@ public interface FunctionChatService {
     /**
      * 函数调用：输出结构化参数数据
      *
-     * @param content
-     * @return
+     * @param content 输入内容
+     * @return 结果
      */
     List<FunctionCompletionResult> functionCompletion(String content, List<ChatFunctionObject> functionObjectList);
 

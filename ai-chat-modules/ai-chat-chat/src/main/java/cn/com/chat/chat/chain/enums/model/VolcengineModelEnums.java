@@ -13,6 +13,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum VolcengineModelEnums {
 
+    /**
+     * 豆包模型
+     */
     DOUBAO_LITE_4K("Doubao-lite-4k"),
     DOUBAO_LITE_32K("Doubao-lite-32k"),
     DOUBAO_LITE_128K("Doubao-lite-128k"),

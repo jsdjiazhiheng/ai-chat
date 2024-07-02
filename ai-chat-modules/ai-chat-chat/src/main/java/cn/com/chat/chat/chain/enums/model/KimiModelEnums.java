@@ -14,6 +14,9 @@ import lombok.Getter;
 @Getter
 public enum KimiModelEnums {
 
+    /**
+     * 模型列表
+     */
     MOONSHOT_V1_8K("moonshot-v1-8k"),
     MOONSHOT_V1_32K("moonshot-v1-32k"),
     MOONSHOT_V1_128K("moonshot-v1-128k"),

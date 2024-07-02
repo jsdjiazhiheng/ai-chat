@@ -14,7 +14,13 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum DeepSeekModelEnums {
 
+    /**
+     * chat模型
+     */
     DEEP_SEEK_CHAT("deepseek-chat"),
+    /**
+     * coder模型
+     */
     DEEP_SEEK_CODER("deepseek-coder"),
     ;
 

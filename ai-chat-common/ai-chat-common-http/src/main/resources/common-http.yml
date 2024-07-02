@@ -1,9 +1,9 @@
 # 内置配置 不允许修改 如需修改请在 nacos 上写相同配置覆盖
 # http配置
 http:
-  connect-timeout: 60
-  read-timeout: 60
-  write-timeout: 60
+  connect-timeout: 180
+  read-timeout: 180
+  write-timeout: 180
   # 连接池中整体的空闲连接的最大数量
   max-idle-connections: 200
   # 连接空闲时间最多为 300 秒

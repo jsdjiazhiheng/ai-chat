@@ -39,14 +39,15 @@ public class FunctionFactory {
                 if (aiFunctionType != null) {
                     runAiFunction(aiFunctionType, content);
                 }
+                break;
             case TOOL:
                 ToolFunctionType toolFunctionType = getToolFunctionType(role, stepName, content);
                 if (toolFunctionType != null) {
                     runToolFunction(toolFunctionType, content);
                 }
+                break;
             default:
                 System.out.println("DEFAULT");
-                break;
         }
 
 

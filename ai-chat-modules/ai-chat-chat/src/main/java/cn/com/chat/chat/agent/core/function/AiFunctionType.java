@@ -13,8 +13,17 @@ import lombok.Getter;
 @Getter
 public enum AiFunctionType {
 
+    /**
+     * 文本生成
+     */
     TEXT_GEN("文本生成"),
+    /**
+     * 图片生成
+     */
     IMAGE_GEN("图片生成"),
+    /**
+     * 视频生成
+     */
     VIDEO_GEN("视频生成"),
     ;
 

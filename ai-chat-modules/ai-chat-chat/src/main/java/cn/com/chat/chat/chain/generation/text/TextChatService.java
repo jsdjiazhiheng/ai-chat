@@ -18,18 +18,51 @@ import java.util.List;
  */
 public interface TextChatService extends GenerationService {
 
+    /**
+     * 文本聊天
+     * @param textChatType 文本聊天类型
+     * @param system 系统提示词
+     * @param history 历史消息
+     * @param content 消息
+     * @param netWork 是否联网
+     * @return 文本聊天结果
+     */
     default TextResult blockCompletion(TextChatType textChatType, String system, List<MessageItem> history, String content, Boolean netWork) {
         return null;
     }
 
+    /**
+     * 文本聊天
+     * @param textChatType 文本聊天类型
+     * @param sseEmitter sseEmitter
+     * @param system 系统提示词
+     * @param history 历史消息
+     * @param message 消息
+     */
     default void streamCompletion(TextChatType textChatType, SseEmitter sseEmitter, String system, List<MessageItem> history, StreamMessage message) {
 
     }
 
+    /**
+     * 文本聊天
+     * @param model 模型
+     * @param system 系统提示词
+     * @param history 历史消息
+     * @param content 消息
+     * @return 文本聊天结果
+     */
     default TextResult blockCompletion(String model, String system, List<MessageItem> history, String content) {
         return null;
     }
 
+    /**
+     * 文本聊天
+     * @param model 模型
+     * @param sseEmitter sseEmitter
+     * @param system 系统提示词
+     * @param history 历史消息
+     * @param message 消息
+     */
     default void streamCompletion(String model, SseEmitter sseEmitter, String system, List<MessageItem> history, StreamMessage message) {
 
     }

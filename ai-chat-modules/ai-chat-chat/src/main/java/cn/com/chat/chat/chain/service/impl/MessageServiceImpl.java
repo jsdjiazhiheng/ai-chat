@@ -23,7 +23,7 @@ public class MessageServiceImpl implements MessageService {
 
     private final IChatMessageService chatMessageService;
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveSuccessMessage(StreamMessage message, String messageId, TextResult result) {
         ChatMessageBo messageBo = MessageUtils.buildTextChatMessage(message.getChatId(), messageId, message.getMessageId(), result, message.getUserId(), message.getTenantId(), message.getDeptId());
@@ -31,7 +31,7 @@ public class MessageServiceImpl implements MessageService {
         chatMessageService.updateStatusByMessageId(message.getMessageId(), MessageStatus.SUCCESS.getStatus());
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveFailMessage(StreamMessage message, String messageId, String errorMessage) {
         chatMessageService.updateStatusByMessageId(message.getMessageId(), MessageStatus.FAIL.getStatus());

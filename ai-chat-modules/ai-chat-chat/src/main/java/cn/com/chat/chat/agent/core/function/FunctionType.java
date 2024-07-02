@@ -13,7 +13,13 @@ import lombok.Getter;
 @Getter
 public enum FunctionType {
 
+    /**
+     * 工具
+     */
     TOOL("工具"),
+    /**
+     * AI
+     */
     AI("AI"),
     ;
 

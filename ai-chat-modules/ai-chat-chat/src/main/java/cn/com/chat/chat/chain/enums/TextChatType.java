@@ -9,6 +9,9 @@ package cn.com.chat.chat.chain.enums;
  */
 public enum TextChatType {
 
+    /**
+     * 接入类型
+     */
     OPENAI,
     BAIDU,
     KIMI,

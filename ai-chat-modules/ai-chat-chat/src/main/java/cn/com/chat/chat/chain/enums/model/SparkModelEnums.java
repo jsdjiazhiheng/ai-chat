@@ -14,6 +14,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum SparkModelEnums {
 
+    /**
+     * 讯飞模型
+     */
     SPARK_MAX("Spark3.5 Max", "generalv3.5", SparkApis.SPARK_MAX_URL),
     SPARK_PRO("Spark Pro", "generalv3", SparkApis.SPARK_PRO_URL),
     SPARK_V2("Spark V2.0", "generalv2", SparkApis.SPARK_V2_URL),

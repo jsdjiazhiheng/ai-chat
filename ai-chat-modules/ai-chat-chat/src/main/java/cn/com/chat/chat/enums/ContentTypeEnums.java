@@ -8,7 +8,13 @@ package cn.com.chat.chat.enums;
  */
 public enum ContentTypeEnums {
 
+    /**
+     * 图片
+     */
     IMAGE,
+    /**
+     * 文本
+     */
     TEXT
 
 }

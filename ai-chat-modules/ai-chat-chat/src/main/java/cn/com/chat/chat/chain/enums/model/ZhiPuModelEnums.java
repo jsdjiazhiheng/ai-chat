@@ -14,6 +14,9 @@ import lombok.Getter;
 @Getter
 public enum ZhiPuModelEnums {
 
+    /**
+     * 智谱模型
+     */
     GLM_4("glm-4"),
     GLM_4V("glm-4v"),
     GLM_3_TURBO("glm-3-turbo"),

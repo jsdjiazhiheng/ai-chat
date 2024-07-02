@@ -48,7 +48,7 @@ public class OpenAiTextRequest extends TextRequest {
      * 修改指定标记在完成中出现的可能性。
      */
     @JsonProperty("logit_bias")
-    private Object logit_bias;
+    private Object logitBias;
 
     /**
      * 是否返回输出令牌的对数概率。
@@ -62,10 +62,10 @@ public class OpenAiTextRequest extends TextRequest {
     @Min(message = "最小值不能小于0", value = 0)
     @Max(message = "最大值不能大于20", value = 20)
     @JsonProperty("top_logprobs")
-    private Integer top_logprobs;
+    private Integer topLogprobs;
 
     @JsonProperty("max_tokens")
-    private Integer max_tokens;
+    private Integer maxTokens;
 
     private Integer n;
 

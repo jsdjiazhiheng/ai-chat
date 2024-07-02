@@ -159,7 +159,7 @@ public class WebSearchUtils {
         }
 
         @Override
-        public void malformedScriptURL(HtmlPage page, String url, MalformedURLException malformedURLException) {
+        public void malformedScriptURL(HtmlPage page, String url, MalformedURLException exception) {
         }
 
         @Override

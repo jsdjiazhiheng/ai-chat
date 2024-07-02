@@ -10,8 +10,18 @@ import java.util.List;
  */
 public interface WebSearchEngine {
 
+    /**
+     * 搜索
+     * @param searchWord 搜索词
+     * @return 结果
+     */
     String search(String searchWord);
 
+    /**
+     * 搜索列表
+     * @param searchWord 搜索词
+     * @return 结果列表
+     */
     List<String> searchList(String searchWord);
 
 }

@@ -9,6 +9,10 @@ package cn.com.chat.chat.chain.auth;
  */
 public interface AccessTokenService {
 
+    /**
+     * 获取accessToken
+     * @return accessToken
+     */
     String getAccessToken();
 
 }

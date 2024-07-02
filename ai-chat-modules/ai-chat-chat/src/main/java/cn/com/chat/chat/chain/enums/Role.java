@@ -13,9 +13,21 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum Role {
 
+    /**
+     * 用户
+     */
     USER("user"),
+    /**
+     * 助手
+     */
     ASSISTANT("assistant"),
+    /**
+     * 系统
+     */
     SYSTEM("system"),
+    /**
+     * 工具
+     */
     TOOL("tool");
     private final String name;
 

@@ -7,6 +7,7 @@ package cn.com.chat.chat.chain.prompt;
  */
 public class ChatPromptTemplate extends PromptTemplate {
 
+    @Override
     public String replaceArgs(String... args) {
         return super.replaceArgs(args);
     }

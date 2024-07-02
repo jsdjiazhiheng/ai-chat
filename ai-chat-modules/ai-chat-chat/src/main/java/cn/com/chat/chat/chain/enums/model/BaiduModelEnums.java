@@ -42,16 +42,16 @@ public enum BaiduModelEnums {
     private final String model;
     private final String url;
 
-    private static final Map<String, String> modelMap = new HashMap<>();
+    private static final Map<String, String> MODEL_MAP = new HashMap<>();
 
     static {
         for (BaiduModelEnums value : values()) {
-            modelMap.put(value.getModel(), value.getUrl());
+            MODEL_MAP.put(value.getModel(), value.getUrl());
         }
     }
 
     public static String getModelUrl(String model) {
-        return modelMap.get(model);
+        return MODEL_MAP.get(model);
     }
 
 }

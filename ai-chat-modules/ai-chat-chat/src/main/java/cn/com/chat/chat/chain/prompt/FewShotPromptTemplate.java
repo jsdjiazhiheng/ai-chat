@@ -6,6 +6,7 @@ package cn.com.chat.chat.chain.prompt;
  * @date 2024-04-30
  */
 public class FewShotPromptTemplate extends PromptTemplate {
+    @Override
     public String replaceArgs(String... args) {
         return super.replaceArgs(args);
     }

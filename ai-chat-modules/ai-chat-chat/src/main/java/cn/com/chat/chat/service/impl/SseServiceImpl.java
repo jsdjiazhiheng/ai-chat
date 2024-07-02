@@ -41,7 +41,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class SseServiceImpl implements ISseService {
 
-    private static final Map<String, SseEmitter> sseCache = new ConcurrentHashMap<>();
+    private static final Map<String, SseEmitter> SSE_CACHE = new ConcurrentHashMap<>();
 
     private final TextChatService textChatService;
     private final ImageChatService imageChatService;
@@ -53,7 +53,7 @@ public class SseServiceImpl implements ISseService {
     public R<Void> textStreamChat(String sessionId) {
         Assert.notBlank(sessionId, "会话ID不能为空");
 
-        SseEmitter sseEmitter = sseCache.get(sessionId);
+        SseEmitter sseEmitter = SSE_CACHE.get(sessionId);
 
         log.info("消息ID为 ： {}, 消息监听是否为空：{}", sessionId, sseEmitter != null);
 
@@ -114,11 +114,11 @@ public class SseServiceImpl implements ISseService {
     @Override
     public SseEmitter subscribe(String sessionId) {
         SseEmitter sseEmitter = new SseEmitter(3600 * 1000L);
-        sseCache.put(sessionId, sseEmitter);
+        SSE_CACHE.put(sessionId, sseEmitter);
         log.info("add {}", sessionId);
         sseEmitter.onTimeout(() -> {
             log.info("{}超时", sessionId);
-            sseCache.remove(sessionId);
+            SSE_CACHE.remove(sessionId);
         });
         sseEmitter.onCompletion(() -> log.info("完成！！！"));
         return sseEmitter;
@@ -126,11 +126,11 @@ public class SseServiceImpl implements ISseService {
 
     @Override
     public void unSubscribe(String sessionId) {
-        SseEmitter sseEmitter = sseCache.get(sessionId);
+        SseEmitter sseEmitter = SSE_CACHE.get(sessionId);
         if (sseEmitter != null) {
             sseEmitter.complete();
             log.info("删除 {}", sessionId);
-            sseCache.remove(sessionId);
+            SSE_CACHE.remove(sessionId);
         }
     }
 

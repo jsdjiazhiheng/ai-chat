@@ -29,8 +29,8 @@ public class BaiduWebSearchEngine implements WebSearchEngine {
     public String search(String searchWord) {
         String resultText = "";
         try {
-            String _url = StrUtil.format(URL, searchWord);
-            resultText = WebSearchUtils.search(_url, RESULT_ID, RESULT_CLASS);
+            String url = StrUtil.format(URL, searchWord);
+            resultText = WebSearchUtils.search(url, RESULT_ID, RESULT_CLASS);
         } catch (Exception e) {
             log.error("百度网页搜索异常", e);
         }
@@ -41,8 +41,8 @@ public class BaiduWebSearchEngine implements WebSearchEngine {
     public List<String> searchList(String searchWord) {
         List<String> list = new ArrayList<>();
         try {
-            String _url = StrUtil.format(URL, searchWord);
-            list = WebSearchUtils.searchList(_url, RESULT_ID, RESULT_CLASS);
+            String url = StrUtil.format(URL, searchWord);
+            list = WebSearchUtils.searchList(url, RESULT_ID, RESULT_CLASS);
         } catch (Exception e) {
             log.error("百度网页搜索异常", e);
         }

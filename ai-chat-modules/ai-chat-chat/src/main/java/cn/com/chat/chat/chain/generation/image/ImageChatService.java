@@ -13,10 +13,21 @@ import cn.com.chat.chat.chain.response.base.image.ImageResult;
  */
 public interface ImageChatService extends GenerationService {
 
+    /**
+     * 生成图片
+     * @param prompt 提示
+     * @return 图片结果
+     */
     default ImageResult blockGenImage(String prompt) {
         return null;
     }
 
+    /**
+     * 生成图片
+     * @param imageChatType 图像聊天类型
+     * @param prompt 提示
+     * @return 图片结果
+     */
     default ImageResult blockGenImage(ImageChatType imageChatType, String prompt) {
         return null;
     }

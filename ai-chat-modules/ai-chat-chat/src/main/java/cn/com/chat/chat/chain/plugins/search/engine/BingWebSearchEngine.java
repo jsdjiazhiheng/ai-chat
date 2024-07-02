@@ -31,8 +31,8 @@ public class BingWebSearchEngine implements WebSearchEngine {
         String resultText = "";
         try {
             //resultText = search(searchWord, URL, RESULT_ID, RESULT_CLASS);
-            String _url = StrUtil.format(URL, searchWord, RandomUtil.randomString(32));
-            resultText = WebSearchUtils.search(_url, RESULT_ID, RESULT_CLASS);
+            String url = StrUtil.format(URL, searchWord, RandomUtil.randomString(32));
+            resultText = WebSearchUtils.search(url, RESULT_ID, RESULT_CLASS);
         } catch (Exception e) {
             log.error("Bing网页搜索异常", e);
         }
@@ -43,8 +43,8 @@ public class BingWebSearchEngine implements WebSearchEngine {
     public List<String> searchList(String searchWord) {
         List<String> list = new ArrayList<>();
         try {
-            String _url = StrUtil.format(URL, searchWord);
-            list = WebSearchUtils.searchList(_url, RESULT_ID, RESULT_CLASS);
+            String url = StrUtil.format(URL, searchWord);
+            list = WebSearchUtils.searchList(url, RESULT_ID, RESULT_CLASS);
         } catch (Exception e) {
             log.error("Bing网页搜索异常", e);
         }

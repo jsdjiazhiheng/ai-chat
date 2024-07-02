@@ -54,9 +54,9 @@ public class CZhanImageChatService implements ImageChatService {
 
         ChatLogUtils.printResponseLog(this.getClass(), response);
 
-        CZhanResult<CZhanImageTask> taskCZhanResult = JsonUtils.parseObject(response, new TypeReference<>() {});
+        CZhanResult<CZhanImageTask> taskResult = JsonUtils.parseObject(response, new TypeReference<>() {});
 
-        CZhanImageTask task = Objects.requireNonNull(taskCZhanResult).getData();
+        CZhanImageTask task = Objects.requireNonNull(taskResult).getData();
         String paintingSign = task.getPaintingSign();
 
         CZhanResult<CZhanImageResult> imageResult = getImageResult(paintingSign);

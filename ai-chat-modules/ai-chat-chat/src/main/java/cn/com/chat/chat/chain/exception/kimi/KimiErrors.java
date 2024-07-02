@@ -15,6 +15,9 @@ import lombok.Getter;
 @Getter
 public enum KimiErrors {
 
+    /**
+     * 错误信息
+     */
     CONTENT_FILTER("400 CONTENT_FILTER", new Description[]{
         Description.builder()
             .errorMessage("The request was rejected because it was considered high risk")

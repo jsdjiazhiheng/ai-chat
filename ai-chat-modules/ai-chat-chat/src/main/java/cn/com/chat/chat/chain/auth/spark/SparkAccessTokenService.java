@@ -44,11 +44,11 @@ public class SparkAccessTokenService implements AccessTokenService {
             SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
             format.setTimeZone(TimeZone.getTimeZone("GMT"));
             String date = format.format(new Date());
-            String METHOD = isWs ? "GET" : "POST";
+            String method = isWs ? "GET" : "POST";
             // 拼接
             String preStr = "host: " + url.getHost() + "\n" +
                 "date: " + date + "\n" +
-                METHOD + " " + url.getPath() + " HTTP/1.1";
+                method + " " + url.getPath() + " HTTP/1.1";
             // SHA256加密
             Mac mac = Mac.getInstance("hmacsha256");
             SecretKeySpec spec = new SecretKeySpec(config.getApiSecret().getBytes(StandardCharsets.UTF_8), "hmacsha256");

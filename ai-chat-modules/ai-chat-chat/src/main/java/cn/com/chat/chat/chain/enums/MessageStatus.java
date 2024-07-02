@@ -13,10 +13,19 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum MessageStatus {
 
+    /**
+     * 等待返回
+     */
     WAIT(1L),
 
+    /**
+     * 成功
+     */
     SUCCESS(2L),
 
+    /**
+     * 失败
+     */
     FAIL(3L);
 
     private final Long status;

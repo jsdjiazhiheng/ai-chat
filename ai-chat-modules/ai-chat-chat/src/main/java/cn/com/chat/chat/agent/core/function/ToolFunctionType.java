@@ -13,6 +13,9 @@ import lombok.Getter;
 @Getter
 public enum ToolFunctionType {
 
+    /**
+     * 工具函数
+     */
     SEARCH("资料搜索"),
     CRAWL("网页爬取"),
     FILE("文件读写"),

@@ -98,16 +98,16 @@
         </dependency>
 
         <!-- skywalking 整合 logback -->
-<!--        <dependency>-->
-<!--            <groupId>org.apache.skywalking</groupId>-->
-<!--            <artifactId>apm-toolkit-logback-1.x</artifactId>-->
-<!--            <version>${与你的agent探针版本保持一致}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.apache.skywalking</groupId>-->
-<!--            <artifactId>apm-toolkit-trace</artifactId>-->
-<!--            <version>${与你的agent探针版本保持一致}</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.apache.skywalking</groupId>-->
+        <!--            <artifactId>apm-toolkit-logback-1.x</artifactId>-->
+        <!--            <version>${与你的agent探针版本保持一致}</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.apache.skywalking</groupId>-->
+        <!--            <artifactId>apm-toolkit-trace</artifactId>-->
+        <!--            <version>${与你的agent探针版本保持一致}</version>-->
+        <!--        </dependency>-->
 
     </dependencies>
 
@@ -117,28 +117,43 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>${maven-jar-plugin.version}</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <!--jar包不包含唯一版本标识-->
+                            <useUniqueVersions>false</useUniqueVersions>
+                            <!--程序启动类application.java的路径-->
+                            <mainClass>cn.com.chat.AiChatApplication</mainClass>
+                        </manifest>
+                    </archive>
+                    <outputDirectory>${project.build.directory}</outputDirectory>
+                </configuration>
             </plugin>
+            <!--拷贝依赖 copy-dependencies-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>${maven-war-plugin.version}</version>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <warName>${project.artifactId}</warName>
-                </configuration>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.directory}/lib/
+                            </outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

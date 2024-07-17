@@ -1,6 +1,7 @@
 package cn.com.chat.chat.service.impl;
 
 import cn.com.chat.chat.chain.enums.ImageChatType;
+import cn.com.chat.chat.chain.enums.MessageStatus;
 import cn.com.chat.chat.chain.enums.TextChatType;
 import cn.com.chat.chat.chain.function.service.ICompletionService;
 import cn.com.chat.chat.chain.generation.image.ImageChatService;
@@ -121,6 +122,11 @@ public class SseServiceImpl implements ISseService {
             SSE_CACHE.remove(sessionId);
         });
         sseEmitter.onCompletion(() -> log.info("完成！！！"));
+        try {
+            sseEmitter.send("[START]");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return sseEmitter;
     }
 
@@ -136,13 +142,13 @@ public class SseServiceImpl implements ISseService {
 
     @Override
     public ChatMessageVo textChat(SseChatBo bo) {
-        ChatMessageBo message = chatMessageService.insertUserMessage(bo.getChatId(), ContentTypeEnums.TEXT.name(), bo.getType(), "", bo.getContent(), 1L);
+        ChatMessageBo message = chatMessageService.insertUserMessage(bo.getChatId(), ContentTypeEnums.TEXT.name(), bo.getType(), "", bo.getContent(), null, MessageStatus.WAIT.getStatus());
         return chatMessageService.queryById(message.getId());
     }
 
     @Override
     public ChatMessageVo imageChat(SseChatBo bo) {
-        ChatMessageBo message = chatMessageService.insertUserMessage(bo.getChatId(), ContentTypeEnums.IMAGE.name(), bo.getType(), "", bo.getContent(), 1L);
+        ChatMessageBo message = chatMessageService.insertUserMessage(bo.getChatId(), ContentTypeEnums.IMAGE.name(), bo.getType(), "", bo.getContent(), null, MessageStatus.WAIT.getStatus());
         return chatMessageService.queryById(message.getId());
     }
 

@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * 流式接口传参
  *
@@ -22,6 +24,8 @@ public class StreamMessage {
     private String messageId;
 
     private String content;
+
+    private List<String> images;
 
     private Long userId;
 

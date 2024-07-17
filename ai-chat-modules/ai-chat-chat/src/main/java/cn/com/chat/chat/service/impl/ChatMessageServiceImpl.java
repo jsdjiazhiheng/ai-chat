@@ -4,6 +4,7 @@ import cn.com.chat.chat.chain.enums.Role;
 import cn.com.chat.chat.chain.request.base.text.MessageItem;
 import cn.com.chat.chat.chain.response.base.image.ImageResult;
 import cn.com.chat.chat.chain.response.base.text.TextResult;
+import cn.com.chat.chat.chain.response.base.vision.VisionResult;
 import cn.com.chat.chat.chain.utils.ImageUtils;
 import cn.com.chat.chat.domain.ChatMessage;
 import cn.com.chat.chat.domain.bo.ChatMessageBo;
@@ -204,7 +205,7 @@ public class ChatMessageServiceImpl implements IChatMessageService {
     }
 
     @Override
-    public ChatMessageBo insertUserMessage(Long chatId, String contentType, String model, String version, String content, Long status) {
+    public ChatMessageBo insertUserMessage(Long chatId, String contentType, String model, String version, String content, List<String> images, Long status) {
         ChatMessageBo message = ChatMessageBo.builder()
             .chatId(chatId)
             .messageId(UUID.fastUUID().toString())
@@ -212,6 +213,7 @@ public class ChatMessageServiceImpl implements IChatMessageService {
             .modelVersion(version)
             .role(Role.USER.getName())
             .content(content)
+            .images(StringUtils.join(images, ","))
             .contentType(contentType)
             .status(status)
             .userId(LoginHelper.getUserId())
@@ -254,6 +256,27 @@ public class ChatMessageServiceImpl implements IChatMessageService {
             .contentType(contentType)
             .status(1L)
             .totalTokens(result.getTotalTokens())
+            .response(result.getResponse())
+            .userId(LoginHelper.getUserId())
+            .build();
+        insertByBo(message);
+        return message;
+    }
+
+    @Override
+    public ChatMessageBo insertAssistantMessage(Long chatId, String messageId, String contentType, VisionResult result) {
+        ChatMessageBo message = ChatMessageBo.builder()
+            .chatId(chatId)
+            .messageId(UUID.fastUUID().toString())
+            .parentMessageId(messageId)
+            .model(result.getModel())
+            .modelVersion(result.getVersion())
+            .role(Role.ASSISTANT.getName())
+            .content(result.getContent())
+            .contentType(contentType)
+            .status(2L)
+            .totalTokens(result.getTotalTokens())
+            .finishReason(result.getFinishReason())
             .response(result.getResponse())
             .userId(LoginHelper.getUserId())
             .build();

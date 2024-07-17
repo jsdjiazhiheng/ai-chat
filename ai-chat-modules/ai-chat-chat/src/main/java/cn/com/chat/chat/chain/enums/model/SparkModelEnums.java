@@ -23,6 +23,8 @@ public enum SparkModelEnums {
     SPARK_LITE("Spark Lite", "general", SparkApis.SPARK_LITE_URL),
 
     SPARK_TTI("Spark TTI", "general", SparkApis.SPARK_TTI_URL),
+
+    SPARK_IMAGE("Spark Image", "general", SparkApis.SPARK_IMAGE_URL),
     ;
 
     private final String model;

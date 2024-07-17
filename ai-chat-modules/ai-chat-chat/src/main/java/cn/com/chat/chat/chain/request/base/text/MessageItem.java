@@ -34,6 +34,8 @@ public class MessageItem implements Serializable {
     private String content;
     private String name;
 
+    private String images;
+
     @JsonProperty("tool_calls")
     private List<TextToolCall> toolCalls;
 

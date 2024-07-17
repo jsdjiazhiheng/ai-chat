@@ -1,5 +1,6 @@
 package cn.com.chat.chat.chain.utils;
 
+import cn.com.chat.chat.chain.enums.MessageStatus;
 import cn.com.chat.chat.chain.enums.Role;
 import cn.com.chat.chat.chain.response.base.Usage;
 import cn.com.chat.chat.chain.response.base.image.ImageResult;
@@ -31,7 +32,7 @@ public class MessageUtils {
         messageVo.setContent(textResult.getContent());
         messageVo.setContentType(ContentTypeEnums.TEXT.name());
         messageVo.setFinishReason(textResult.getFinishReason());
-        messageVo.setStatus(2L);
+        messageVo.setStatus(MessageStatus.SUCCESS.getStatus());
         messageVo.setTotalTokens(textResult.getTotalTokens());
         return messageVo;
     }
@@ -46,7 +47,7 @@ public class MessageUtils {
             .role(Role.ASSISTANT.getName())
             .content(textResult.getContent())
             .contentType(ContentTypeEnums.TEXT.name())
-            .status(2L)
+            .status(MessageStatus.SUCCESS.getStatus())
             .totalTokens(textResult.getTotalTokens())
             .finishReason(textResult.getFinishReason())
             .response(textResult.getResponse())
@@ -66,7 +67,7 @@ public class MessageUtils {
         messageVo.setRole(Role.ASSISTANT.getName());
         messageVo.setImageList(imageResult.getData().stream().map(ImageUtils::getImageUrl).toList());
         messageVo.setContentType(ContentTypeEnums.IMAGE.name());
-        messageVo.setStatus(2L);
+        messageVo.setStatus(MessageStatus.SUCCESS.getStatus());
         messageVo.setTotalTokens(imageResult.getTotalTokens());
         return messageVo;
     }
@@ -81,7 +82,7 @@ public class MessageUtils {
             .role(Role.ASSISTANT.getName())
             .images(JsonUtils.toJsonString(imageResult.getData()))
             .contentType(ContentTypeEnums.IMAGE.name())
-            .status(2L)
+            .status(MessageStatus.SUCCESS.getStatus())
             .totalTokens(imageResult.getTotalTokens())
             .response(imageResult.getResponse())
             .userId(userId)

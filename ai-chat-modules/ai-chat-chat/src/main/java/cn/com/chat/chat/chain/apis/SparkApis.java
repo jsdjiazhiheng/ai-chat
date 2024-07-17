@@ -18,4 +18,6 @@ public interface SparkApis {
 
     String SPARK_TTI_URL = "https://spark-api.cn-huabei-1.xf-yun.com/v2.1/tti";
 
+    String SPARK_IMAGE_URL = "https://spark-api.cn-huabei-1.xf-yun.com/v2.1/image";
+
 }

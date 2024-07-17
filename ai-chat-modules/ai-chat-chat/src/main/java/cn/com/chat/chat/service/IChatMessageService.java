@@ -3,6 +3,7 @@ package cn.com.chat.chat.service;
 import cn.com.chat.chat.chain.request.base.text.MessageItem;
 import cn.com.chat.chat.chain.response.base.image.ImageResult;
 import cn.com.chat.chat.chain.response.base.text.TextResult;
+import cn.com.chat.chat.chain.response.base.vision.VisionResult;
 import cn.com.chat.chat.domain.bo.ChatMessageBo;
 import cn.com.chat.chat.domain.vo.ChatMessageVo;
 import cn.com.chat.common.mybatis.core.page.PageQuery;
@@ -53,11 +54,13 @@ public interface IChatMessageService {
 
     List<MessageItem> listChatHistory(Long chatId);
 
-    ChatMessageBo insertUserMessage(Long chatId, String contentType, String model, String version, String content, Long status);
+    ChatMessageBo insertUserMessage(Long chatId, String contentType, String model, String version, String content, List<String> images, Long status);
 
     ChatMessageBo insertAssistantMessage(Long chatId, String messageId, String contentType, TextResult textResult);
 
     ChatMessageBo insertAssistantMessage(Long chatId, String messageId, String contentType, ImageResult result);
+
+    ChatMessageBo insertAssistantMessage(Long chatId, String messageId, String contentType, VisionResult result);
 
     ChatMessageVo queryByMessageId(String messageId);
 

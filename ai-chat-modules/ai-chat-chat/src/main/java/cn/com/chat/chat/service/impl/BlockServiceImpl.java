@@ -1,13 +1,17 @@
 package cn.com.chat.chat.service.impl;
 
 import cn.com.chat.chat.chain.enums.ImageChatType;
+import cn.com.chat.chat.chain.enums.MessageStatus;
 import cn.com.chat.chat.chain.enums.TextChatType;
+import cn.com.chat.chat.chain.enums.VisionChatType;
 import cn.com.chat.chat.chain.function.service.ICompletionService;
 import cn.com.chat.chat.chain.generation.image.ImageChatService;
 import cn.com.chat.chat.chain.generation.text.TextChatService;
+import cn.com.chat.chat.chain.generation.vision.VisionChatService;
 import cn.com.chat.chat.chain.request.base.text.MessageItem;
 import cn.com.chat.chat.chain.response.base.image.ImageResult;
 import cn.com.chat.chat.chain.response.base.text.TextResult;
+import cn.com.chat.chat.chain.response.base.vision.VisionResult;
 import cn.com.chat.chat.chain.utils.ImageUtils;
 import cn.com.chat.chat.domain.bo.ChatMessageBo;
 import cn.com.chat.chat.domain.vo.ChatMessageVo;
@@ -16,6 +20,7 @@ import cn.com.chat.chat.enums.ContentTypeEnums;
 import cn.com.chat.chat.service.IAssistantService;
 import cn.com.chat.chat.service.IBlockService;
 import cn.com.chat.chat.service.IChatMessageService;
+import cn.com.chat.common.core.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -36,6 +41,7 @@ public class BlockServiceImpl implements IBlockService {
 
     private final TextChatService textChatService;
     private final ImageChatService imageChatService;
+    private final VisionChatService visionChatService;
     private final ICompletionService completionService;
     private final IChatMessageService chatMessageService;
     private final IAssistantService assistantService;
@@ -52,7 +58,7 @@ public class BlockServiceImpl implements IBlockService {
 
         TextResult textResult = textChatService.blockCompletion(type, system, history, content, useNet);
 
-        ChatMessageBo userMessage = chatMessageService.insertUserMessage(chatId, ContentTypeEnums.TEXT.name(), textResult.getModel(), textResult.getVersion(), content, 2L);
+        ChatMessageBo userMessage = chatMessageService.insertUserMessage(chatId, ContentTypeEnums.TEXT.name(), textResult.getModel(), textResult.getVersion(), content, null, MessageStatus.SUCCESS.getStatus());
 
         ChatMessageBo assistantMessage = chatMessageService.insertAssistantMessage(chatId, userMessage.getMessageId(), ContentTypeEnums.TEXT.name(), textResult);
 
@@ -67,7 +73,7 @@ public class BlockServiceImpl implements IBlockService {
     public MessageVO imageChat(ImageChatType type, Long chatId, String content) {
         ImageResult result = imageChatService.blockGenImage(type, content);
 
-        ChatMessageBo userMessage = chatMessageService.insertUserMessage(chatId, ContentTypeEnums.IMAGE.name(), result.getModel(), result.getVersion(), content, 2L);
+        ChatMessageBo userMessage = chatMessageService.insertUserMessage(chatId, ContentTypeEnums.IMAGE.name(), result.getModel(), result.getVersion(), content, null, MessageStatus.SUCCESS.getStatus());
 
         ChatMessageBo assistantMessage = chatMessageService.insertAssistantMessage(chatId, userMessage.getMessageId(), ContentTypeEnums.IMAGE.name(), result);
 
@@ -79,6 +85,30 @@ public class BlockServiceImpl implements IBlockService {
 
         messageVo.setImageList(list);
         messageVO.setAssistantMessage(messageVo);
+
+        return messageVO;
+    }
+
+    @Override
+    public MessageVO pictureComprehend(VisionChatType type, Long chatId, String content, String images) {
+
+        String system = assistantService.getSystemPromptByModel(type.name());
+
+        List<MessageItem> history = chatMessageService.listChatHistory(chatId);
+
+        boolean useNet = completionService.functionSearch(content);
+
+        List<String> imageList = StringUtils.splitList(images, ",");
+
+        VisionResult visionResult = visionChatService.blockCompletion(type, system, history, content, imageList, useNet);
+
+        ChatMessageBo userMessage = chatMessageService.insertUserMessage(chatId, ContentTypeEnums.TEXT.name(), visionResult.getModel(), visionResult.getVersion(), content, imageList, MessageStatus.SUCCESS.getStatus());
+
+        ChatMessageBo assistantMessage = chatMessageService.insertAssistantMessage(chatId, userMessage.getMessageId(), ContentTypeEnums.TEXT.name(), visionResult);
+
+        MessageVO messageVO = new MessageVO();
+        messageVO.setUserMessage(chatMessageService.queryById(userMessage.getId()));
+        messageVO.setAssistantMessage(chatMessageService.queryById(assistantMessage.getId()));
 
         return messageVO;
     }

@@ -2,6 +2,7 @@ package cn.com.chat.chat.controller;
 
 import cn.com.chat.chat.chain.enums.ImageChatType;
 import cn.com.chat.chat.chain.enums.TextChatType;
+import cn.com.chat.chat.chain.enums.VisionChatType;
 import cn.com.chat.chat.domain.vo.ChatMessageVo;
 import cn.com.chat.chat.domain.vo.ChatVo;
 import cn.com.chat.chat.domain.vo.MessageVO;
@@ -77,4 +78,11 @@ public class BlockController extends BaseController {
         return R.ok(blockService.imageChat(type, chatId, content));
     }
 
+    /**
+     * 发送图片理解消息
+     */
+    @PostMapping("/pictureComprehend")
+    public R<MessageVO> imageChat(VisionChatType type, Long chatId, String content, String images) {
+        return R.ok(blockService.pictureComprehend(type, chatId, content, images));
+    }
 }

@@ -36,6 +36,9 @@ public class MessageItem implements Serializable {
 
     private String images;
 
+    @JsonProperty("content_type")
+    private String contentType;
+
     @JsonProperty("tool_calls")
     private List<TextToolCall> toolCalls;
 
@@ -50,8 +53,16 @@ public class MessageItem implements Serializable {
         return builder().role(Role.USER.getName()).content(content).build();
     }
 
+    public static MessageItem buildUser(String content, String contentType) {
+        return builder().role(Role.USER.getName()).content(content).contentType(contentType).build();
+    }
+
     public static MessageItem buildAssistant(String content) {
         return builder().role(Role.ASSISTANT.getName()).content(content).build();
+    }
+
+    public static MessageItem buildMessage(String role, String content) {
+        return builder().role(role).content(content).build();
     }
 
     public static List<MessageItem> buildMessageList(String system, List<MessageItem> history, String content) {
@@ -77,11 +88,13 @@ public class MessageItem implements Serializable {
     private MessageItem(Builder builder) {
         setRole(builder.role);
         setContent(builder.content);
+        setContentType(builder.contentType);
     }
 
     public static final class Builder {
         private @NotNull String role;
         private String content;
+        private String contentType;
 
         public Builder() {
         }
@@ -93,6 +106,11 @@ public class MessageItem implements Serializable {
 
         public Builder content(String content) {
             this.content = content;
+            return this;
+        }
+
+        public Builder contentType(String contentType) {
+            this.contentType = contentType;
             return this;
         }
 

@@ -63,6 +63,7 @@ public class SparkSyncChatListener extends WebSocketListener {
                 }
             } else {
                 webSocket.close(1000, "结束");
+                downLatch.countDown();
             }
         }
     }

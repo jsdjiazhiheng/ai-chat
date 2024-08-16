@@ -54,7 +54,8 @@ public class BlockServiceImpl implements IBlockService {
 
         List<MessageItem> history = chatMessageService.listChatHistory(chatId);
 
-        boolean useNet = completionService.functionSearch(content);
+        //boolean useNet = completionService.functionSearch(content);
+        boolean useNet = false;
 
         TextResult textResult = textChatService.blockCompletion(type, system, history, content, useNet);
 

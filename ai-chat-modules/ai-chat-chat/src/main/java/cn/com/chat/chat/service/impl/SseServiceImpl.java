@@ -82,7 +82,8 @@ public class SseServiceImpl implements ISseService {
                     .deptId(LoginHelper.getDeptId())
                     .build();
 
-                boolean useNet = completionService.functionSearch(content);
+                //boolean useNet = completionService.functionSearch(content);
+                boolean useNet = false;
 
                 message.setUseNet(useNet);
 

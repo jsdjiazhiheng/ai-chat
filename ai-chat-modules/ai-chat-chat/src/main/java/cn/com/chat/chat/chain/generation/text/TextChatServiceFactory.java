@@ -74,7 +74,7 @@ public class TextChatServiceFactory {
         } else if (type == TextChatType.SPARK) {
             return SparkModelEnums.SPARK_MAX.getModel();
         } else if (type == TextChatType.VOLCENGINE) {
-            return VolcengineModelEnums.DOUBAO_PRO_128K.getModel();
+            return VolcengineModelEnums.DOUBAO_LITE_32K.getModel();
         } else {
             return null;
         }

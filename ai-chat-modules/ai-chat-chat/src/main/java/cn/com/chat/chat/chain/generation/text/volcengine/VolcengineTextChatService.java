@@ -3,6 +3,7 @@ package cn.com.chat.chat.chain.generation.text.volcengine;
 import cn.com.chat.chat.chain.apis.VolcengineApis;
 import cn.com.chat.chat.chain.auth.volcengine.VolcengineAccessTokenService;
 import cn.com.chat.chat.chain.enums.TextChatType;
+import cn.com.chat.chat.chain.enums.model.VolcengineModelEnums;
 import cn.com.chat.chat.chain.generation.text.TextChatService;
 import cn.com.chat.chat.chain.request.base.text.MessageItem;
 import cn.com.chat.chat.chain.request.base.text.StreamMessage;
@@ -20,6 +21,7 @@ import cn.com.chat.common.core.utils.StringUtils;
 import cn.com.chat.common.http.callback.OkHttpCallback;
 import cn.com.chat.common.http.utils.HttpUtils;
 import cn.com.chat.common.json.utils.JsonUtils;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +52,11 @@ public class VolcengineTextChatService implements TextChatService {
     @Override
     public TextResult blockCompletion(String model, String system, List<MessageItem> history, String content) {
 
-        VolcengineTextRequest request = buildRequest(system, history, content);
+        String point = VolcengineModelEnums.getPoint(model);
+
+        Assert.notBlank(point, "未找到对应的接入推理点");
+
+        VolcengineTextRequest request = buildRequest(point, system, history, content);
 
         String response = HttpUtils.doPostJson(VolcengineApis.TEXT_API, request, getHeader());
 
@@ -77,7 +83,11 @@ public class VolcengineTextChatService implements TextChatService {
     @Override
     public void streamCompletion(String model, SseEmitter sseEmitter, String system, List<MessageItem> history, StreamMessage message) {
 
-        VolcengineTextRequest request = buildRequest(system, history, message.getContent());
+        String point = VolcengineModelEnums.getPoint(model);
+
+        Assert.notBlank(point, "未找到对应的接入推理点");
+
+        VolcengineTextRequest request = buildRequest(point, system, history, message.getContent());
         request.setStream(true);
         request.setStreamOptions(VolcengineStreamOption.builder().includeUsage(true).build());
 
@@ -154,9 +164,9 @@ public class VolcengineTextChatService implements TextChatService {
         }, error -> log.error("Volcengine AI API error: {}", error.getMessage()));
     }
 
-    private VolcengineTextRequest buildRequest(String system, List<MessageItem> history, String content) {
+    private VolcengineTextRequest buildRequest(String point, String system, List<MessageItem> history, String content) {
         VolcengineTextRequest request = VolcengineTextRequest.builder()
-            .model(accessTokenService.getPoint())
+            .model(point)
             .messages(MessageItem.buildMessageList(system, history, content))
             .build();
 

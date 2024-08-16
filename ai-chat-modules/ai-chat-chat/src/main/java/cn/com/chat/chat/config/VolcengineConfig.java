@@ -16,11 +16,6 @@ public class VolcengineConfig {
     private String token;
 
     /**
-     * 模型推理接入点
-     */
-    private String point;
-
-    /**
      * 画图key
      */
     private String imageAccessKeyId;

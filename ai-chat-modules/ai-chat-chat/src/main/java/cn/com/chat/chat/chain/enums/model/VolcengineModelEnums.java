@@ -16,15 +16,26 @@ public enum VolcengineModelEnums {
     /**
      * 豆包模型
      */
-    DOUBAO_LITE_4K("Doubao-lite-4k"),
-    DOUBAO_LITE_32K("Doubao-lite-32k"),
-    DOUBAO_LITE_128K("Doubao-lite-128k"),
+    DOUBAO_LITE_4K("Doubao-lite-4k", ""),
+    DOUBAO_LITE_32K("Doubao-lite-32k", ""),
+    DOUBAO_LITE_128K("Doubao-lite-128k", ""),
 
-    DOUBAO_PRO_4K("Doubao-pro-4k"),
-    DOUBAO_PRO_32K("Doubao-pro-32k"),
-    DOUBAO_PRO_128K("Doubao-pro-128k"),
+    DOUBAO_PRO_4K("Doubao-pro-4k", ""),
+    DOUBAO_PRO_32K("Doubao-pro-32k", ""),
+    DOUBAO_PRO_128K("Doubao-pro-128k", ""),
     ;
 
     private final String model;
+
+    private final String point;
+
+    public static String getPoint(String model) {
+        for (VolcengineModelEnums value : VolcengineModelEnums.values()) {
+            if (value.getModel().equals(model)) {
+                return value.getPoint();
+            }
+        }
+        return null;
+    }
 
 }

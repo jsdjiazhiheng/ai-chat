@@ -260,3 +260,17 @@ ai:
     token:
   deepseek:
     token:
+  spark:
+    appid:
+    api-key:
+    api-secret:
+  aliyun:
+    token:
+  nolipix:
+    token:
+  volcengine:
+    token:
+    image-access-key-id:
+    image-secret-access-key:
+  completion:
+    model:

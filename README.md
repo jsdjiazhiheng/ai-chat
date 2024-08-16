@@ -13,6 +13,9 @@ ai-chat是一个开源的聊天系统后端，支持多种AI模型，旨在提�
 - 管理端页面：[https://github.com/jsdjiazhiheng/ai-chat-webadmin.git](https://github.com/jsdjiazhiheng/ai-chat-webadmin.git)
 - 客户端页面：[https://github.com/jsdjiazhiheng/ai-chat-web.git](https://github.com/jsdjiazhiheng/ai-chat-web.git)
 
+
+### [使用说明](./use.md)
+
 ## 界面截图
 
 ![](docs/文本.png)

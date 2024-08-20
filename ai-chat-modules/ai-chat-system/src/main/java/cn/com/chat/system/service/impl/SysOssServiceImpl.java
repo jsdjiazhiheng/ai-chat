@@ -27,6 +27,7 @@ import cn.com.chat.system.domain.vo.SysOssVo;
 import cn.com.chat.system.mapper.SysOssMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
@@ -43,6 +44,7 @@ import java.util.*;
  *
  * @author Lion Li
  */
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class SysOssServiceImpl implements ISysOssService, OssService {
@@ -66,7 +68,8 @@ public class SysOssServiceImpl implements ISysOssService, OssService {
             if (ObjectUtil.isNotNull(vo)) {
                 try {
                     list.add(this.matchingUrl(vo));
-                } catch (Exception ignored) {
+                } catch (Exception e) {
+                    log.error("文件数据不存在!", e);
                     // 如果oss异常无法连接则将数据直接返回
                     list.add(vo);
                 }
@@ -83,7 +86,8 @@ public class SysOssServiceImpl implements ISysOssService, OssService {
             if (ObjectUtil.isNotNull(vo)) {
                 try {
                     list.add(this.matchingUrl(vo).getUrl());
-                } catch (Exception ignored) {
+                } catch (Exception e) {
+                    log.error("文件数据不存在!", e);
                     // 如果oss异常无法连接则将数据直接返回
                     list.add(vo.getUrl());
                 }

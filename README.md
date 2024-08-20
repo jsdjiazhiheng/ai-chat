@@ -1,6 +1,14 @@
 # ai-chat 后端
 
-## 简介
+- - -
+## 平台简介
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://gitee.com/jsdhxkj/ai-chat/blob/main/LICENSE)
+<br>
+[![ai-chat](https://img.shields.io/badge/ai_chat-0.0.1-success.svg)](https://gitee.com/jsdhxkj/ai-chat)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2-blue.svg)]()
+[![JDK-17](https://img.shields.io/badge/JDK-17-green.svg)]()
+[![JDK-21](https://img.shields.io/badge/JDK-21-green.svg)]()
+
 ai-chat是一个开源的聊天系统后端，支持多种AI模型，旨在提供智能化的聊天服务。它不仅支持文本聊天，还支持图片处理，为用户提供丰富的交互体验。提供多种模型文心一言、KIMI、智谱清言、DeepSeek、OPENAI、通义千问、星火、腾讯混元助手（待接入）、火山引擎（豆包）、百度SD、通义万象、触站AI、画宇宙等。
 
 ## gitee地址

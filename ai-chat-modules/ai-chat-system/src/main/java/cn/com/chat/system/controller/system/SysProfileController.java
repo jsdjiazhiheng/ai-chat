@@ -109,9 +109,9 @@ public class SysProfileController extends BaseController {
     @PostMapping(value = "/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public R<AvatarVo> avatar(@RequestPart("avatarfile") MultipartFile avatarfile) {
         if (!avatarfile.isEmpty()) {
-            String extension = FileUtil.extName(avatarfile.getOriginalFilename());
-            if (!StringUtils.equalsAnyIgnoreCase(extension, MimeTypeUtils.IMAGE_EXTENSION)) {
-                return R.fail("文件格式不正确，请上传" + Arrays.toString(MimeTypeUtils.IMAGE_EXTENSION) + "格式");
+            String contentType = avatarfile.getContentType();
+            if (!StringUtils.equalsAnyIgnoreCase(contentType, MimeTypeUtils.DEFAULT_IMAGE_MIME)) {
+                return R.fail("文件格式不正确，请上传" + Arrays.toString(MimeTypeUtils.DEFAULT_IMAGE_MIME) + "格式");
             }
             SysOssVo oss = ossService.upload(avatarfile);
             String avatar = oss.getUrl();

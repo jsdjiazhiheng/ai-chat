@@ -14,6 +14,14 @@ public enum VisionChatType {
     ALIYUN,
     SPARK,
     ZHIPU,
-    VOLCENGINE
+    VOLCENGINE;
 
+    public static VisionChatType getByName(String name) {
+        for (VisionChatType value : values()) {
+            if (value.name().equals(name.toUpperCase())) {
+                return value;
+            }
+        }
+        return null;
+    }
 }

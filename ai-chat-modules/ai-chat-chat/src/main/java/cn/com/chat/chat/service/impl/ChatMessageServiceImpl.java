@@ -178,7 +178,8 @@ public class ChatMessageServiceImpl implements IChatMessageService {
                 list.add(messageVo);
             }
         }
-        return TableDataInfo.build(list);
+        page.setRecords(list);
+        return TableDataInfo.build(page);
     }
 
     @Override

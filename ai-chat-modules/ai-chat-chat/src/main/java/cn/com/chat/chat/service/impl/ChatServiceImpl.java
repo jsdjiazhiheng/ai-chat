@@ -113,10 +113,10 @@ public class ChatServiceImpl implements IChatService {
     }
 
     @Override
-    public ChatVo createChat(String title, ContentTypeEnums contentType) {
+    public ChatVo createChat(String title, String contentType) {
         Chat chat = new Chat();
         chat.setTitle(title);
-        chat.setContentType(contentType.name());
+        chat.setContentType(contentType);
         chat.setUserId(LoginHelper.getUserId());
         baseMapper.insert(chat);
         return queryById(chat.getId());

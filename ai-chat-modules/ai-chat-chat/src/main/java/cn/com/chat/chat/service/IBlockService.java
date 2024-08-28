@@ -16,10 +16,10 @@ import java.util.List;
  */
 public interface IBlockService {
 
-    MessageVO textChat(TextChatType type, Long chatId, String content);
+    MessageVO textChat(String type, Long chatId, String content);
 
-    MessageVO imageChat(ImageChatType type, Long chatId, String content);
+    MessageVO imageChat(String type, Long chatId, String content);
 
-    MessageVO pictureComprehend(VisionChatType type, Long chatId, String content, String images);
+    MessageVO pictureComprehend(String type, Long chatId, String content, String images);
 
 }

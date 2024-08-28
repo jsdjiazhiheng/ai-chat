@@ -10,6 +10,7 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 
@@ -114,5 +115,9 @@ public class ChatMessageVo implements Serializable {
     @ExcelProperty(value = "使用token")
     private Long totalTokens;
 
+    /**
+     * 创建时间
+     */
+    private Date createTime;
 
 }

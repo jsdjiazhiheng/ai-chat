@@ -47,7 +47,7 @@ public interface IChatService {
      */
     Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid);
 
-    ChatVo createChat(String title, ContentTypeEnums contentType);
+    ChatVo createChat(String title, String contentType);
 
     List<ChatVo> getChatList(ContentTypeEnums contentType);
 

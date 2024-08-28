@@ -1,8 +1,6 @@
 package cn.com.chat.chat.controller;
 
-import cn.com.chat.chat.chain.enums.ImageChatType;
-import cn.com.chat.chat.chain.enums.TextChatType;
-import cn.com.chat.chat.chain.enums.VisionChatType;
+import cn.com.chat.chat.domain.bo.MessageBo;
 import cn.com.chat.chat.domain.vo.ChatMessageVo;
 import cn.com.chat.chat.domain.vo.ChatVo;
 import cn.com.chat.chat.domain.vo.MessageVO;
@@ -41,8 +39,8 @@ public class BlockController extends BaseController {
      * 创建聊天对话
      */
     @PostMapping("/createChat")
-    public R<ChatVo> chat(@RequestParam String title, @RequestParam ContentTypeEnums contentType) {
-        return R.ok(chatService.createChat(title, contentType));
+    public R<ChatVo> chat(@RequestBody MessageBo messageBo) {
+        return R.ok(chatService.createChat(messageBo.getTitle(), messageBo.getContentType()));
     }
 
     /**
@@ -66,23 +64,23 @@ public class BlockController extends BaseController {
      * 发送文本消息
      */
     @PostMapping("/textChat")
-    public R<MessageVO> textChat(@RequestParam TextChatType type, Long chatId, String content) {
-        return R.ok(blockService.textChat(type, chatId, content));
+    public R<MessageVO> textChat(@RequestBody MessageBo messageBo) {
+        return R.ok(blockService.textChat(messageBo.getType(), messageBo.getChatId(), messageBo.getContent()));
     }
 
     /**
      * 发送图片消息
      */
     @PostMapping("/imageChat")
-    public R<MessageVO> imageChat(@RequestParam ImageChatType type, Long chatId, String content) {
-        return R.ok(blockService.imageChat(type, chatId, content));
+    public R<MessageVO> imageChat(@RequestBody MessageBo messageBo) {
+        return R.ok(blockService.imageChat(messageBo.getType(), messageBo.getChatId(), messageBo.getContent()));
     }
 
     /**
      * 发送图片理解消息
      */
     @PostMapping("/pictureComprehend")
-    public R<MessageVO> imageChat(VisionChatType type, Long chatId, String content, String images) {
-        return R.ok(blockService.pictureComprehend(type, chatId, content, images));
+    public R<MessageVO> pictureComprehend(@RequestBody MessageBo messageBo) {
+        return R.ok(blockService.pictureComprehend(messageBo.getType(), messageBo.getChatId(), messageBo.getContent(), messageBo.getImages()));
     }
 }

@@ -20,6 +20,7 @@ import cn.com.chat.chat.enums.ContentTypeEnums;
 import cn.com.chat.chat.service.IAssistantService;
 import cn.com.chat.chat.service.IBlockService;
 import cn.com.chat.chat.service.IChatMessageService;
+import cn.com.chat.common.core.exception.ServiceException;
 import cn.com.chat.common.core.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,16 +49,22 @@ public class BlockServiceImpl implements IBlockService {
 
 
     @Override
-    public MessageVO textChat(TextChatType type, Long chatId, String content) {
+    public MessageVO textChat(String type, Long chatId, String content) {
 
-        String system = assistantService.getSystemPromptByModel(type.name());
+        TextChatType typeEnum = TextChatType.getByName(type);
+
+        if (typeEnum == null) {
+            throw new ServiceException("不支持的模型类型");
+        }
+
+        String system = assistantService.getSystemPromptByModel(typeEnum.name());
 
         List<MessageItem> history = chatMessageService.listChatHistory(chatId);
 
         //boolean useNet = completionService.functionSearch(content);
         boolean useNet = false;
 
-        TextResult textResult = textChatService.blockCompletion(type, system, history, content, useNet);
+        TextResult textResult = textChatService.blockCompletion(typeEnum, system, history, content, useNet);
 
         ChatMessageBo userMessage = chatMessageService.insertUserMessage(chatId, ContentTypeEnums.TEXT.name(), textResult.getModel(), textResult.getVersion(), content, null, MessageStatus.SUCCESS.getStatus());
 
@@ -71,8 +78,15 @@ public class BlockServiceImpl implements IBlockService {
     }
 
     @Override
-    public MessageVO imageChat(ImageChatType type, Long chatId, String content) {
-        ImageResult result = imageChatService.blockGenImage(type, content);
+    public MessageVO imageChat(String type, Long chatId, String content) {
+
+        ImageChatType typeEnum = ImageChatType.getByName(type);
+
+        if (typeEnum == null) {
+            throw new ServiceException("不支持的模型类型");
+        }
+
+        ImageResult result = imageChatService.blockGenImage(typeEnum, content);
 
         ChatMessageBo userMessage = chatMessageService.insertUserMessage(chatId, ContentTypeEnums.IMAGE.name(), result.getModel(), result.getVersion(), content, null, MessageStatus.SUCCESS.getStatus());
 
@@ -91,9 +105,15 @@ public class BlockServiceImpl implements IBlockService {
     }
 
     @Override
-    public MessageVO pictureComprehend(VisionChatType type, Long chatId, String content, String images) {
+    public MessageVO pictureComprehend(String type, Long chatId, String content, String images) {
 
-        String system = assistantService.getSystemPromptByModel(type.name());
+        VisionChatType typeEnum = VisionChatType.getByName(type);
+
+        if (typeEnum == null) {
+            throw new ServiceException("不支持的模型类型");
+        }
+
+        String system = assistantService.getSystemPromptByModel(typeEnum.name());
 
         List<MessageItem> history = chatMessageService.listChatHistory(chatId);
 
@@ -101,7 +121,7 @@ public class BlockServiceImpl implements IBlockService {
 
         List<String> imageList = StringUtils.splitList(images, ",");
 
-        VisionResult visionResult = visionChatService.blockCompletion(type, system, history, content, imageList, useNet);
+        VisionResult visionResult = visionChatService.blockCompletion(typeEnum, system, history, content, imageList, useNet);
 
         ChatMessageBo userMessage = chatMessageService.insertUserMessage(chatId, ContentTypeEnums.TEXT.name(), visionResult.getModel(), visionResult.getVersion(), content, imageList, MessageStatus.SUCCESS.getStatus());
 

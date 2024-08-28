@@ -15,6 +15,7 @@ ai-chat是一个开源的聊天系统后端，支持多种AI模型，旨在提�
 - 后台服务：[https://gitee.com/jsdhxkj/ai-chat.git](https://gitee.com/jsdhxkj/ai-chat.git)
 - 管理端页面：[https://gitee.com/jsdhxkj/ai-chat-webadmin.git](https://gitee.com/jsdhxkj/ai-chat-webadmin.git)
 - 客户端页面：[https://gitee.com/jsdhxkj/ai-chat-web.git](https://gitee.com/jsdhxkj/ai-chat-web.git)
+- APP端页面：[https://gitee.com/jsdhxkj/ai-chat-app.git](https://gitee.com/jsdhxkj/ai-chat-app.git)
 
 ## github地址
 - 后台服务：[https://github.com/jsdjiazhiheng/ai-chat.git](https://github.com/jsdjiazhiheng/ai-chat.git)

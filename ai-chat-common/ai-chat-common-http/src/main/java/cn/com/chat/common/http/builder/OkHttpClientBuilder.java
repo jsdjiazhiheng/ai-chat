@@ -2,6 +2,7 @@ package cn.com.chat.common.http.builder;
 
 import lombok.Data;
 import okhttp3.ConnectionPool;
+import okhttp3.Dispatcher;
 import okhttp3.OkHttpClient;
 
 import javax.net.ssl.SSLContext;
@@ -37,6 +38,10 @@ public class OkHttpClientBuilder {
 
     private int keepAliveDuration = 300;
 
+    private int maxRequests = 200;
+
+    private int maxRequestsPerHost = 50;
+
     private String proxyHost;
 
     private int proxyPort;
@@ -48,6 +53,12 @@ public class OkHttpClientBuilder {
     public OkHttpClient build() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
+        Dispatcher dispatcher = new Dispatcher();
+        // 最大并发
+        dispatcher.setMaxRequests(maxRequests);
+        // 每个域名最大并发
+        dispatcher.setMaxRequestsPerHost(maxRequestsPerHost);
+
         builder.sslSocketFactory(sslSocketFactory(), x509TrustManager())
             // 是否开启缓存
             .retryOnConnectionFailure(false)
@@ -55,6 +66,7 @@ public class OkHttpClientBuilder {
             .connectTimeout(connectTimeout, TimeUnit.SECONDS)
             .readTimeout(readTimeout, TimeUnit.SECONDS)
             .writeTimeout(writeTimeout, TimeUnit.SECONDS)
+            .dispatcher(dispatcher)
             .hostnameVerifier((hostname, session) -> true)
             .build();
         if (proxyHost != null && proxyPort != 0) {
@@ -91,6 +103,16 @@ public class OkHttpClientBuilder {
 
     public OkHttpClientBuilder keepAliveDuration(int keepAliveDuration) {
         this.keepAliveDuration = keepAliveDuration;
+        return this;
+    }
+
+    public OkHttpClientBuilder maxRequests(int maxRequests) {
+        this.maxRequests = maxRequests;
+        return this;
+    }
+
+    public OkHttpClientBuilder maxRequestsPerHost(int maxRequestsPerHost) {
+        this.maxRequestsPerHost = maxRequestsPerHost;
         return this;
     }
 

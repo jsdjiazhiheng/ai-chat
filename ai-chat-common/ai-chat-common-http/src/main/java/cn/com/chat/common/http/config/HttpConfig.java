@@ -31,6 +31,10 @@ public class HttpConfig {
 
     private int keepAliveDuration;
 
+    private int maxRequests;
+
+    private int maxRequestsPerHost;
+
     @Bean
     public OkHttpClient okHttpClient() {
         return OkHttpClientBuilder.builder()
@@ -39,6 +43,8 @@ public class HttpConfig {
             .writeTimeout(writeTimeout)
             .maxIdleConnections(maxIdleConnections)
             .keepAliveDuration(keepAliveDuration)
+            .maxRequests(maxRequests)
+            .maxRequestsPerHost(maxRequestsPerHost)
             .build();
     }
 

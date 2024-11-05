@@ -8,3 +8,7 @@ http:
   max-idle-connections: 200
   # 连接空闲时间最多为 300 秒
   keep-alive-duration: 300
+  # 最大并发
+  max-requests: 200
+  # 每个域名的最大并发
+  max-requests-per-host: 50

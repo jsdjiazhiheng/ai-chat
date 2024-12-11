@@ -51,7 +51,7 @@ public class VisionMessage implements Serializable {
         List<MessageContent> list = new ArrayList<>();
         list.add(MessageContent.builder().type("text").text(content).build());
         if (CollUtil.isNotEmpty(images)) {
-            images.forEach(image -> list.add(MessageContent.builder().type("image_url").imageUrl(ImageList.builder().url(image).build()).build()));
+            images.forEach(image -> list.add(MessageContent.builder().type("image_url").imageUrl(ImageUrl.builder().url(image).build()).build()));
         }
         return builder().role(Role.USER.getName()).content(list).build();
     }
@@ -62,7 +62,7 @@ public class VisionMessage implements Serializable {
             list.add(MessageContent.builder().type("text").text(item.getContent()).build());
             List<String> images = StringUtils.splitList(item.getImages(), ",");
             if (CollUtil.isNotEmpty(images)) {
-                images.forEach(image -> list.add(MessageContent.builder().type("image_url").imageUrl(ImageList.builder().url(image).build()).build()));
+                images.forEach(image -> list.add(MessageContent.builder().type("image_url").imageUrl(ImageUrl.builder().url(image).build()).build()));
             }
             return builder().role(item.getRole()).content(list).build();
         } else {
@@ -76,7 +76,7 @@ public class VisionMessage implements Serializable {
             list.add(MessageContent.builder().type("text").text(item.getContent()).build());
             List<String> images = StringUtils.splitList(item.getImages(), ",");
             if (CollUtil.isNotEmpty(images)) {
-                images.forEach(image -> list.add(MessageContent.builder().type("image_url").imageUrl(ImageList.builder().url(ImageUtils.urlToBase64(image, true)).build()).build()));
+                images.forEach(image -> list.add(MessageContent.builder().type("image_url").imageUrl(ImageUrl.builder().url(ImageUtils.urlToBase64(image, true)).build()).build()));
             }
             return builder().role(item.getRole()).content(list).build();
         } else {

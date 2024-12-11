@@ -1,7 +1,6 @@
 package cn.com.chat.chat.chain.request.base.vision;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,16 +19,8 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
-public class MessageContent implements Serializable {
+public class ImageUrl implements Serializable {
 
-    private String type;
-
-    private String text;
-
-    @JsonProperty("image_url")
-    private ImageUrl imageUrl;
-
-    @JsonProperty("video_url")
-    private VideoUrl videoUrl;
+    private String url;
 
 }

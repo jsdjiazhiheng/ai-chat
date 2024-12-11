@@ -12,14 +12,14 @@ import java.io.Serializable;
  * TODO
  *
  * @author JiaZH
- * @date 2024-07-17
+ * @date 2024-12-02
  */
 @Data
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
-public class ImageList implements Serializable {
+public class VideoUrl implements Serializable {
 
     private String url;
 

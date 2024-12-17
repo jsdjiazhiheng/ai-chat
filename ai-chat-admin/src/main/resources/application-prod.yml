@@ -249,28 +249,9 @@ justauth:
       redirect-uri: ${justauth.address}/social-callback?source=gitlab
 
 ai:
-  kimi:
-    token:
-  baidu:
-    client-id:
-    client-secret:
-  zhipu:
-    token:
-  czhan:
-    token:
-  deepseek:
-    token:
-  spark:
-    appid:
-    api-key:
-    api-secret:
-  aliyun:
-    token:
-  nolipix:
-    token:
-  volcengine:
-    token:
-    image-access-key-id:
-    image-secret-access-key:
+  openai:
+    proxy-enable: false
+    proxy-host:
+    proxy-port:
   completion:
     model:

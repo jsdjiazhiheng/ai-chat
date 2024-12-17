@@ -14,8 +14,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "ai.openai")
 public class OpenAiConfig {
 
-    private String token;
-
     private Boolean proxyEnable;
 
     private String proxyHost;

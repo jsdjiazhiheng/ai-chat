@@ -93,7 +93,7 @@ public class AliyunVisionChatService implements VisionChatService {
 
     private Map<String, String> getHeader(boolean isSse) {
         Map<String, String> headers = new HashMap<>();
-        headers.put("Authorization", "Bearer " + accessTokenService.getAccessToken());
+        headers.put("Authorization", "Bearer " + accessTokenService.getVisionToken());
         if (isSse) {
             headers.put("X-DashScope-SSE", "enable");
         }

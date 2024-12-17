@@ -86,7 +86,7 @@ public class ZhiPuVisionChatService implements VisionChatService {
     }
 
     private Map<String, String> getHeader() {
-        return Map.of("Authorization", "Bearer " + accessTokenService.getAccessToken());
+        return Map.of("Authorization", "Bearer " + accessTokenService.getVisionToken());
     }
 
 }

@@ -1,6 +1,7 @@
 package cn.com.chat.chat.chain.generation.text.baidu;
 
 import cn.com.chat.chat.chain.auth.baidu.BaiduAccessTokenService;
+import cn.com.chat.chat.chain.enums.ModelType;
 import cn.com.chat.chat.chain.enums.TextChatType;
 import cn.com.chat.chat.chain.enums.model.BaiduModelEnums;
 import cn.com.chat.chat.chain.exception.baidu.BaiduTextChatException;
@@ -51,7 +52,7 @@ public class BaiduTextChatService implements TextChatService {
 
         BaiduTextRequest request = buildRequest(system, history, content);
 
-        String response = HttpUtils.doPostJson(accessTokenService.getUrl(url), request);
+        String response = HttpUtils.doPostJson(accessTokenService.getUrl(url, ModelType.TEXT), request);
 
         ChatLogUtils.printResponseLog(this.getClass(), response);
 
@@ -103,7 +104,7 @@ public class BaiduTextChatService implements TextChatService {
 
         flux.subscribe(consumer -> {
 
-            HttpUtils.asyncPostJson(accessTokenService.getUrl(url), consumer, new OkHttpCallback() {
+            HttpUtils.asyncPostJson(accessTokenService.getUrl(url, ModelType.TEXT), consumer, new OkHttpCallback() {
                 @Override
                 public void onFailure(IOException e) {
                     messageService.saveFailMessage(message, messageId, e.getMessage());

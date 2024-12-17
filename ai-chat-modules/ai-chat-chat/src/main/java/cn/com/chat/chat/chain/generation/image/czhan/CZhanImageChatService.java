@@ -100,7 +100,7 @@ public class CZhanImageChatService implements ImageChatService {
     }
 
     private Map<String, String> getHeader() {
-        return Map.of("Auth-Token", accessTokenService.getAccessToken());
+        return Map.of("Auth-Token", accessTokenService.getImageToken());
     }
 
 }

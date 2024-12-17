@@ -2,6 +2,7 @@ package cn.com.chat.chat.chain.generation.image.spark;
 
 import cn.com.chat.chat.chain.auth.spark.SparkAccessTokenService;
 import cn.com.chat.chat.chain.enums.ImageChatType;
+import cn.com.chat.chat.chain.enums.ModelType;
 import cn.com.chat.chat.chain.enums.model.SparkModelEnums;
 import cn.com.chat.chat.chain.exception.ImageChatException;
 import cn.com.chat.chat.chain.generation.image.ImageChatService;
@@ -44,9 +45,9 @@ public class SparkImageChatService implements ImageChatService {
 
         SparkModelEnums enums = SparkModelEnums.SPARK_TTI;
 
-        String authUrl = accessTokenService.getAuthUrl(enums.getUrl(), false);
+        String authUrl = accessTokenService.getImageUrl(enums.getUrl(), false);
 
-        SparkRequestHeader header = SparkRequestHeader.builder().appId(accessTokenService.getAppid()).build();
+        SparkRequestHeader header = SparkRequestHeader.builder().appId(accessTokenService.getAppid(ModelType.IMAGE)).build();
         SparkImageRequestParameter parameter = SparkImageRequestParameter.builder()
             .chat(
                 SparkImageChatParameter.builder()

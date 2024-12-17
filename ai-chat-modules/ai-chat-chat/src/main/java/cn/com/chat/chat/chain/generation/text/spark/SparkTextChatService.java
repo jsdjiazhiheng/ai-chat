@@ -1,6 +1,7 @@
 package cn.com.chat.chat.chain.generation.text.spark;
 
 import cn.com.chat.chat.chain.auth.spark.SparkAccessTokenService;
+import cn.com.chat.chat.chain.enums.ModelType;
 import cn.com.chat.chat.chain.enums.TextChatType;
 import cn.com.chat.chat.chain.enums.model.SparkModelEnums;
 import cn.com.chat.chat.chain.generation.text.TextChatService;
@@ -54,7 +55,7 @@ public class SparkTextChatService implements TextChatService {
         String url = Objects.requireNonNull(enums).getUrl();
         String domain = enums.getDomain();
 
-        String authUrl = accessTokenService.getAuthUrl(url, true);
+        String authUrl = accessTokenService.getTextUrl(url, true);
 
         SparkTextRequest sparkTextRequest = buildRequest(domain, system, history, content);
 
@@ -92,7 +93,7 @@ public class SparkTextChatService implements TextChatService {
         String url = Objects.requireNonNull(enums).getUrl();
         String domain = enums.getDomain();
 
-        String authUrl = accessTokenService.getAuthUrl(url, true);
+        String authUrl = accessTokenService.getTextUrl(url, true);
 
         SparkTextRequest sparkTextRequest = buildRequest(domain, system, history, message.getContent());
 
@@ -126,7 +127,7 @@ public class SparkTextChatService implements TextChatService {
         SparkRequestMessage message = SparkRequestMessage.builder().text(MessageItem.buildMessageList(system, history, content)).build();
 
         SparkTextRequest request = SparkTextRequest.builder()
-            .header(SparkRequestHeader.builder().appId(accessTokenService.getAppid()).build())
+            .header(SparkRequestHeader.builder().appId(accessTokenService.getAppid(ModelType.TEXT)).build())
             .parameter(SparkTextRequestParameter.builder().chat(chat).build())
             .payload(SparkRequestPayload.builder().message(message).build())
             .build();

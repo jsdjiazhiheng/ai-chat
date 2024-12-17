@@ -1,7 +1,11 @@
 package cn.com.chat.chat.chain.auth.spark;
 
-import cn.com.chat.chat.chain.auth.AccessTokenService;
-import cn.com.chat.chat.config.SparkConfig;
+import cn.com.chat.chat.chain.enums.ImageChatType;
+import cn.com.chat.chat.chain.enums.ModelType;
+import cn.com.chat.chat.chain.enums.TextChatType;
+import cn.com.chat.chat.chain.enums.VisionChatType;
+import cn.com.chat.chat.domain.vo.OpenKeyVo;
+import cn.com.chat.chat.service.IOpenKeyService;
 import cn.com.chat.common.core.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,20 +28,31 @@ import java.util.*;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class SparkAccessTokenService implements AccessTokenService {
+public class SparkAccessTokenService {
 
-    private final SparkConfig config;
+    private final IOpenKeyService openKeyService;
 
-    @Override
-    public String getAccessToken() {
-        return "";
+    public String getTextUrl(String hostUrl, boolean isWs) {
+        OpenKeyVo openKeyVo = openKeyService.queryByKey(TextChatType.SPARK.name(), ModelType.TEXT.getCode());
+        return getAuthUrl(hostUrl, isWs, openKeyVo.getAppKey(), openKeyVo.getAppSecret());
     }
 
-    public String getAppid() {
-        return config.getAppid();
+    public String getImageUrl(String hostUrl, boolean isWs) {
+        OpenKeyVo openKeyVo = openKeyService.queryByKey(ImageChatType.SPARK.name(), ModelType.IMAGE.getCode());
+        return getAuthUrl(hostUrl, isWs, openKeyVo.getAppKey(), openKeyVo.getAppSecret());
     }
 
-    public String getAuthUrl(String hostUrl, boolean isWs) {
+    public String getVisionUrl(String hostUrl, boolean isWs) {
+        OpenKeyVo openKeyVo = openKeyService.queryByKey(VisionChatType.SPARK.name(), ModelType.VISION.getCode());
+        return getAuthUrl(hostUrl, isWs, openKeyVo.getAppKey(), openKeyVo.getAppSecret());
+    }
+
+    public String getAppid(ModelType modelType) {
+        OpenKeyVo config = openKeyService.queryByKey(TextChatType.SPARK.name(), modelType.getCode());
+        return config.getAppId();
+    }
+
+    private String getAuthUrl(String hostUrl, boolean isWs, String apiKey, String apiSecret) {
         try {
             URL url = new URL(hostUrl);
             // 时间
@@ -51,14 +66,14 @@ public class SparkAccessTokenService implements AccessTokenService {
                 method + " " + url.getPath() + " HTTP/1.1";
             // SHA256加密
             Mac mac = Mac.getInstance("hmacsha256");
-            SecretKeySpec spec = new SecretKeySpec(config.getApiSecret().getBytes(StandardCharsets.UTF_8), "hmacsha256");
+            SecretKeySpec spec = new SecretKeySpec(apiSecret.getBytes(StandardCharsets.UTF_8), "hmacsha256");
             mac.init(spec);
 
             byte[] hexDigits = mac.doFinal(preStr.getBytes(StandardCharsets.UTF_8));
             // Base64加密
             String sha = Base64.getEncoder().encodeToString(hexDigits);
             // 拼接
-            String authorization = String.format("api_key=\"%s\", algorithm=\"%s\", headers=\"%s\", signature=\"%s\"", config.getApiKey(), "hmac-sha256", "host date request-line", sha);
+            String authorization = String.format("api_key=\"%s\", algorithm=\"%s\", headers=\"%s\", signature=\"%s\"", apiKey, "hmac-sha256", "host date request-line", sha);
             // 拼接地址
             HttpUrl httpUrl = Objects.requireNonNull(HttpUrl.parse("https://" + url.getHost() + url.getPath())).newBuilder().
                 addQueryParameter("authorization", Base64.getEncoder().encodeToString(authorization.getBytes(StandardCharsets.UTF_8))).

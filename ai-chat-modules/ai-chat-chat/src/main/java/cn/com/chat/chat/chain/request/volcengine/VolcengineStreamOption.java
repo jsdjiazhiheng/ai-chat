@@ -1,4 +1,4 @@
-package cn.com.chat.chat.chain.request.volcengine.text;
+package cn.com.chat.chat.chain.request.volcengine;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -117,7 +117,7 @@ public class NoLiPixImageChatService implements ImageChatService {
     }
 
     private Map<String, String> getHeader() {
-        return Map.of("Authorization", "Basic " + accessTokenService.getAccessToken());
+        return Map.of("Authorization", "Basic " + accessTokenService.getImageToken());
     }
 
 }

@@ -1,6 +1,6 @@
-package cn.com.chat.chat.chain.request.volcengine.text;
+package cn.com.chat.chat.chain.request.volcengine.vision;
 
-import cn.com.chat.chat.chain.request.base.text.TextRequest;
+import cn.com.chat.chat.chain.request.base.vision.VisionRequest;
 import cn.com.chat.chat.chain.request.volcengine.VolcengineStreamOption;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,7 +16,7 @@ import java.util.Map;
  * TODO
  *
  * @author JiaZH
- * @date 2024-06-18
+ * @date 2024-12-13
  */
 @Data
 @SuperBuilder
@@ -24,7 +24,7 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
-public class VolcengineTextRequest extends TextRequest {
+public class VolcengineVisionRequest extends VisionRequest {
 
     /**
      * 模型推理接入点，需要在火山方舟中创建并获取

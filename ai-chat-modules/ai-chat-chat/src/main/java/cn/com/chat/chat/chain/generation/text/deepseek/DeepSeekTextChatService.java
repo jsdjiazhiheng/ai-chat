@@ -158,7 +158,7 @@ public class DeepSeekTextChatService implements TextChatService {
     }
 
     private Map<String, String> getHeader() {
-        return Map.of("Authorization", "Bearer " + accessTokenService.getAccessToken());
+        return Map.of("Authorization", "Bearer " + accessTokenService.getTextToken());
     }
 
 }

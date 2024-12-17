@@ -1,7 +1,11 @@
 package cn.com.chat.chat.chain.auth.nolipix;
 
-import cn.com.chat.chat.chain.auth.AccessTokenService;
-import cn.com.chat.chat.config.NoLiPixConfig;
+import cn.com.chat.chat.chain.auth.ImageTokenService;
+import cn.com.chat.chat.chain.auth.TextTokenService;
+import cn.com.chat.chat.chain.enums.ImageChatType;
+import cn.com.chat.chat.chain.enums.ModelType;
+import cn.com.chat.chat.domain.vo.OpenKeyVo;
+import cn.com.chat.chat.service.IOpenKeyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -15,13 +19,14 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class NoLiPixAccessTokenService implements AccessTokenService {
+public class NoLiPixAccessTokenService implements ImageTokenService {
 
-    private final NoLiPixConfig config;
+    private final IOpenKeyService openKeyService;
 
     @Override
-    public String getAccessToken() {
-        return config.getToken();
+    public String getImageToken() {
+        OpenKeyVo openKeyVo = openKeyService.queryByKey(ImageChatType.NOLIBOX.name(), ModelType.IMAGE.getCode());
+        return openKeyVo.getAppSecret();
     }
 
 }

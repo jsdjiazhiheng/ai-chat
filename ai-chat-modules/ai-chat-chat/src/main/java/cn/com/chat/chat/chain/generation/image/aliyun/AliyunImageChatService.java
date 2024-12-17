@@ -112,7 +112,7 @@ public class AliyunImageChatService implements ImageChatService {
 
     private Map<String, String> getHeader() {
         Map<String, String> headers = new HashMap<>();
-        headers.put("Authorization", "Bearer " + accessTokenService.getAccessToken());
+        headers.put("Authorization", "Bearer " + accessTokenService.getImageToken());
         headers.put("X-DashScope-Async", "enable");
         return headers;
     }

@@ -10,6 +10,8 @@ public interface VolcengineApis {
 
     String TEXT_API = "https://ark.cn-beijing.volces.com/api/v3/chat/completions";
 
+    String VISION_API = "https://ark.cn-beijing.volces.com/api/v3/chat/completions";
+
     String IMAGE_API = "https://visual.volcengineapi.com?Action=HighAesSmartDrawing&Version=2022-08-31";
 
 }

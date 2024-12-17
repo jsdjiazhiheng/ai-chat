@@ -167,7 +167,7 @@ public class AliyunTextChatService implements TextChatService {
 
     private Map<String, String> getHeader(boolean isSse) {
         Map<String, String> headers = new HashMap<>();
-        headers.put("Authorization", "Bearer " + accessTokenService.getAccessToken());
+        headers.put("Authorization", "Bearer " + accessTokenService.getTextToken());
         if (isSse) {
             headers.put("X-DashScope-SSE", "enable");
         }

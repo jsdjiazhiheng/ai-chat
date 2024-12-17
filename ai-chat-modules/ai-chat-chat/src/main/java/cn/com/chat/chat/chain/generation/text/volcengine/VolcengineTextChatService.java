@@ -7,7 +7,7 @@ import cn.com.chat.chat.chain.enums.model.VolcengineModelEnums;
 import cn.com.chat.chat.chain.generation.text.TextChatService;
 import cn.com.chat.chat.chain.request.base.text.MessageItem;
 import cn.com.chat.chat.chain.request.base.text.StreamMessage;
-import cn.com.chat.chat.chain.request.volcengine.text.VolcengineStreamOption;
+import cn.com.chat.chat.chain.request.volcengine.VolcengineStreamOption;
 import cn.com.chat.chat.chain.request.volcengine.text.VolcengineTextRequest;
 import cn.com.chat.chat.chain.response.base.Usage;
 import cn.com.chat.chat.chain.response.base.text.TextChoice;
@@ -176,7 +176,7 @@ public class VolcengineTextChatService implements TextChatService {
     }
 
     private Map<String, String> getHeader() {
-        return Map.of("Authorization", "Bearer " + accessTokenService.getAccessToken());
+        return Map.of("Authorization", "Bearer " + accessTokenService.getTextToken());
     }
 
 }

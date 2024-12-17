@@ -2,6 +2,7 @@ package cn.com.chat.chat.chain.generation.image.baidu;
 
 import cn.com.chat.chat.chain.auth.baidu.BaiduAccessTokenService;
 import cn.com.chat.chat.chain.enums.ImageChatType;
+import cn.com.chat.chat.chain.enums.ModelType;
 import cn.com.chat.chat.chain.enums.model.BaiduModelEnums;
 import cn.com.chat.chat.chain.exception.ImageChatException;
 import cn.com.chat.chat.chain.generation.image.ImageChatService;
@@ -47,7 +48,7 @@ public class BaiduImageChatService implements ImageChatService {
 
         ChatLogUtils.printRequestLog(this.getClass(), request);
 
-        String response = HttpUtils.doPostJson(accessTokenService.getUrl(url), request);
+        String response = HttpUtils.doPostJson(accessTokenService.getUrl(url, ModelType.IMAGE), request);
 
         ChatLogUtils.printResponseLog(this.getClass(), response);
 
